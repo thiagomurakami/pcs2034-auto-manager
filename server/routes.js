@@ -13,4 +13,14 @@ module.exports = function(app){
   app.get('/', function(req, res){
     
   })
+
+  app.post('/apiv1/read', function(req, res){
+    console.log('/apiv1/read')
+    console.log(req.body)
+    var table = req.body.table
+    var params = req.body.params
+    functions.read(table, params, function(err, rows){
+      res.send(rows)
+    })
+  })
 }

@@ -1,32 +1,33 @@
 var React                         = require('react')
 var Input = require('react-bootstrap').Input
 var ButtonInput = require('react-bootstrap').ButtonInput
+var div = React.createFactory('div')
+var p = React.createFactory('p')
+var input = React.createFactory('input')
+var jajax = require('jquery').ajax
 
-var Form = React.createClass({
-	render: function(){
-		return(
-			<form>
-    <Input type='text' label='Text' placeholder='Enter text' />
-    <Input type='email' label='Email Address' placeholder='Enter email' />
-    <Input type='password' label='Password' />
-    <Input type='file' label='File' help='[Optional] Block level help text' />
-    <Input type='checkbox' label='Checkbox' checked readOnly />
-    <Input type='radio' label='Radio' checked readOnly />
-    <Input type='select' label='Select' placeholder='select'>
-      <option value='select'>select</option>
-      <option value='other'>...</option>
-    </Input>
-    <Input type='select' label='Multiple Select' multiple>
-      <option value='select'>select (multiple)</option>
-      <option value='other'>...</option>
-    </Input>
-    <Input type='textarea' label='Text Area' placeholder='textarea' />
-    <ButtonInput value='Button Input' />
-    <ButtonInput type='reset' value='Reset Button' />
-    <ButtonInput type='submit' value='Submit Button' />
-  </form>
-  )
-	}
+var Example = React.createClass({
+  _log: function(e){
+  	console.log(e)
+    console.log("click")
+    var body = {
+      table: 'items',
+      params: ['*']
+    }
+    jajax({
+      url: '/apiv1/read',
+        type: 'POST',
+        data: JSON.stringify(body),
+        contentType: 'application/json'
+    }).done(function(res){
+      console.log(res)
+    })
+  },
+  render: function(){
+    return(
+        div({onClick: this._log}, input({type: 'button'}, p({}, 'teste')))
+      )
+  }
 })
 
-module.exports = Form
+module.exports = Example
