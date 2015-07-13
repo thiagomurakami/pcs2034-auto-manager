@@ -8,6 +8,7 @@ var jajax = require('jquery').ajax
 
 //services
 
+
 //styles
 
 
@@ -18,7 +19,7 @@ var jajax = require('jquery').ajax
 var div = React.createFactory('div')
 var p = React.createFactory('p')
 var input = React.createFactory('input')
-var Form = React.createFactory(require('./form.js'))
+var createUser = React.createFactory(require('./createUser.js'))
 
 //Site
 
@@ -27,7 +28,7 @@ var MainPage = React.createClass({
     var mathRandom = Math.random()
     return (
       div({className: 'fullContainerBody'}, 
-        Form())
+        createUser())
     )
   }
 })
