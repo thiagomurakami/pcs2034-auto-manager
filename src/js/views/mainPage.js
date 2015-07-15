@@ -19,16 +19,29 @@ var jajax = require('jquery').ajax
 var div = React.createFactory('div')
 var p = React.createFactory('p')
 var input = React.createFactory('input')
-var createUser = React.createFactory(require('./createUser.js'))
+var CreateUser = React.createFactory(require('./createUser.js'))
+var Login = React.createFactory(require('./login.js'))
+var Header = React.createFactory(require('../components/header.js'))
+var SideMenu = React.createFactory(require('../components/sideMenu.js'))
+var Footer = React.createFactory(require('../components/footer.js'))
+var CreateTipoServico = React.createFactory(require('./tipoServico/createTipoServico'))
+var CrudTipoServico = React.createFactory(require('./tipoServico/crudTipoServico'))
 
 //Site
 
 var MainPage = React.createClass({
   render: function() {
-    var mathRandom = Math.random()
+  	var contentStyle = {
+  		float: 'left',
+  		background: '#FFFFFF'
+  	}
     return (
-      div({className: 'fullContainerBody'}, 
-        createUser())
+      div({className: 'fullContainerBody'},
+        Header(),
+        SideMenu(),
+        div({style: contentStyle}, CrudTipoServico()),
+        Footer()
+        )
     )
   }
 })

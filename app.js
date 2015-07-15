@@ -7,8 +7,6 @@ var async = require('async')
 // var results = []
 
 // pg.connect(connectionString, function(err, client, done){
-// 	client.query('SELECT * FROM items', function(err, result){
-// 		console.log(err)
-// 		console.log(result)
-// 	})
+// 	var query = client.query("INSERT INTO tipoServico(nome, preco) values('Revisao Anual', 500.50)");
+// 	query.on('end', function() { console.log('query end');client.end(); });
 // })

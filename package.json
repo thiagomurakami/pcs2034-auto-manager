@@ -22,6 +22,7 @@
     "fs": "0.0.2",
     "jquery": "~2.1.4",
     "moment": "^2.10.3",
+    "object-assign": "^3.0.0",
     "pg": "^4.4.0",
     "react-bootstrap": "^0.23.7",
     "react-onclickoutside": "^0.2.4",
@@ -29,7 +30,8 @@
     "react-zeroclipboard": "~1.1.0",
     "request": "^2.57.0",
     "require-dir": "~0.3.0",
-    "schema-inspector": "~1.5.1"
+    "schema-inspector": "~1.5.1",
+    "underscore": "^1.8.3"
   },
   "devDependencies": {
     "webpack": "~1.7.3",
