@@ -27,19 +27,22 @@ var Footer = React.createFactory(require('../components/footer.js'))
 var CreateTipoServico = React.createFactory(require('./tipoServico/createTipoServico'))
 var CrudTipoServico = React.createFactory(require('./tipoServico/crudTipoServico'))
 
+var br = React.createFactory('br')
+
 //Site
 
 var MainPage = React.createClass({
   render: function() {
   	var contentStyle = {
-  		float: 'left',
-  		background: '#FFFFFF'
+  		float: 'center'//,
+  		//background: '#777777'
   	}
     return (
       div({className: 'fullContainerBody'},
         Header(),
         SideMenu(),
         div({style: contentStyle}, CrudTipoServico()),
+        br(),
         Footer()
         )
     )
