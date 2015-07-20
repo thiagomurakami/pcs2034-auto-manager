@@ -53,8 +53,8 @@ var ReadTipoServico = React.createClass({
 	_editClick: function(index){
 		this.setState({showUpdateModal: true, updateModalIndex: index})
 	},
-	_removeClick: function(e, index, w){
-		console.log(e)
+	_removeClick: function(index){
+		TipoDeServicoActions.deleteTipoDeServico(index)
 	},
 	render: function(){
 		var tableProps = {
@@ -129,6 +129,7 @@ var TableBody = React.createClass({
 			var rowContent = this.props.tableColumns.map(function(column){
 				return td({key: 'column-'+column.value+'-'+index}, row[column.value])
 			})
+			console.log(row.id)
 			rowContent.push(td({key: "actions-"+index}, 
 				p({onClick: this.props.onEditClick.bind(null, row.id)}, 'Editar, '), 
 				p({onClick: this.props.onRemoveClick.bind(null, row.id)}, "Remover")))

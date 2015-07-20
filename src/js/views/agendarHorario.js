@@ -17,6 +17,11 @@ var tr = React.createFactory('tr')
 var span = React.createFactory('span')
 var option = React.createFactory('option')
 
+var minDate = moment().format('YYYY-MM-DD')
+var maxDate = moment().add(30, 'days').format('YYYY-MM-DD')
+console.log(minDate)
+console.log(maxDate)
+
 var CreateModal = React.createClass({
   getInitialState: function(){
     return {
@@ -35,7 +40,7 @@ var CreateModal = React.createClass({
     return(
         form({},
           h4({}, 'Agendar Horário'),
-          Input({type: 'date'}),
+          Input({type: 'date', max: maxDate, min: minDate, defaultValue: minDate}),
           Input({type: 'select'}, horariosArr),
           ButtonInput({type: 'submit', value: 'Agendar'})
           )
