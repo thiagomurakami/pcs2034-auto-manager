@@ -26,6 +26,7 @@ var SideMenu = React.createFactory(require('../components/sideMenu.js'))
 var Footer = React.createFactory(require('../components/footer.js'))
 var CreateTipoServico = React.createFactory(require('./tipoServico/createTipoServico'))
 var CrudTipoServico = React.createFactory(require('./tipoServico/crudTipoServico'))
+var AgendarHorario = React.createFactory(require('./agendarHorario'))
 
 //Site
 
