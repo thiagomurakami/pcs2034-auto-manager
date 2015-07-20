@@ -43,7 +43,7 @@ var Example = React.createClass({
   _cepInput: function(e){
   	// console.log(e)
 
-  	var uri = '/apiv1/cep/'+this.refs.cep.getValue()
+  	var url = '/apiv1/cep/'+this.refs.cep.getValue()
   	var key = 'getCep'
   	if(this.state.cep !== this.refs.cep.getValue() || this.state.rua ==''){
   		this.setState({cep: this.refs.cep.getValue()})

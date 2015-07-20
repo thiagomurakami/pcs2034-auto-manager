@@ -28,19 +28,22 @@ var CreateTipoServico = React.createFactory(require('./tipoServico/createTipoSer
 var CrudTipoServico = React.createFactory(require('./tipoServico/crudTipoServico'))
 var AgendarHorario = React.createFactory(require('./agendarHorario'))
 
+var br = React.createFactory('br')
+
 //Site
 
 var MainPage = React.createClass({
   render: function() {
   	var contentStyle = {
-  		float: 'left',
-  		background: '#FFFFFF'
+  		float: 'center'//,
+  		//background: '#777777'
   	}
     return (
       div({className: 'fullContainerBody'},
         Header(),
         SideMenu(),
         div({style: contentStyle}, CrudTipoServico()),
+        br(),
         Footer()
         )
     )

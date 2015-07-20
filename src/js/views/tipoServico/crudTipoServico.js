@@ -67,6 +67,8 @@ var ReadTipoServico = React.createClass({
 		var Header = React.createFactory(TableHeader)
 		var Body = React.createFactory(TableBody)
 		return (
+
+
 			div({}, 
 				UpdateModal({
 					show: this.state.showUpdateModal,
@@ -85,8 +87,10 @@ var ReadTipoServico = React.createClass({
 					onEditClick: this._editClick, 
 					onRemoveClick: this._removeClick})
 				),
-				Button({onClick: this._toggleCreate}, "Adicionar novo tipo de serviço")
+				Button({onClick: this._toggleCreate},
+				 "Adicionar novo tipo de serviço")
 			)
+
 			)
 	}
 })
