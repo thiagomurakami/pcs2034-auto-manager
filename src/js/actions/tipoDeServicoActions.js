@@ -74,9 +74,25 @@ var TipoDeServicoActions = {
     
   },
   deleteTipoDeServico: function(id){
-    AppDispatcher.dispatch({
-      actionType: "changeTipoDeServico"
-    })
+    var values = {}
+    values.id = id
+    var requestBody = {
+      table: "tipoServico",
+      values: values
+    }
+    var key = "createTipoDeServico"
+    _pendingRequests[key] = jajax({
+        url: 'apiv1/delete',
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(requestBody),
+        async: true
+      }).done(function(res){
+        console.log('done')
+        AppDispatcher.dispatch({
+          actionType: "changeTipoDeServico",
+        })
+      })
   }
 }
 

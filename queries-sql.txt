@@ -1,0 +1,2 @@
+CREATE TABLE tipoServico(idServico SERIAL PRIMARY KEY, nomeServico VARCHAR(40) not null, precoServico REAL not null);
+INSERT INTO tipoServico(nome, preco) values('Revisao Anual', 500.50);
