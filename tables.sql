@@ -1,24 +1,21 @@
 CREATE 	TABLE usuario(
 	codigoCadastro	SERIAL 			PRIMARY KEY,
+	email 			VARCHAR(100)	NOT NULL,
+	senha 			VARCHAR(40)		NOT NULL,
 	nome			VARCHAR(40) 	NOT NULL,
 	sobrenome		VARCHAR(40) 	NOT NULL,
-	CPF 			INTEGER			NOT NULL,
+	CPF 			VARCHAR(40)		NOT NULL,
 	estado			VARCHAR(40) 	NOT NULL,
 	cidade			VARCHAR(40) 	NOT NULL,
-	cep				INTEGER			NOT NULL,
+	cep				VARCHAR(40)		NOT NULL,
 	rua				VARCHAR(100)	NOT NULL,
 	numeroRua		INTEGER			NOT NULL,
 	complemento		VARCHAR(40)				,
 	telefone		VARCHAR(40) 	NOT NULL,
-	email			VARCHAR(100)	NOT NULL,
 	bairro			VARCHAR(40) 	NOT NULL,
-	senha			VARCHAR(40) 	NOT NULL,
-	tipo 			VARCHAR(40) 	NOT NULL
+	tipo 			VARCHAR(40) 	NOT NULL,
+	especialidade 	VARCHAR(40)
 );
-
-CREATE TABLE tecnico(
-	especialidade	VARCHAR(40) NOT NULL
-) INHERITS(usuario);
 
 CREATE TABLE tipoServico(
 	id 				SERIAL 		PRIMARY KEY , 
@@ -26,22 +23,24 @@ CREATE TABLE tipoServico(
 	preco 			MONEY 		NOT NULL
 );
 
-CREATE TABLE tipoPeca(
-	id 				SERIAL 		PRIMARY KEY,
+CREATE TABLE peca(
+	idPeca 				SERIAL 		PRIMARY KEY,
 	nome 			VARCHAR(40) NOT NULL,
 	marca 			VARCHAR(40) NOT NULL,
 	preco 			MONEY 		NOT NULL,
 	quantidade 		INTEGER 	NOT NULL,
 	descricao 		TEXT
 );
-CREATE TABLE peca(
-	codigoBarras 	VARCHAR(40) PRIMARY KEY,
-	numeroSerial 	VARCHAR(40) NOT NULL,
-	idTipoPeca 		INTEGER 	REFERENCES tipoPeca(id)
-);
+
+-- CREATE TABLE peca(
+-- 	codigoBarras 	VARCHAR(40) PRIMARY KEY,
+-- 	numeroSerial 	VARCHAR(40) NOT NULL,
+-- 	idTipoPeca 		INTEGER 	REFERENCES tipoPeca(id)
+-- );
+
 CREATE TABLE veiculo(
 	placa 			VARCHAR(10) PRIMARY KEY,
-	renavam 		INTEGER,
+	renavam 		VARCHAR(20),
 	fabricante 		VARCHAR(40),
 	modelo 			VARCHAR(40),
 	ano 			INTEGER,
@@ -74,7 +73,7 @@ CREATE TABLE ordemServico(
 CREATE TABLE horario(
 	data 		DATE,
 	hora 		TIME,
-	codTecnico 	INTEGER REFERENCES usuario(codigoCadastro),
+	codTecnico 	INTEGER REFERENCES usuario(codigoCadastro) NOT NULL,
 	idOS 		INTEGER REFERENCES ordemServico(id),
 	PRIMARY KEY(data, hora)
 );
@@ -88,9 +87,9 @@ CREATE TABLE horarioCliente(
 );
 
 CREATE TABLE OSPeca(
-	idOS 				INTEGER REFERENCES ordemServico(id),
-	codigoBarras 		VARCHAR(40) REFERENCES peca(codigoBarras),
-	PRIMARY KEY (idOS, codigoBarras)
+	idOS 		INTEGER REFERENCES ordemServico(id),
+	idPeca 		INTEGER REFERENCES peca(idPeca),
+	PRIMARY KEY (idOS, idPeca)
 );
 
 CREATE TABLE OSServico(
