@@ -37,7 +37,15 @@ var CreateModal = React.createClass({
   },
   componentWillReceiveProps: function(){
     console.log('componentWillMount')
-    this.setState({nomePeca: this.props.data.nome, precoPeca: this.props.data.preco})
+    var preco = 0
+    if(this.props.data.preco) preco = parseFloat(this.props.data.preco.replace('$', ''))
+    this.setState({
+        nomePeca: this.props.data.nome, 
+        marcaPeca: this.props.data.marca,
+        precoPeca: preco,
+        quantidadePeca: this.props.data.quantidade,
+        descricaoPeca: this.props.data.descricao
+      })
   },
 	getDefaultProps: function(){
     return {
@@ -89,7 +97,7 @@ var CreateModal = React.createClass({
             }),
             Input({
               ref: 'nameInput',
-               type: 'text',
+               type: 'number',
                label: 'Quantidade de peças',
                placeholder: 'Digite aqui a quantidade de peças',
                value: this.state.quantidadePeca,
