@@ -53,7 +53,9 @@ var loginActions = {
     })
   },
   logout: function(){
-    
+    AppDispatcher.dispatch({
+      action: LoginConstants.LOGOUT
+    })
   }
 }
 

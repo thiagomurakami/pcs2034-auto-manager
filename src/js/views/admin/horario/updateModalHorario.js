@@ -1,4 +1,7 @@
 var React = require('react')
+var moment = require('moment')
+var u = require('underscore')
+var jquery = require('jquery')
 
 var AgendarHorarioStore = require('../../../stores/agendarHorarioStore')
 
@@ -26,20 +29,37 @@ var tr = React.createFactory('tr')
 var span = React.createFactory('span')
 var option = React.createFactory('option')
 
+var minDate = moment().format('YYYY-MM-DD')
+var maxDate = moment().add(30, 'days').format('YYYY-MM-DD')
+
 var CreateModal = React.createClass({
   getInitialState: function(){
     return {
-      data: '',
+      data: minDate,
       hora: '',
-      tecnico: '',
-      cliente: ''
+      tecnicos: [],
+      codtecnico: '',
+      idcliente: ''
     }
   },
-  componentWillReceiveProps: function(newProps){
+  componentWillReceiveProps: function(nextProps){
+    console.log(nextProps)
+    var horarioDefault = u.first(jquery.extend(true, [], nextProps.horarios))
+    var clienteDefault = u.first(jquery.extend(true, [], nextProps.clientes))
+    var tecnicoDefault
     var newState = {}
-    for(var key in this.state){
-      newState[key] = newProps.data[key]
+    if(horarioDefault) {
+      tecnicoDefault = horarioDefault.tecnicosDisponiveis[0]
+      this.setState({
+        tecnicos: horarioDefault.tecnicosDisponiveis,
+        hora: horarioDefault.hora,
+        codtecnico: tecnicoDefault
+      })
     }
+    for(var key in this.state){
+      if(nextProps.data[key]) newState[key] = nextProps.data[key]
+    }
+    if(clienteDefault) this.setState({idcliente: clienteDefault.codigocadastro})
     this.setState(newState)
   },
   getDefaultProps: function(){
@@ -47,9 +67,8 @@ var CreateModal = React.createClass({
       show: false,
       onHide: function(){},
       data: {},
-      index: 0,
       onClick: function(){},
-      title: "Alterar Veículo"
+      title: "Alterar Horário"
     }
   },
   _handleInputChange: function(stateKey, e){
@@ -57,61 +76,72 @@ var CreateModal = React.createClass({
     newState[stateKey] = e.target.value
     this.setState(newState)
   },
+  _handleHoraChange: function(e){
+    var tecnicosDisponiveis = u.filter(jquery.extend(true, [], this.props.horarios), function(horario){
+      return horario.hora === e.target.value
+    })
+    tecnicosDisponiveis = tecnicosDisponiveis[0].tecnicosDisponiveis
+    this.setState({hora: e.target.value, tecnicos: tecnicosDisponiveis})
+  },
+  _handleDataChange: function(e){
+    AgendarHorarioAction.getHorariosDisponiveis(e.target.value)
+    this.setState({data: e.target.value})
+  },
   _sendToApi: function(){
-    AgendarHorarioActions.updateVeiculo(this.state, this.props.index)
+    //AgendarHorarioActions.updateVeiculo(this.state, this.props.index)
     this.props.onHide()
   },
   render: function(){
-    var listaClientes = AgendarHorarioStore.getListaClientes().map(function(cliente, index){
+    var listaTecnicos = AgendarHorarioStore.getListaGerentes()
+    var horariosArr = this.props.horarios.map(function(horario, index){
+      return option({key: 'horario-'+index}, horario.hora)
+    })
+    var listaClientes = this.props.clientes.map(function(cliente, index){
       var label = cliente.codigocadastro+"- "+cliente.nome+" "+cliente.sobrenome
       return option({key: "dono-"+cliente.codigocadastro, value: cliente.codigocadastro}, label)
+    })
+    var tecnicosDisponiveis = this.state.tecnicos.map(function(codTecnico, index){
+      if(listaTecnicos.length > 0){
+        var gerenteUnico = u.findWhere(listaTecnicos, {codigocadastro: codTecnico})
+        var label = codTecnico+" - "+gerenteUnico.nome
+        if(gerenteUnico.sobrenome) label += " "+gerenteUnico.sobrenome
+        return option({key: 'codTecnicno-'+index, value: codTecnico}, label)
+      }
+      else return option({key: 'codTecnicno-'+index, value: codTecnico}, codTecnico)
     })
     return(
       Modal({show: this.props.show, onHide: this.props.onHide},
         ModalHeader({}, ModalTitle(), h4({}, this.props.title)),
         ModalBody({},
           Input({
-            type: 'text',
-            label: 'Placa',
-            placeholder: 'Digite aqui a placa...',
-            value: this.state.placa,
-            onChange: this._handleInputChange.bind(null, 'placa')
+            type: 'date',
+            max: maxDate,
+            min: minDate,
+            defaultValue: minDate,
+            value: this.state.data,
+            onChange: this._handleDataChange
           }),
           Input({
-            type: 'text',
-            label: 'Renavam',
-            placeholder: 'Digite aqui o renavam...',
-            value: this.state.renavam,
-            onChange: this._handleInputChange.bind(null, 'renavam')
-          }),
-          Input({
-            type: 'text',
-            label: 'Fabricante',
-            placeholder: 'Digite aqui o fabricante...',
-            value: this.state.fabricante,
-            onChange: this._handleInputChange.bind(null, 'fabricante')
-          }),
-          Input({
-            type: 'text',
-            label: 'Modelo',
-            placeholder: 'Digite aqui o modelo...',
-            value: this.state.modelo,
-            onChange: this._handleInputChange.bind(null, 'modelo')
-          }),
-          Input({
-            type: 'text',
-            label: 'Ano',
-            placeholder: 'Digite aqui o ano...',
-            value: this.state.ano,
-            onChange: this._handleInputChange.bind(null, 'ano')
-          }),
+            type: 'select',
+            label: "Horário",
+            value: this.state.hora,
+            onChange: this._handleHoraChange
+          }, horariosArr),
           Input({
               type: 'select',
-              label: 'Dono',
-              value: this.state.dono,
-              onChange: this._handleInputChange.bind(null, 'dono')
+              label: 'Cliente',
+              value: this.state.idcliente,
+              onChange: this._handleInputChange.bind(null, 'idcliente')
             },
             listaClientes
+          ),
+          Input({
+              type: 'select',
+              label: 'Gerente Técnico',
+              value: this.state.codtecnico,
+              onChange: this._handleInputChange.bind(null, 'codtecnico')
+            },
+            tecnicosDisponiveis
           )
         ),
         ModalFooter({}, Button({onClick: this.props.onHide}, 'Fechar'), Button({onClick: this._sendToApi}, 'Alterar'))

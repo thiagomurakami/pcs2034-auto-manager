@@ -3,8 +3,6 @@ var u = require('underscore')
 //var client = new pg.Client(connectionString)
 
 var veiculoDAO = function(connectionString, operation, params, callback){
-  console.log(operation)
-  console.log(params)
   var stringQuery = ""
   params = u.omit(params, function(value, key, object){
     return u.isUndefined(value) || u.isNull(value)

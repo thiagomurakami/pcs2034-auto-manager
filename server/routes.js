@@ -32,7 +32,7 @@ module.exports = function(app){
     console.log('/apiv1/read')
     console.log(req.body)
     var body = req.body
-    dao[body.table](connectionString, 'read', '', function(err, rows){
+    dao[body.table](connectionString, 'read', {}, function(err, rows){
       res.send(rows)
     })
   })
@@ -69,6 +69,12 @@ module.exports = function(app){
   app.get('/apiv1/clientes', function(req, res){
     functions.clientes(connectionString, function(err, clientes){
       res.send(clientes)
+    })
+  })
+
+  app.get('/apiv1/gerentes', function(req, res){
+    functions.gerentes(connectionString, function(err, gerentes){
+      res.send(gerentes)
     })
   })
 

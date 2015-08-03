@@ -1,4 +1,5 @@
 var React = require('react')
+var u = require('underscore')
 var EventEmitter = require('events').EventEmitter
 var FluxDispatcher = require('../dispatcher/dispatcher.js')
 var assign = require('object-assign')
@@ -7,11 +8,14 @@ var CHANGE_EVENT = 'change'
 var tableColumns = [
   {label: "Data", value: 'data'},
   {label: "Hora", value: 'hora'},
-  {label: "Técnico", value: 'codtecnico'},
-  {label: "Cliente", value: 'idcliente'}
+  {label: "Técnico", value: 'tecnico'},
+  {label: "Cliente", value: 'cliente'}
 ]
+//{label: "Técnico", value: 'codtecnico'},
+//{label: "Cliente", value: 'idcliente'}
 var listaClientes = []
 var listaHorarios = []
+var listaGerentes = []
 
 //CREATE TABLE veiculo(
 //  placa 			VARCHAR(10) PRIMARY KEY,
@@ -33,6 +37,12 @@ var AgendarHorarioStore = assign({}, EventEmitter.prototype, {
   getListaClientes: function(){
     return listaClientes
   },
+  getListaGerentes: function(){
+    return listaGerentes
+  },
+  getHorarios: function(){
+    return listaHorarios
+  },
   emitChange: function(eventString){
     this.emit(eventString)
   },
@@ -53,16 +63,57 @@ var AgendarHorarioStore = assign({}, EventEmitter.prototype, {
         break;
       case "readAgendarHorario":
         console.log(dispatchedObj.rows)
+        dispatchedObj.rows.forEach(function(row){
+          if(listaGerentes.length > 0){
+            var gerenteUnico = u.findWhere(listaGerentes, {codigocadastro: row.codtecnico})
+            if(!row.tecnico){
+              row.tecnico = ""
+            }
+            row.tecnico += row.codtecnico+" - "+gerenteUnico.nome
+            if(gerenteUnico.sobrenome) row.tecnico += " "+gerenteUnico.sobrenome
+          }
+          if(listaClientes.length > 0){
+            var clienteUnico = u.findWhere(listaClientes, {codigocadastro: row.idcliente})
+            if(!row.cliente){
+              row.cliente = ""
+            }
+            row.cliente += row.idcliente+" - "+clienteUnico.nome
+            if(clienteUnico.sobrenome) row.cliente += " "+clienteUnico.sobrenome
+          }
+        })
         tableData = dispatchedObj.rows
         AgendarHorarioStore.emitChange("rerender")
         break
 
       case "GET_CLIENTES":
         listaClientes = dispatchedObj.clientes
+        tableData.forEach(function(row){
+          var clienteUnico = u.findWhere(listaClientes, {codigocadastro: row.idcliente})
+          if(!row.cliente){
+            row.cliente = ""
+          }
+          row.cliente += row.idcliente+" - "+clienteUnico.nome
+          if(clienteUnico.sobrenome) row.cliente += " "+clienteUnico.sobrenome
+        })
         AgendarHorarioStore.emitChange("rerender")
         break;
+
       case "GET_HORARIOS":
-        console.log(dispatchedObj)
+        listaHorarios = dispatchedObj.horarios
+        AgendarHorarioStore.emitChange("rerender")
+        break
+
+      case "GET_GERENTES":
+        listaGerentes = dispatchedObj.gerentes
+        tableData.forEach(function(row){
+          var gerenteUnico = u.findWhere(listaGerentes, {codigocadastro: row.codtecnico})
+          if(!row.tecnico){
+            row.tecnico = ""
+          }
+          row.tecnico += row.codtecnico+" - "+gerenteUnico.nome
+          if(gerenteUnico.sobrenome) row.tecnico += " "+gerenteUnico.sobrenome
+        })
+        AgendarHorarioStore.emitChange("rerender")
         break
     }
   })

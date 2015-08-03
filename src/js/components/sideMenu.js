@@ -1,5 +1,7 @@
 var React                         = require('react')
 
+var LoginActions = require('../actions/loginActions')
+
 // Components
 var Input = React.createFactory(require('react-bootstrap').Input)
 var ButtonInput = React.createFactory(require('react-bootstrap').ButtonInput)
@@ -31,14 +33,19 @@ var Link = React.createFactory(require('react-router').Link)
  */
 
 var SideMenu = React.createClass({
+  _logOut: function(e){
+    e.preventDefault()
+    LoginActions.logout()
+  },
   render: function(){
     var links = this.props.links.map(function(link, index){
-      return Link({to: link.path, key: "admin-link-"+index}," "+link.label+" ")
+      return NavItem({href: link.path, key: "admin-link-"+index}, link.label)
     })
     return(
       Navbar({},
         Nav({},
-          links
+          links,
+          NavItem({onClick: this._logOut}, "Log Out")
         )
 
       )

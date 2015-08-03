@@ -16,10 +16,10 @@ var AdminPage = React.createClass({
   getInitialState: function(){
     return {
       links: [
-        {path: '/admin/tipoServico', label: "CRUD Tipo Serviço"},
-        {path: '/admin/horarioCliente', label: "CRUD Horário Cliente"},
-        {path: '/admin/veiculo', label: "CRUD Tipo Serviço"},
-        {path: '/admin/usuario', label: "CRUD Usuário"}
+        {path: '#/admin/tipoServico', label: "CRUD Tipo Serviço"},
+        {path: '#/admin/horarioCliente', label: "CRUD Horário Cliente"},
+        {path: '#/admin/veiculo', label: "CRUD Veículo"},
+        {path: '#/admin/usuario', label: "CRUD Usuário"}
       ]
     }
   },

@@ -33,18 +33,30 @@ var CrudHorario = React.createClass({
       showCreateModal: false,
       showUpdateModal: false,
       selectedUpdateData: {},
-      updateModalIndex: 0
+      listaHorarios: AgendarHorarioStore.getHorarios(),
+      listaClientes: AgendarHorarioStore.getListaClientes(),
+      listaGerentes: AgendarHorarioStore.getListaGerentes()
     }
   },
   componentDidMount: function(){
     AgendarHorarioStore.addChangeListener("refetch", this._read)
     AgendarHorarioStore.addChangeListener("rerender", this._dataChange)
     AgendarHorarioActions.getClientes()
+    AgendarHorarioActions.getGerentes()
     AgendarHorarioActions.readAgendarHorario()
     AgendarHorarioActions.getHorariosDisponiveis(minDate)
   },
+  componentWillUnmount: function(){
+    AgendarHorarioStore.removeChangeListener("refetch", this._read)
+    AgendarHorarioStore.removeChangeListener("rerender", this._dataChange)
+  },
   _dataChange: function(){
-    this.setState({tableData: AgendarHorarioStore.getTableData()})
+    this.setState({
+      tableData: AgendarHorarioStore.getTableData(),
+      listaHorarios: AgendarHorarioStore.getHorarios(),
+      listaClientes: AgendarHorarioStore.getListaClientes(),
+      listaGerentes: AgendarHorarioStore.getListaGerentes()
+    })
   },
   _read: function(){
     AgendarHorarioActions.readAgendarHorario()
@@ -55,11 +67,13 @@ var CrudHorario = React.createClass({
   _closeUpdateModal: function(){
     this.setState({showUpdateModal: false})
   },
-  _editClick: function(index){
-    var updateData = u.filter(this.state.tableData, function(singleData){
-      return singleData.dono == index
-    })
-    this.setState({showUpdateModal: true, updateModalIndex: index, selectedUpdateData: updateData[0]})
+  _editClick: function(data, hora, codtecnico, idcliente){
+    console.log(data)
+    console.log(hora)
+    console.log(codtecnico)
+    console.log(idcliente)
+    var updateData = u.findWhere(this.state.tableData, {data: data, hora: hora, codtecnico: codtecnico, idcliente: idcliente})
+    this.setState({showUpdateModal: true, selectedUpdateData: updateData})
   },
   _removeClick: function(index){
     AgendarHorarioActions.deleteVeiculo(index)
@@ -81,12 +95,17 @@ var CrudHorario = React.createClass({
         UpdateModal({
           show: this.state.showUpdateModal,
           onHide: this._closeUpdateModal,
-          data: this.state.tableData[this.state.updateModalIndex],
-          index: this.state.updateModalIndex
+          data: this.state.selectedUpdateData,
+          horarios: this.state.listaHorarios,
+          clientes: this.state.listaClientes,
+          gerentes: this.state.listaGerentes
         }),
         CreateModal({
           show: this.state.showCreateModal,
-          onHide: this._toggleCreate
+          onHide: this._toggleCreate,
+          horarios: this.state.listaHorarios,
+          clientes: this.state.listaClientes,
+          gerentes: this.state.listaGerentes
         }),
         Table(tableProps,
           Header({tableColumns: this.state.tableColumns}),
@@ -137,8 +156,8 @@ var TableBody = React.createClass({
         return td({key: 'column-'+column.value+'-'+index}, row[column.value])
       })
       rowContent.push(td({key: "actions-"+index},
-        p({onClick: this.props.onEditClick.bind(null, row.dono)}, 'Editar, '),
-        p({onClick: this.props.onRemoveClick.bind(null, row.dono)}, "Remover")))
+        p({onClick: this.props.onEditClick.bind(null, row.data, row.hora, row.codtecnico, row.idcliente)}, 'Editar, '),
+        p({onClick: this.props.onRemoveClick.bind(null, row.data, row.hora, row.codtecnico, row.idcliente)}, "Remover")))
       var singleRow = tr({key: 'content-'+index}, rowContent)
       return singleRow
     }.bind(this))

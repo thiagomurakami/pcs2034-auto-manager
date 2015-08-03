@@ -108,6 +108,20 @@ var AgendarHorarioActions = {
       })
     })
   },
+  getGerentes: function(){
+    var key = "getGerentes"
+    _pendingRequests[key] = jajax({
+      url: 'apiv1/gerentes',
+      type: 'GET',
+      contentType: 'application/json',
+      async: true
+    }).done(function(res){
+      AppDispatcher.dispatch({
+        actionType: "GET_GERENTES",
+        gerentes: res
+      })
+    })
+  },
   getHorariosDisponiveis: function(date){
     var key = "getClientes"
     var uri = 'apiv1/horarios/'+date

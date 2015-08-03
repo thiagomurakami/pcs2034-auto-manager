@@ -50,7 +50,7 @@ INSERT INTO horario(data, hora, codTecnico)
 VALUES ('2015-07-27', '15:00', 5);
 
 INSERT INTO horario(data, hora, codTecnico) 
-VALUES ('2015-07-27', '09:00', 6);
+VALUES ('2015-08-04', '09:00', 6);
 
 INSERT INTO horario(data, hora, codTecnico) 
 VALUES ('2015-07-27', '10:00', 6);
