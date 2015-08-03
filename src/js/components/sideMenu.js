@@ -13,37 +13,36 @@ var Nav = React.createFactory(require('react-bootstrap').Nav)
 var NavItem = React.createFactory(require('react-bootstrap').NavItem)
 
 var Link = React.createFactory(require('react-router').Link)
+
 /*
-var SideMenu = React.createClass({
-  render: function(){
-  	var styleObj = {
-  		width: 150,
-  		height: '100%',
-  		backgroundColor: 'blue',
-  		float: 'left'
-  	}
-    return(
-        div({style: styleObj}, p({}, 'Side Menu 1'))
-        )
-  }
-})
-*/
+ var SideMenu = React.createClass({
+ render: function(){
+ var styleObj = {
+ width: 150,
+ height: '100%',
+ backgroundColor: 'blue',
+ float: 'left'
+ }
+ return(
+ div({style: styleObj}, p({}, 'Side Menu 1'))
+ )
+ }
+ })
+ */
 
 var SideMenu = React.createClass({
   render: function(){
-    var style1 = {
-      
-    }
+    var links = this.props.links.map(function(link, index){
+      return Link({to: link.path, key: "admin-link-"+index}," "+link.label+" ")
+    })
     return(
-        Navbar({}, 
-          Nav({},  
-            Link({to: "/tipoServico"}, 'Tipo Serviço'),
-            NavItem({href: 'tipoServico'} , 'link2'),
-            NavItem({} , 'link3')
-            )
-
-          )
+      Navbar({},
+        Nav({},
+          links
         )
+
+      )
+    )
   }
 })
 

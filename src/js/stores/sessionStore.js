@@ -88,7 +88,6 @@ var SessionStore = assign({}, EventEmitter.prototype, {
       case LoginConstants.LOGIN:
         _state.authenticated = true
         console.log(payload)
-        RouterContainer.get().transitionTo(payload.value.nextPath);
          validateLogin(payload.value.loginData)
         SessionStore.emitChange()
         break

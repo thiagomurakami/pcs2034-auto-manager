@@ -1,21 +1,27 @@
 var React = require('react')
 
-var SessionStore = require('../stores/sessionStore')
+var SessionStore = require('../../stores/sessionStore')
 
 var div = React.createFactory('div')
-var Header = React.createFactory(require('../components/header.js'))
-var SideMenu = React.createFactory(require('../components/sideMenu.js'))
-var Footer = React.createFactory(require('../components/footer.js'))
+var Header = React.createFactory(require('../../components/header.js'))
+var SideMenu = React.createFactory(require('../../components/sideMenu.js'))
+var Footer = React.createFactory(require('../../components/footer.js'))
 
 var br = React.createFactory('br')
 
 var Router = require('react-router')
 var RouteHandler  = Router.RouteHandler
 
-var AdminPage = React.createClass({
+var TecnicoPage = React.createClass({
+  getInitialState: function(){
+    return {
+      links: [
+      ]
+    }
+  },
   statics: {
     willTransitionTo: function (transition) {
-      if (SessionStore.getState().tipo !== "admin") {
+      if (SessionStore.getState().tipo !== "tecnico") {
         transition.redirect('/'+SessionStore.getState().tipo, {}, {});
       }
     }
@@ -27,8 +33,8 @@ var AdminPage = React.createClass({
       //background: '#777777'
     }
     return div({className: 'fullContainerBody'},
-      Header({title: 'Admin'}),
-      SideMenu(),
+      Header({title: 'Técnico'}),
+      SideMenu({links: this.state.links}),
       div({style: contentStyle},
         <RouteHandler />
       ),
@@ -38,4 +44,4 @@ var AdminPage = React.createClass({
   }
 })
 
-module.exports = AdminPage
+module.exports = TecnicoPage

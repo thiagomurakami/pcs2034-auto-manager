@@ -29,11 +29,17 @@ var Footer = React.createFactory(require('../components/footer.js'))
 var CrudUsuario = require('./admin/usuario/crudUsuario')
 var CrudVeiculo = require('./admin/veiculo/crudVeiculo')
 var CrudTipoServico = require('./admin/tipoServico/crudTipoServico')
+var CrudHorarioCliente = require('./admin/horario/crudHorario')
 var AgendarHorario = React.createFactory(require('./agendarHorario'))
 var AuthenticationApp = require('./authenticationApp')
-var AdminPage = require('./adminPage')
-var TecnicoPage = require('./tecnicoPage')
+
+// Pages
 var CadastroCliente = require('./cadastroCliente')
+var AdminPage = require('./admin/adminPage')
+var TecnicoPage = require('./tecnico/tecnicoPage')
+var AtendentePage = require('./atendente/atendentePage')
+var ClientePage = require('./cliente/clientePage')
+var GerentePage = require('./gerente/gerentePage')
 
 var Teste = require('./admin/horario/crudHorario')
 
@@ -84,11 +90,22 @@ var routes = (
     <Route name="cadastro" handler={CadastroCliente} />
     <Route name="app" path='/' handler={MainPage}>
       <Route name="admin" handler={AdminPage}>
+        <DefaultRoute handler={CrudUsuario} />
         <Route name="crudTipoServico" path='tipoServico' handler={CrudTipoServico} />
         <Route name="crudVeiculo" path='veiculo' handler={CrudVeiculo} />
         <Route name="crudUsuario" path='usuario' handler={CrudUsuario} />
+        <Route name="crudHorario" path='horarioCliente' handler={CrudHorarioCliente} />
       </Route>
       <Route name="tecnico" handler={TecnicoPage}>
+
+      </Route>
+      <Route name="gerente" handler={GerentePage}>
+
+      </Route>
+      <Route name="cliente" handler={ClientePage}>
+
+      </Route>
+      <Route name="atendente" handler={AtendentePage}>
 
       </Route>
     </Route>
