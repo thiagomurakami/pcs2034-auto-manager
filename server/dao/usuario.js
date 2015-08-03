@@ -1,9 +1,8 @@
 var pg = require('pg')
 var u = require('underscore')
-var connectionString = process.env.DATABASE_URL || 'postgres://localhost:5432/test'
 //var client = new pg.Client(connectionString)
 
-var usuarioDAO = function(operation, params, callback){
+var usuarioDAO = function(connectionString, operation, params, callback){
 	var stringQuery = ""
 	params = u.omit(params, function(value, key, object){
 		return u.isUndefined(value) || u.isNull(value)

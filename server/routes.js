@@ -3,6 +3,8 @@ var request = require('request')
 
 var functions = requireDir('./functions', {recursive: true})
 var dao = requireDir('./dao', {recursive: true})
+var connectionString = process.env.DATABASE_URL || 'postgres://@localhost:5432/test'
+
 // All archives within the functions directory must have a function
 // exported (module.exports = function([params]){...}).
 // This function needs to return an object that will be passed to the front.
@@ -15,7 +17,7 @@ module.exports = function(app){
   app.post('/login', function(req, res){
     console.log('login')
     console.log(req.body)
-    functions.login(req.body, function(err, loginData){
+    functions.login(connectionString, req.body, function(err, loginData){
       console.log(err)
       console.log(loginData)
       var responseObj = {
@@ -30,14 +32,14 @@ module.exports = function(app){
     console.log('/apiv1/read')
     console.log(req.body)
     var body = req.body
-    dao[body.table]('read', '', function(err, rows){
+    dao[body.table](connectionString, 'read', '', function(err, rows){
       res.send(rows)
     })
   })
 
   app.post('/apiv1/create', function(req, res){
     var body = req.body
-    dao[body.table]('create', body.values, function(err){
+    dao[body.table](connectionString, 'create', body.values, function(err){
       res.send(err)
     })
     console.log('create')
@@ -47,7 +49,7 @@ module.exports = function(app){
   app.post('/apiv1/delete', function(req, res){
     console.log(dao)
     var body = req.body
-    dao[body.table]('delete', body.values, function(err){
+    dao[body.table](connectionString, 'delete', body.values, function(err){
       res.send(err)
     })
     console.log('delete')
@@ -57,7 +59,7 @@ module.exports = function(app){
   app.post('/apiv1/update', function(req, res){
     console.log(dao)
     var body = req.body
-    dao[body.table]('update', body.values, function(err){
+    dao[body.table](connectionString, 'update', body.values, function(err){
       res.send(err)
     })
     console.log('update')
@@ -65,14 +67,14 @@ module.exports = function(app){
   })
 
   app.get('/apiv1/clientes', function(req, res){
-    functions.clientes(function(err, clientes){
+    functions.clientes(connectionString, function(err, clientes){
       res.send(clientes)
     })
   })
 
   app.get('/apiv1/horarios/:date', function(req, res){
     var date = req.params.date
-    functions.horariosDisponiveis(date, function(err, horariosDisponiveis){
+    functions.horariosDisponiveis(connectionString, date, function(err, horariosDisponiveis){
       res.send(horariosDisponiveis)
     })
   })

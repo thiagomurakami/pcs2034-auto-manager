@@ -1,9 +1,8 @@
 var pg = require('pg')
 var u = require('underscore')
-var connectionString = process.env.DATABASE_URL || 'postgres://localhost:5432/test'
 //var client = new pg.Client(connectionString)
 
-var veiculoDAO = function(operation, params, callback){
+var veiculoDAO = function(connectionString, operation, params, callback){
   console.log(operation)
   console.log(params)
   var stringQuery = ""

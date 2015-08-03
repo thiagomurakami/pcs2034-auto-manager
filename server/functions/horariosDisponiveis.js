@@ -1,9 +1,8 @@
 var pg = require('pg')
 var u = require('underscore')
-var connectionString = process.env.DATABASE_URL || 'postgres://@localhost:5432/test'
 //var client = new pg.Client(connectionString)
 // select * from horario where codtecnico in (select codigoCadastro from usuario where tipo='gerente');
-var horariosDisponiveis = function(date, callback){
+var horariosDisponiveis = function(connectionString, date, callback){
 	var horarioFuncionamento = u.range(9, 19)
 	var stringQueryHorarios = "SELECT * FROM horario WHERE data='"+date+"' and codtecnico in ("
 	var stringQueryUsers = "SELECT codigoCadastro FROM usuario WHERE tipo='gerente'"

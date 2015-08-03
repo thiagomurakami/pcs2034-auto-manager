@@ -1,8 +1,7 @@
 var pg = require('pg')
-var connectionString = process.env.DATABASE_URL || 'postgres://@localhost:5432/test'
 //var client = new pg.Client(connectionString)
 
-var login = function(loginObj, callback){
+var login = function(connectionString, loginObj, callback){
 	var stringQuery = "SELECT codigocadastro, email, senha, tipo FROM usuario WHERE email='"+loginObj.email+"' AND "
 	stringQuery += "senha='"+loginObj.senha+"'"
 	console.log(stringQuery)
