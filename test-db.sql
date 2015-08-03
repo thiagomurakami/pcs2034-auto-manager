@@ -46,6 +46,18 @@ VALUES('DVM-5464', 1, 'Em andamento', '24/07/2015', '26/07/2015');
 INSERT INTO ordemServico(placaVeiculo, idEquipe, status, dataEmissao, dataConclusao)
 VALUES('FHK-8423', 1, 'Concluida', '22/07/2015', '23/07/2015');
 
+INSERT INTO horario(data, hora, codTecnico) 
+VALUES ('2015-07-27', '15:00', 5);
+
+INSERT INTO horario(data, hora, codTecnico) 
+VALUES ('2015-07-27', '09:00', 6);
+
+INSERT INTO horario(data, hora, codTecnico) 
+VALUES ('2015-07-27', '10:00', 6);
+
+INSERT INTO horario(data, hora, codTecnico) 
+VALUES ('2015-07-27', '10:00', 5);
+
 INSERT INTO horario(data, hora, codTecnico, idOS)
 VALUES();
 

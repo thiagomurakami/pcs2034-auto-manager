@@ -11,6 +11,8 @@ var input = React.createFactory('input')
 var Navbar = React.createFactory(require('react-bootstrap').Navbar)
 var Nav = React.createFactory(require('react-bootstrap').Nav)
 var NavItem = React.createFactory(require('react-bootstrap').NavItem)
+
+var Link = React.createFactory(require('react-router').Link)
 /*
 var SideMenu = React.createClass({
   render: function(){
@@ -35,8 +37,8 @@ var SideMenu = React.createClass({
     return(
         Navbar({}, 
           Nav({},  
-            NavItem({ href: 'http://www.google.com'} , 'link1'),
-            NavItem({} , 'link2'),
+            Link({to: "/tipoServico"}, 'Tipo Serviço'),
+            NavItem({href: 'tipoServico'} , 'link2'),
             NavItem({} , 'link3')
             )
 

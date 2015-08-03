@@ -1,5 +1,5 @@
 var pg = require('pg')
-var connectionString = process.env.DATABASE_URL || 'postgres://postgres:123@localhost:5432/test'
+var connectionString = process.env.DATABASE_URL || 'postgres://@localhost:5432/test'
 //var client = new pg.Client(connectionString)
 
 var tipoServicoDao = function(operation, params, callback){

@@ -1,15 +1,16 @@
 var React = require('react');
+var u = require('underscore')
 
-var TipoDeServicoStore = require('../../stores/tipoDeServicoStore')
+var TipoDeServicoStore = require('../../../stores/tipoDeServicoStore')
 
-var TipoDeServicoActions = require('../../actions/tipoDeServicoActions')
+var TipoDeServicoActions = require('../../../actions/tipoDeServicoActions')
 
 var Table = React.createFactory(require('react-bootstrap').Table)
 var Button = React.createFactory(require('react-bootstrap').Button)
 var ButtonInput = React.createFactory(require('react-bootstrap').ButtonInput)
 var Input = React.createFactory(require('react-bootstrap').Input)
-var CreateModal = React.createFactory(require('./createModal'))
-var UpdateModal = React.createFactory(require('./updateModal'))
+var CreateModal = React.createFactory(require('./createModalTipoServico'))
+var UpdateModal = React.createFactory(require('./updateModalTipoServico'))
 var div = React.createFactory('div')
 var p = React.createFactory('p')
 var h4 = React.createFactory('h4')
@@ -29,6 +30,7 @@ var ReadTipoServico = React.createClass({
 			tableData: TipoDeServicoStore.getTableData(),
 			showCreateModal: false,
 			showUpdateModal: false,
+			selectedUpdateData: {},
 			updateModalIndex: 0
 		}
 	},
@@ -44,14 +46,16 @@ var ReadTipoServico = React.createClass({
 		TipoDeServicoActions.readTipoDeServico()
 	},
 	_toggleCreate: function(){
-		console.log("toggle")
 		this.setState({showCreateModal: !this.state.showCreateModal})
 	},
 	_closeUpdateModal: function(){
 		this.setState({showUpdateModal: false})
 	},
 	_editClick: function(index){
-		this.setState({showUpdateModal: true, updateModalIndex: index})
+		var updateData = u.filter(this.state.tableData, function(singleData){
+			return singleData.id == index
+		})
+		this.setState({showUpdateModal: true, updateModalIndex: index, selectedUpdateData: updateData[0]})
 	},
 	_removeClick: function(index){
 		TipoDeServicoActions.deleteTipoDeServico(index)
@@ -125,12 +129,10 @@ var TableBody = React.createClass({
 	render: function(){
 		var content = []
 		content = this.props.data.map(function(row, index){
-			console.log(row)
 			var rowContent = this.props.tableColumns.map(function(column){
 				return td({key: 'column-'+column.value+'-'+index}, row[column.value])
 			})
-			console.log(row.id)
-			rowContent.push(td({key: "actions-"+index}, 
+			rowContent.push(td({key: "actions-"+index},
 				p({onClick: this.props.onEditClick.bind(null, row.id)}, 'Editar, '), 
 				p({onClick: this.props.onRemoveClick.bind(null, row.id)}, "Remover")))
 			var singleRow = tr({key: 'content-'+index}, rowContent)

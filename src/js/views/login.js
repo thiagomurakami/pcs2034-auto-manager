@@ -1,6 +1,8 @@
 var React                         = require('react')
 var jajax 						  = require('jquery').ajax
 
+var LoginActions = require('../actions/loginActions')
+var Navigation = require('react-router').Navigation;
 // Components
 var Input = React.createFactory(require('react-bootstrap').Input)
 var ButtonInput = React.createFactory(require('react-bootstrap').ButtonInput)
@@ -12,9 +14,11 @@ var form = React.createFactory('form')
 var input = React.createFactory('input')
 
 var Login = React.createClass({
+  mixins: [Navigation],
 	getInitialState: function(){
 		return({
-			name: 'Koji'
+			email: '',
+      password: ''
 		})
 	},
 	interceptEvent: function(event){
@@ -24,20 +28,19 @@ var Login = React.createClass({
       }
   },
 
-  _log: function(e){
+  _login: function(e){
   	this.interceptEvent(e)
-  	var senha = this.refs.passwordInput.getValue()
-  	var email = this.refs.emailInput.getValue()
-  	console.log("senha: "+senha)
-  	console.log("email: "+email)
-  },
-  _handleChange: function(e){
-  	this.setState({name: e.target.value})
+    var loginObj = {}
+    loginObj.email = this.refs.emailInput.getValue()
+    loginObj.senha = this.refs.passwordInput.getValue()
+    loginObj.nextPath = this.props.query.nextPath
+    LoginActions.login(loginObj)
   },
 
   render: function(){
+    console.log(this.props.query.nextPath)
     return(
-      form({onSubmit: this._log},
+      form({onSubmit: this._login},
        Input({
         ref: 'emailInput',
         type: 'email',
@@ -53,10 +56,11 @@ var Login = React.createClass({
        // ButtonToolbar({},
         ButtonInput({
           type: 'submit',
-          value: 'Enviar',
+          value: 'Enviar'
         }),
         ButtonInput({
-          value: 'Cadastre-se'
+          value: 'Cadastre-se',
+          onClick: this.transitionTo.bind(null, 'cadastro')
         })
         // )
        )

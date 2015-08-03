@@ -75,15 +75,16 @@ CREATE TABLE horario(
 	hora 		TIME,
 	codTecnico 	INTEGER REFERENCES usuario(codigoCadastro) NOT NULL,
 	idOS 		INTEGER REFERENCES ordemServico(id),
-	PRIMARY KEY(data, hora)
+	PRIMARY KEY(data, hora, codTecnico)
 );
 
 CREATE TABLE horarioCliente(
 	data 		DATE,
 	hora 		TIME,
-	FOREIGN KEY (data, hora) REFERENCES horario(data, hora),
+	codTecnico 	INTEGER,
+	FOREIGN KEY (data, hora, codTecnico) REFERENCES horario(data, hora, codTecnico),
 	idCliente 	INTEGER REFERENCES usuario(codigoCadastro),
-	PRIMARY KEY (data, hora, idCliente)
+	PRIMARY KEY (data, hora, idCliente, codTecnico)
 );
 
 CREATE TABLE OSPeca(

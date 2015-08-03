@@ -25,8 +25,7 @@ var Footer = React.createClass({
       }
     return(
         Well({style: styleObj}, 
-          p({}, 'Footer' + ' ' + 'Um mundo melhor' ),
-          h3({}, 'queria férias')
+          p({}, 'Sistema Auto Manager - PCS2034')
           )
         )
   }

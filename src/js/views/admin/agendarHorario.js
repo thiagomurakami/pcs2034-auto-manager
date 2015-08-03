@@ -2,6 +2,9 @@ var React = require('react')
 var moment = require('moment')
 var jajax = require('jquery').ajax
 
+var AgendarHorarioActions = require('../../actions/agendarHorarioActions')
+var AgendarHorarioStore = require('../../stores/agendarHorarioStore')
+
 var Button = React.createFactory(require('react-bootstrap').Button)
 var ButtonInput = React.createFactory(require('react-bootstrap').ButtonInput)
 var Input = React.createFactory(require('react-bootstrap').Input)
@@ -28,24 +31,24 @@ var CreateModal = React.createClass({
       horarios: []
     }
   },
-	getDefaultProps: function(){
+  getDefaultProps: function(){
     return {
-      
+
     }
   },
   componentWillMount: function(){
     var uri = 'apiv1/horarios/'+minDate
     console.log(uri)
     jajax({
-        url: uri,
-        type: 'GET',
-        contentType: 'application/json',
-        // data: JSON.stringify(requestBody),
-        async: true
-      }).done(function(res){
-        console.log("done")
-        this.setState({horarios: res})
-      }.bind(this))
+      url: uri,
+      type: 'GET',
+      contentType: 'application/json',
+      // data: JSON.stringify(requestBody),
+      async: true
+    }).done(function(res){
+      console.log("done")
+      this.setState({horarios: res})
+    }.bind(this))
   },
   render: function(){
     var horariosArr = this.state.horarios.map(function(horario, index){
@@ -54,13 +57,13 @@ var CreateModal = React.createClass({
     // horariosArr.push(option({key: 'horario-1', value: 16}, '16:00'))
     // horariosArr.push(option({key: 'horario-2', value: 17}, '17:00'))
     return(
-        form({},
-          h4({}, 'Agendar Horário'),
-          Input({type: 'date', max: maxDate, min: minDate, defaultValue: minDate}),
-          Input({type: 'select'}, horariosArr),
-          ButtonInput({type: 'button', value: 'Agendar'})
-          )
+      form({},
+        h4({}, 'Agendar Horário'),
+        Input({type: 'date', max: maxDate, min: minDate, defaultValue: minDate}),
+        Input({type: 'select', label: "Horário"}, horariosArr),
+        ButtonInput({type: 'button', value: 'Agendar'})
       )
+    )
   }
 })
 

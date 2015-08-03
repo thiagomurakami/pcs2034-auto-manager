@@ -1,8 +1,8 @@
 var React = require('react')
 
-var TipoDeServicoStore = require('../../stores/tipoDeServicoStore')
+var TipoDeServicoStore = require('../../../stores/tipoDeServicoStore')
 
-var TipoDeServicoActions = require('../../actions/tipoDeServicoActions')
+var TipoDeServicoActions = require('../../../actions/tipoDeServicoActions')
 
 var Modal = React.createFactory(require('react-bootstrap').Modal)
 var ModalHeader = React.createFactory(require('react-bootstrap').Modal.Header)

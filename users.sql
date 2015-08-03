@@ -63,3 +63,51 @@ VALUES('selma@automanager.com',
 	'Mooca',
 	'cliente'
 );
+
+INSERT INTO usuario(email,senha,nome,sobrenome,CPF,estado,cidade,cep,rua,numeroRua,telefone,bairro,tipo) 
+VALUES('gerente@automanager.com',
+	'123',
+	'Gerente',
+	'Tecnico',
+	'123412',
+	'SP',
+	'Campinas',
+	'984123',
+	'Av foo',
+	'98',
+	'(44) 4444-4444',
+	'Mooca',
+	'gerente'
+);
+
+INSERT INTO usuario(email,senha,nome,sobrenome,CPF,estado,cidade,cep,rua,numeroRua,telefone,bairro,tipo) 
+VALUES('gerente2@automanager.com',
+	'123',
+	'Gerente',
+	'Tecnico2',
+	'123412',
+	'SP',
+	'Campinas',
+	'984123',
+	'Av foo',
+	'98',
+	'(44) 4444-4444',
+	'Mooca',
+	'gerente'
+);
+
+INSERT INTO usuario(email,senha,nome,sobrenome,CPF,estado,cidade,cep,rua,numeroRua,telefone,bairro,tipo) 
+VALUES('admin@automanager.com',
+	'123',
+	'Admin',
+	'Auto Manager',
+	'123412',
+	'SP',
+	'Campinas',
+	'984123',
+	'Av foo',
+	'98',
+	'(44) 4444-4444',
+	'Mooca',
+	'admin'
+);

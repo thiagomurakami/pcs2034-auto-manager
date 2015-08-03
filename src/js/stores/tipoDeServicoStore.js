@@ -2,7 +2,6 @@ var React = require('react')
 var EventEmitter = require('events').EventEmitter
 var FluxDispatcher = require('../dispatcher/dispatcher.js')
 var assign = require('object-assign')
-var CHANGE_EVENT = 'change'
 
 var tableColumns = [
 	{label: "#", value: 'id'},
@@ -31,7 +30,6 @@ var TipoDeServicoStore = assign({}, EventEmitter.prototype, {
   },
 
   dispatcherIndex: FluxDispatcher.register(function(dispatchedObj){
-    console.log(dispatchedObj)
     switch(dispatchedObj.actionType){
       case "changeTipoDeServico":
         TipoDeServicoStore.emitChange("refetch")

@@ -12,8 +12,18 @@ var dao = requireDir('./dao', {recursive: true})
 
 module.exports = function(app){
 
-  app.get('/', function(req, res){
-    
+  app.post('/login', function(req, res){
+    console.log('login')
+    console.log(req.body)
+    functions.login(req.body, function(err, loginData){
+      console.log(err)
+      console.log(loginData)
+      var responseObj = {
+        err: err,
+        data: loginData
+      }
+      res.send(responseObj)
+    })
   })
 
   app.post('/apiv1/read', function(req, res){
@@ -26,7 +36,6 @@ module.exports = function(app){
   })
 
   app.post('/apiv1/create', function(req, res){
-    console.log(dao)
     var body = req.body
     dao[body.table]('create', body.values, function(err){
       res.send(err)
@@ -55,6 +64,19 @@ module.exports = function(app){
     console.log(body)
   })
 
+  app.get('/apiv1/clientes', function(req, res){
+    functions.clientes(function(err, clientes){
+      res.send(clientes)
+    })
+  })
+
+  app.get('/apiv1/horarios/:date', function(req, res){
+    var date = req.params.date
+    functions.horariosDisponiveis(date, function(err, horariosDisponiveis){
+      res.send(horariosDisponiveis)
+    })
+  })
+
   app.get('/apiv1/cep/:cepNumber', function(req, res){
     var uri = 'http://api.postmon.com.br/v1/cep/'+req.params.cepNumber
     console.log(uri)
@@ -66,12 +88,11 @@ module.exports = function(app){
       'Content-Type' : 'application/json'
       }
     }, function(err, requestRes, body){
-      console.log(err)
       var type = ''+requestRes.headers['content-type']
       if(type.indexOf('json') !== -1){
         res.json(body)
       }
-        else console.log(erro)
+        else console.log(err)
     })
   })
 }
