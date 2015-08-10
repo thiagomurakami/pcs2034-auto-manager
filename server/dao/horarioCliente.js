@@ -7,46 +7,18 @@ var jquery = require('jquery')
 var agendarHorarioDAO = function(connectionString, operation, params, callback){
   var stringQuery = ""
   console.log(params)
-  var horarioObj = u.clone(params)
-  var horarioClienteObj = u.clone(params)
-  horarioObj = u.omit(horarioObj, 'idcliente')
-  horarioObj = u.omit(horarioObj, function(value, key, object){
+  params = u.omit(params, function(value, key, object){
     return u.isUndefined(value) || u.isNull(value)
   })
-  horarioClienteObj = u.omit(horarioClienteObj, function(value, key, object){
-    return u.isUndefined(value) || u.isNull(value)
-  })
-  var keysHorario = u.keys(horarioObj)
-  var keysHorarioCliente = u.keys(horarioClienteObj)
-  var valuesHorario = u.values(horarioObj).map(function(value){
+  var keys = u.keys(params)
+  var values = u.values(params).map(function(value){
     return "'"+value+"'"
   })
-  var valuesHorarioCliente = u.values(horarioClienteObj).map(function(value){
-    return "'"+value+"'"
-  })
+  var updateString
   switch(operation){
     case 'create':
-      var insertHorarioQuery = "INSERT INTO horario("+keysHorario.join()+")"
-      insertHorarioQuery += " VALUES ("+valuesHorario.join()+");"
-      var insertHorarioClienteQuery = "INSERT INTO horarioCliente("+keysHorarioCliente.join()+")"
-      insertHorarioClienteQuery += " VALUES ("+valuesHorarioCliente.join()+");"
-      pg.connect(connectionString, function(err, client, done){
-        client.query(insertHorarioQuery, function(err, results){
-          if(!err){
-            client.query(insertHorarioClienteQuery, function(err, results){
-              if(!err){
-                callback(null, results.rows)
-              }
-              else callback(err)
-              done()
-            })
-          }
-          else{
-            callback(err)
-            done()
-          }
-        })
-      })
+      stringQuery = "INSERT INTO horarioCliente("+keys.join()+")"
+      stringQuery += " VALUES ("+values.join()+");"
       break;
 
     case 'read':
@@ -54,19 +26,24 @@ var agendarHorarioDAO = function(connectionString, operation, params, callback){
       break;
 
     case 'update':
-      insertHorarioQuery = "INSERT INTO horario("+keysHorario.join()+")"
-      insertHorarioQuery += " VALUES ("+valuesHorario.join()+");"
-      insertHorarioClienteQuery = "INSERT INTO horarioCliente("+keysHorarioCliente.join()+")"
-      insertHorarioClienteQuery += " VALUES ("+valuesHorarioCliente.join()+");"
+      updateString = keys.map(function(key){
+        return key+"=('"+params[key]+"')"
+      })
+      console.log(updateString)
+      stringQuery = "UPDATE horarioCliente SET " + updateString.join()
+      stringQuery += " WHERE " + updateString.join()
       break;
 
     case 'delete':
-      stringQuery = "DELETE FROM tipoServico WHERE id="
-      stringQuery += params.id
+      updateString = keys.map(function(key){
+        return key+"=('"+params[key]+"')"
+      })
+      stringQuery = "DELETE FROM horarioCliente WHERE ("+keys.join()+") = ("
+      stringQuery += values.join() + ")"
       break;
   }
   console.log(stringQuery)
-  if(operation != 'create'){
+  if(operation != 'update'){
     pg.connect(connectionString, function(err, client, done){
       client.query(stringQuery, function(err, results){
         console.log(err)

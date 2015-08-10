@@ -9,13 +9,15 @@ var tableColumns = [
   {label: "Data", value: 'data'},
   {label: "Hora", value: 'hora'},
   {label: "Técnico", value: 'tecnico'},
-  {label: "Cliente", value: 'cliente'}
+  {label: "Cliente", value: 'cliente'},
+  {label: "Placa Veículo", value: 'placaveiculo'}
 ]
 //{label: "Técnico", value: 'codtecnico'},
 //{label: "Cliente", value: 'idcliente'}
 var listaClientes = []
 var listaHorarios = []
 var listaGerentes = []
+var listaVeiculos = []
 
 //CREATE TABLE veiculo(
 //  placa 			VARCHAR(10) PRIMARY KEY,
@@ -40,6 +42,9 @@ var AgendarHorarioStore = assign({}, EventEmitter.prototype, {
   getListaGerentes: function(){
     return listaGerentes
   },
+  getListaVeiculos: function(){
+    return listaVeiculos
+  },
   getHorarios: function(){
     return listaHorarios
   },
@@ -56,20 +61,18 @@ var AgendarHorarioStore = assign({}, EventEmitter.prototype, {
   },
 
   dispatcherIndex: FluxDispatcher.register(function(dispatchedObj){
-    console.log(dispatchedObj)
     switch(dispatchedObj.actionType){
       case "changeAgendarHorario":
         AgendarHorarioStore.emitChange("refetch")
         break;
       case "readAgendarHorario":
-        console.log(dispatchedObj.rows)
         dispatchedObj.rows.forEach(function(row){
           if(listaGerentes.length > 0){
-            var gerenteUnico = u.findWhere(listaGerentes, {codigocadastro: row.codtecnico})
+            var gerenteUnico = u.findWhere(listaGerentes, {codigocadastro: row.codgerente})
             if(!row.tecnico){
               row.tecnico = ""
             }
-            row.tecnico += row.codtecnico+" - "+gerenteUnico.nome
+            row.tecnico += row.codgerente+" - "+gerenteUnico.nome
             if(gerenteUnico.sobrenome) row.tecnico += " "+gerenteUnico.sobrenome
           }
           if(listaClientes.length > 0){
@@ -106,13 +109,19 @@ var AgendarHorarioStore = assign({}, EventEmitter.prototype, {
       case "GET_GERENTES":
         listaGerentes = dispatchedObj.gerentes
         tableData.forEach(function(row){
-          var gerenteUnico = u.findWhere(listaGerentes, {codigocadastro: row.codtecnico})
+          var gerenteUnico = u.findWhere(listaGerentes, {codigocadastro: row.codgerente})
           if(!row.tecnico){
             row.tecnico = ""
           }
-          row.tecnico += row.codtecnico+" - "+gerenteUnico.nome
+          row.tecnico += row.codgerente+" - "+gerenteUnico.nome
           if(gerenteUnico.sobrenome) row.tecnico += " "+gerenteUnico.sobrenome
         })
+        AgendarHorarioStore.emitChange("rerender")
+        break
+
+      case "GET_VEICULO":
+        listaVeiculos = dispatchedObj.veiculos
+
         AgendarHorarioStore.emitChange("rerender")
         break
     }

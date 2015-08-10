@@ -25,10 +25,10 @@ CREATE TABLE tipoServico(
 
 CREATE TABLE peca(
 	idPeca 				SERIAL 		PRIMARY KEY,
-	nome 			VARCHAR(40) NOT NULL,
-	marca 			VARCHAR(40) NOT NULL,
-	preco 			MONEY 		NOT NULL,
-	quantidade 		INTEGER 	NOT NULL,
+	nome 			VARCHAR(40)		NOT NULL,
+	marca 			VARCHAR(40) 	NOT NULL,
+	preco 			MONEY 			NOT NULL,
+	quantidade 		INTEGER 		NOT NULL,
 	descricao 		TEXT
 );
 
@@ -47,56 +47,54 @@ CREATE TABLE veiculo(
 	dono			INTEGER REFERENCES usuario(codigoCadastro) NOT NULL
 );
 
-
-CREATE TABLE equipe(
-	id 				SERIAL 		PRIMARY KEY,
-	especialidade	VARCHAR(40) NOT NULL
+CREATE TABLE horarioCliente(
+	data 			DATE,
+	hora 			TIME,
+	codGerente 		INTEGER REFERENCES usuario(codigoCadastro),
+	idCliente 		INTEGER REFERENCES usuario(codigoCadastro),
+	placaVeiculo 	VARCHAR(10) REFERENCES veiculo(placa),
+	PRIMARY KEY (data, hora, idCliente, codGerente, placaVeiculo)
 );
 
 CREATE TABLE equipeTecnico(
-	idEquipe		INTEGER REFERENCES equipe(id) NOT NULL,
-	codTecnico 		INTEGER REFERENCES usuario(codigoCadastro) NOT NULL,
-	PRIMARY KEY		(idEquipe, codTecnico)
+	idEquipe		 SERIAL PRIMARY KEY,
+	codTecnico1		 INTEGER REFERENCES usuario(codigoCadastro) NOT NULL,
+	codTecnico2		 INTEGER REFERENCES usuario(codigoCadastro) NOT NULL,
+	especialidade 	 VARCHAR(40)
 );
 
 CREATE TABLE ordemServico(
-	id 				SERIAL PRIMARY KEY,
-	placaVeiculo 	VARCHAR(10) REFERENCES veiculo(placa) 	NOT NULL,
-	idEquipe 		INTEGER REFERENCES equipe(id) NOT NULL,
-	status 			VARCHAR(40) NOT NULL,
-	dataEmissao		DATE NOT NULL,
-	dataConclusao	DATE NOT NULL,
-	valor			MONEY,
-	descricao		TEXT
+	id 				 SERIAL PRIMARY KEY,
+	placaVeiculo 	 VARCHAR(10) REFERENCES veiculo(placa) 	NOT NULL,
+	idEquipe 		 INTEGER REFERENCES equipe(id) NOT NULL,
+	status 			 VARCHAR(40) NOT NULL,
+	dataPrevisao 	 DATE NOT NULL,
+	dataEmissao		 DATE NOT NULL,
+	dataConclusao	 DATE,
+	valor			 MONEY,
+	descricao		 TEXT
 );
 
-CREATE TABLE horario(
-	data 		DATE,
-	hora 		TIME,
-	codTecnico 	INTEGER REFERENCES usuario(codigoCadastro) NOT NULL,
-	idOS 		INTEGER REFERENCES ordemServico(id),
-	PRIMARY KEY(data, hora, codTecnico)
+CREATE TABLE horarioOS(
+	data 		 DATE,
+	hora 		 TIME,
+	codEquipe 	 INTEGER REFERENCES equipeTecnico(idEquipe) NOT NULL,
+	idOS 		 INTEGER REFERENCES ordemServico(id),
+	PRIMARY KEY (data, hora, codEquipe, idOs)
 );
 
-CREATE TABLE horarioCliente(
-	data 		DATE,
-	hora 		TIME,
-	codTecnico 	INTEGER,
-	FOREIGN KEY (data, hora, codTecnico) REFERENCES horario(data, hora, codTecnico),
-	idCliente 	INTEGER REFERENCES usuario(codigoCadastro),
-	PRIMARY KEY (data, hora, idCliente, codTecnico)
-);
 
 CREATE TABLE OSPeca(
-	idOS 		INTEGER REFERENCES ordemServico(id),
-	idPeca 		INTEGER REFERENCES peca(idPeca),
+	idOS 		 INTEGER REFERENCES ordemServico(id),
+	idPeca 		 INTEGER REFERENCES peca(idPeca),
+	quantidade 	 INTEGER NOT NULL,
 	PRIMARY KEY (idOS, idPeca)
 );
 
 CREATE TABLE OSServico(
-	idOS 		INTEGER REFERENCES ordemServico(id),
-	idServico	INTEGER REFERENCES tipoServico(id),
-	PRIMARY KEY (idOS, idServico)
+	idOS 		 INTEGER REFERENCES ordemServico(id),
+	idServico	 INTEGER REFERENCES tipoServico(id),
+	PRIMARY KEY  (idOS, idServico)
 );
 
 -- INSERT INTO tipoServico(nome, preco) values('Revisao Anual', 500.50);

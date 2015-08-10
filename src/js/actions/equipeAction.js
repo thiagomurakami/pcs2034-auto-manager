@@ -13,13 +13,13 @@ function abortPendingRequestsIfPending(key){
   }
 }
 
-var TipoDeServicoActions = {
-  createTipoDeServico: function(values) {
+var EquipeActions = {
+  createEquipe: function(values) {
     var requestBody = {
-      table: "tipoServico",
+      table: "equipeTecnico",
       values: values
     }
-    var key = "createTipoDeServico"
+    var key = "createEquipe"
     _pendingRequests[key] = jajax({
       url: 'apiv1/create',
       type: 'POST',
@@ -28,16 +28,15 @@ var TipoDeServicoActions = {
       async: true
     }).done(function(res){
       AppDispatcher.dispatch({
-        actionType: "changeTipoDeServico"
+        actionType: "changeEquipe"
       })
     })
-
   },
-  readTipoDeServico: function(){
+  readEquipe: function(){
     var requestBody = {
-      table: "tipoServico",
+      table: "equipeTecnico"
     }
-    var key = "createTipoDeServico"
+    var key = "readEquipe"
     _pendingRequests[key] = jajax({
       url: 'apiv1/read',
       type: 'POST',
@@ -45,20 +44,19 @@ var TipoDeServicoActions = {
       data: JSON.stringify(requestBody),
       async: true
     }).done(function(res){
-      console.log(res)
       AppDispatcher.dispatch({
-        actionType: "readTipoDeServico",
+        actionType: "readEquipe",
         rows: res
       })
     })
   },
-  updateTipoDeServico: function(values, id){
-    values.id = id
+  updateEquipe: function(values, id){
+    values.idequipe = id
     var requestBody = {
-      table: "tipoServico",
+      table: "equipeTecnico",
       values: values
     }
-    var key = "createTipoDeServico"
+    var key = "updateEquipe"
     _pendingRequests[key] = jajax({
       url: 'apiv1/update',
       type: 'POST',
@@ -67,19 +65,19 @@ var TipoDeServicoActions = {
       async: true
     }).done(function(res){
       AppDispatcher.dispatch({
-        actionType: "changeTipoDeServico"
+        actionType: "changeEquipe"
       })
     })
 
   },
-  deleteTipoDeServico: function(id){
+  deleteEquipe: function(id){
     var values = {}
-    values.id = id
+    values.idequipe = id
     var requestBody = {
-      table: "tipoServico",
+      table: "equipeTecnico",
       values: values
     }
-    var key = "createTipoDeServico"
+    var key = "deleteEquipe"
     _pendingRequests[key] = jajax({
       url: 'apiv1/delete',
       type: 'POST',
@@ -88,11 +86,11 @@ var TipoDeServicoActions = {
       async: true
     }).done(function(res){
       AppDispatcher.dispatch({
-        actionType: "changeTipoDeServico",
+        actionType: "changeEquipe"
       })
     })
   }
 }
 
 
-module.exports = TipoDeServicoActions
+module.exports = EquipeActions

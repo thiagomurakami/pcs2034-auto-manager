@@ -41,7 +41,7 @@ var AtendentePage = require('./atendente/atendentePage')
 var ClientePage = require('./cliente/clientePage')
 var GerentePage = require('./gerente/gerentePage')
 
-var Teste = require('./admin/horario/crudHorario')
+var Teste = require('./admin/peca/crudPeca')
 
 var br = React.createFactory('br')
 
@@ -118,7 +118,6 @@ var router = Router.create({routes: routes});
 RouterContainer.set(router);
 
 router.run(function(Handler, state){
-  console.log(Handler)
   var params = state.params
   var query = state.query
   React.render(<Handler routerParams={params} routerQuery={query}/>, document.body)

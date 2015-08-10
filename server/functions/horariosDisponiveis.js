@@ -4,7 +4,7 @@ var u = require('underscore')
 // select * from horario where codtecnico in (select codigoCadastro from usuario where tipo='gerente');
 var horariosDisponiveis = function(connectionString, date, callback){
 	var horarioFuncionamento = u.range(9, 19)
-	var stringQueryHorarios = "SELECT * FROM horario WHERE data='"+date+"' and codtecnico in ("
+	var stringQueryHorarios = "SELECT * FROM horarioCliente WHERE data='"+date+"' and codgerente in ("
 	var stringQueryUsers = "SELECT codigoCadastro FROM usuario WHERE tipo='gerente'"
 	pg.connect(connectionString, function(err, client, done){
 			client.query(stringQueryUsers, function(err, gerentes){
@@ -24,7 +24,7 @@ var horariosDisponiveis = function(connectionString, date, callback){
 						horariosOcupados.rows.forEach(function(horarioOcupado){
 							if(parseInt(horarioDisponivel.hora) == parseInt(horarioOcupado.hora)){
 								horarioDisponivel.tecnicosDisponiveis = u.without(horarioDisponivel.tecnicosDisponiveis, 
-									horarioOcupado.codtecnico)
+									horarioOcupado.codgerente)
 							}
 						})
 					})

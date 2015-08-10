@@ -2,9 +2,9 @@ var pg = require('pg')
 var u = require('underscore')
 //var client = new pg.Client(connectionString)
 
-var gerentes = function(connectionString, callback){
-  var stringQuery = "SELECT nome, sobrenome, codigocadastro FROM usuario"
-  stringQuery += " WHERE tipo='gerente'"
+var tecnicos = function(connectionString, callback){
+  var stringQuery = "SELECT nome, sobrenome, codigocadastro, especialidade FROM usuario"
+  stringQuery += " WHERE tipo='tecnico'"
   pg.connect(connectionString, function(err, client, done){
     client.query(stringQuery, function(err, results){
       if(!err){
@@ -16,4 +16,4 @@ var gerentes = function(connectionString, callback){
   })
 }
 
-module.exports = gerentes
+module.exports = tecnicos

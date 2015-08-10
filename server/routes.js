@@ -15,8 +15,6 @@ var connectionString = process.env.DATABASE_URL || 'postgres://@localhost:5432/t
 module.exports = function(app){
 
   app.post('/login', function(req, res){
-    console.log('login')
-    console.log(req.body)
     functions.login(connectionString, req.body, function(err, loginData){
       console.log(err)
       console.log(loginData)
@@ -29,8 +27,6 @@ module.exports = function(app){
   })
 
   app.post('/apiv1/read', function(req, res){
-    console.log('/apiv1/read')
-    console.log(req.body)
     var body = req.body
     dao[body.table](connectionString, 'read', {}, function(err, rows){
       res.send(rows)
@@ -42,18 +38,13 @@ module.exports = function(app){
     dao[body.table](connectionString, 'create', body.values, function(err){
       res.send(err)
     })
-    console.log('create')
-    console.log(body)
   })
 
   app.post('/apiv1/delete', function(req, res){
-    console.log(dao)
     var body = req.body
     dao[body.table](connectionString, 'delete', body.values, function(err){
       res.send(err)
     })
-    console.log('delete')
-    console.log(body)
   })
 
   app.post('/apiv1/update', function(req, res){
@@ -85,9 +76,15 @@ module.exports = function(app){
     })
   })
 
+  app.get('/apiv1/veiculo/:idCliente', function(req, res){
+    var idCliente = req.params.idCliente
+    functions.getVeiculos(connectionString, idCliente, function(err, listaVeiculos){
+      res.send(listaVeiculos)
+    })
+  })
+
   app.get('/apiv1/cep/:cepNumber', function(req, res){
     var uri = 'http://api.postmon.com.br/v1/cep/'+req.params.cepNumber
-    console.log(uri)
     request({
       method: 'GET',
       url: uri,
@@ -103,4 +100,6 @@ module.exports = function(app){
         else console.log(err)
     })
   })
+
+
 }

@@ -4,18 +4,21 @@ var FluxDispatcher = require('../dispatcher/dispatcher.js')
 var assign = require('object-assign')
 
 var tableColumns = [
-	{label: "ID", value: 'id'},
-	{label: "Tipo de serviço", value: 'nome'},
-	{label: "Preço", value: 'preco'}
+  {label: "ID", value: 'idpeca'},
+  {label: "Nome", value: 'nome'},
+  {label: "Preço", value: 'preco'},
+  {label: "Marca", value: 'marca'},
+  {label: "Qtd", value: 'quantidade'},
+  {label: "Descrição", value: 'descricao'}
 ]
 var tableData = []
 
-var TipoDeServicoStore = assign({}, EventEmitter.prototype, {
+var PecaStore = assign({}, EventEmitter.prototype, {
   getTableData: function(){
-  	return tableData
+    return tableData
   },
   getTableColumns: function(){
-  	return tableColumns
+    return tableColumns
   },
   emitChange: function(eventString){
     this.emit(eventString)
@@ -31,15 +34,15 @@ var TipoDeServicoStore = assign({}, EventEmitter.prototype, {
 
   dispatcherIndex: FluxDispatcher.register(function(dispatchedObj){
     switch(dispatchedObj.actionType){
-      case "changeTipoDeServico":
-        TipoDeServicoStore.emitChange("refetch")
+      case "changePeca":
+        PecaStore.emitChange("refetch")
         break;
-      case "readTipoDeServico":
-      	tableData = dispatchedObj.rows
-      	TipoDeServicoStore.emitChange("rerender")
-      	break
+      case "readPeca":
+        tableData = dispatchedObj.rows
+        PecaStore.emitChange("rerender")
+        break
     }
   })
 })
 
-module.exports = TipoDeServicoStore
+module.exports = PecaStore

@@ -32,10 +32,10 @@ var CreateModal = React.createClass({
       precoServico: ''
     }
   },
-  componentWillReceiveProps: function(){
+  componentWillReceiveProps: function(nextProps){
     var preco = 0
-    if(this.props.data.preco) preco = parseFloat(this.props.data.preco.replace('$', ''))
-    this.setState({nomeServico: this.props.data.nome, precoServico: preco})
+    if(nextProps.data.preco) preco = parseFloat(nextProps.data.preco.replace('$', ''))
+    this.setState({nomeServico: nextProps.data.nome, precoServico: preco})
   },
 	getDefaultProps: function(){
     return {

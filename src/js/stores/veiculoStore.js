@@ -47,13 +47,11 @@ var VeiculoStore = assign({}, EventEmitter.prototype, {
   },
 
   dispatcherIndex: FluxDispatcher.register(function(dispatchedObj){
-    console.log(dispatchedObj)
     switch(dispatchedObj.actionType){
       case "changeVeiculo":
         VeiculoStore.emitChange("refetch")
         break;
       case "readVeiculo":
-        console.log(dispatchedObj.rows)
         tableData = dispatchedObj.rows
         VeiculoStore.emitChange("rerender")
         break

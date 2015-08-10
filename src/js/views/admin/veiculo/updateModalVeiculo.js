@@ -26,7 +26,7 @@ var tr = React.createFactory('tr')
 var span = React.createFactory('span')
 var option = React.createFactory('option')
 
-var CreateModal = React.createClass({
+var UpdateModalVeiculo = React.createClass({
   getInitialState: function(){
     return {
       placa: '',
@@ -122,6 +122,6 @@ var CreateModal = React.createClass({
   }
 })
 
-module.exports = CreateModal/**
+module.exports = UpdateModalVeiculo/**
  * Created by thiagomurakami on 8/3/15.
  */

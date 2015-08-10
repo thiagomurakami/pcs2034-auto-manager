@@ -77,7 +77,7 @@ var ReadTipoServico = React.createClass({
 				UpdateModal({
 					show: this.state.showUpdateModal,
 					onHide: this._closeUpdateModal, 
-					data: this.state.tableData[this.state.updateModalIndex],
+					data: this.state.selectedUpdateData,
 					index: this.state.updateModalIndex
 				}),
 				CreateModal({
@@ -101,7 +101,7 @@ var ReadTipoServico = React.createClass({
 
 var TableHeader = React.createClass({
 	getDefaultProps: function(){
-		tableColumns: []
+		return {tableColumns: []}
 	},
 	render: function(){
 		var content = []

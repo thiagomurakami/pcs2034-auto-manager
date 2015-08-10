@@ -1,16 +1,16 @@
 var React = require('react');
 var u = require('underscore')
 
-var UsuarioStore = require('../../../stores/usuarioStore')
+var PecaStore = require('../../../stores/pecaStore')
 
-var UsuarioActions = require('../../../actions/usuarioActions')
+var PecaActions = require('../../../actions/pecaActions')
 
 var Table = React.createFactory(require('react-bootstrap').Table)
 var Button = React.createFactory(require('react-bootstrap').Button)
 var ButtonInput = React.createFactory(require('react-bootstrap').ButtonInput)
 var Input = React.createFactory(require('react-bootstrap').Input)
-var CreateModal = React.createFactory(require('./createModalUsuario'))
-var UpdateModal = React.createFactory(require('./updateModalUsuario'))
+var CreateModal = React.createFactory(require('./createModalPeca'))
+var UpdateModal = React.createFactory(require('./updateModalPeca'))
 var div = React.createFactory('div')
 var p = React.createFactory('p')
 var h4 = React.createFactory('h4')
@@ -23,27 +23,27 @@ var td = React.createFactory('td')
 var tr = React.createFactory('tr')
 var span = React.createFactory('span')
 
-var CrudUsuario = React.createClass({
+var CrudPeca = React.createClass({
   getInitialState: function(){
     return {
-      tableColumns: UsuarioStore.getTableColumns(),
-      tableData: UsuarioStore.getTableData(),
+      tableColumns: PecaStore.getTableColumns(),
+      tableData: PecaStore.getTableData(),
       showCreateModal: false,
       showUpdateModal: false,
-      seletedUpdateData: {},
+      selectedUpdateData: {},
       updateModalIndex: 0
     }
   },
   componentDidMount: function(){
-    UsuarioStore.addChangeListener("refetch", this._read)
-    UsuarioStore.addChangeListener("rerender", this._dataChange)
-    UsuarioActions.readUsuario()
+    PecaStore.addChangeListener("refetch", this._read)
+    PecaStore.addChangeListener("rerender", this._dataChange)
+    PecaActions.readPeca()
   },
   _dataChange: function(){
-    this.setState({tableData: UsuarioStore.getTableData()})
+    this.setState({tableData: PecaStore.getTableData()})
   },
   _read: function(){
-    UsuarioActions.readUsuario()
+    PecaActions.readPeca()
   },
   _toggleCreate: function(){
     this.setState({showCreateModal: !this.state.showCreateModal})
@@ -53,12 +53,12 @@ var CrudUsuario = React.createClass({
   },
   _editClick: function(index){
     var updateData = u.filter(this.state.tableData, function(singleData){
-      return singleData.codigocadastro == index
+      return singleData.idpeca == index
     })
     this.setState({showUpdateModal: true, updateModalIndex: index, selectedUpdateData: updateData[0]})
   },
   _removeClick: function(index){
-    UsuarioActions.deleteUsuario(index)
+    PecaActions.deletePeca(index)
   },
   render: function(){
     var tableProps = {
@@ -71,8 +71,6 @@ var CrudUsuario = React.createClass({
     var Header = React.createFactory(TableHeader)
     var Body = React.createFactory(TableBody)
     return (
-
-
       div({},
         UpdateModal({
           show: this.state.showUpdateModal,
@@ -92,7 +90,7 @@ var CrudUsuario = React.createClass({
             onRemoveClick: this._removeClick})
         ),
         Button({onClick: this._toggleCreate},
-          "Adicionar novo usuário")
+          "Adicionar nova nova peça")
       )
 
     )
@@ -101,7 +99,7 @@ var CrudUsuario = React.createClass({
 
 var TableHeader = React.createClass({
   getDefaultProps: function(){
-    return { tableColumns: [] }
+    return {tableColumns: []}
   },
   render: function(){
     var content = []
@@ -123,7 +121,7 @@ var TableBody = React.createClass({
       tableColumns: [],
       data: [],
       onEditClick: function(){},
-      onRemoveClick: function(){}
+      onRemoveClick: function(){},
     }
   },
   render: function(){
@@ -133,9 +131,10 @@ var TableBody = React.createClass({
         return td({key: 'column-'+column.value+'-'+index}, row[column.value])
       })
       rowContent.push(td({key: "actions-"+index},
-        p({onClick: this.props.onEditClick.bind(null, row.codigocadastro)}, 'Editar, '),
-        p({onClick: this.props.onRemoveClick.bind(null, row.codigocadastro)}, "Remover")))
-      return tr({key: 'content-'+index}, rowContent)
+        p({onClick: this.props.onEditClick.bind(null, row.idpeca)}, 'Editar, '),
+        p({onClick: this.props.onRemoveClick.bind(null, row.idpeca)}, "Remover")))
+      var singleRow = tr({key: 'content-'+index}, rowContent)
+      return singleRow
     }.bind(this))
     return(
       tbody({}, content)
@@ -143,4 +142,4 @@ var TableBody = React.createClass({
   }
 })
 
-module.exports = CrudUsuario
+module.exports = CrudPeca

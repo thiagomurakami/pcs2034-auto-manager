@@ -14,7 +14,7 @@ var usuarioDAO = function(connectionString, operation, params, callback){
 	switch(operation){
 		case 'create':
 			stringQuery = "INSERT INTO usuario("+keys.join()+")"
-			stringQuery += " VALUES ('"+values.join()+");"
+			stringQuery += " VALUES ("+values.join()+");"
 			break;
 
 		case 'read':

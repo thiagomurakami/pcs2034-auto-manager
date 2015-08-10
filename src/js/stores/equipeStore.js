@@ -4,18 +4,18 @@ var FluxDispatcher = require('../dispatcher/dispatcher.js')
 var assign = require('object-assign')
 
 var tableColumns = [
-	{label: "ID", value: 'id'},
-	{label: "Tipo de serviço", value: 'nome'},
-	{label: "Preço", value: 'preco'}
+  {label: "ID", value: 'idequipe'},
+  {label: "Tecnico 1", value: 'tecnico1'},
+  {label: "Tecnico 2", value: 'tecnico2'}
 ]
 var tableData = []
 
-var TipoDeServicoStore = assign({}, EventEmitter.prototype, {
+var EquipeStore = assign({}, EventEmitter.prototype, {
   getTableData: function(){
-  	return tableData
+    return tableData
   },
   getTableColumns: function(){
-  	return tableColumns
+    return tableColumns
   },
   emitChange: function(eventString){
     this.emit(eventString)
@@ -31,15 +31,15 @@ var TipoDeServicoStore = assign({}, EventEmitter.prototype, {
 
   dispatcherIndex: FluxDispatcher.register(function(dispatchedObj){
     switch(dispatchedObj.actionType){
-      case "changeTipoDeServico":
-        TipoDeServicoStore.emitChange("refetch")
+      case "changeEquipe":
+        EquipeStore.emitChange("refetch")
         break;
-      case "readTipoDeServico":
-      	tableData = dispatchedObj.rows
-      	TipoDeServicoStore.emitChange("rerender")
-      	break
+      case "readEquipe":
+        tableData = dispatchedObj.rows
+        EquipeStore.emitChange("rerender")
+        break
     }
   })
 })
 
-module.exports = TipoDeServicoStore
+module.exports = EquipeStore

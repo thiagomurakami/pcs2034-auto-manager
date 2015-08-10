@@ -32,35 +32,35 @@ var option = React.createFactory('option')
 var minDate = moment().format('YYYY-MM-DD')
 var maxDate = moment().add(30, 'days').format('YYYY-MM-DD')
 
-var CreateModal = React.createClass({
+var UpdateModal = React.createClass({
   getInitialState: function(){
     return {
       data: minDate,
       hora: '',
-      tecnicos: [],
-      codtecnico: '',
-      idcliente: ''
+      codgerente: '',
+      idcliente: '',
+      placaveiculo: '',
+      tecnicos: []
     }
   },
   componentWillReceiveProps: function(nextProps){
-    console.log(nextProps)
-    var horarioDefault = u.first(jquery.extend(true, [], nextProps.horarios))
-    var clienteDefault = u.first(jquery.extend(true, [], nextProps.clientes))
-    var tecnicoDefault
     var newState = {}
+    var horarioDefault = null
+    if(!u.isEqual(nextProps.horarios, this.props.horarios)){
+      horarioDefault = u.first(jquery.extend(true, [], nextProps.horarios))
+    }
     if(horarioDefault) {
-      tecnicoDefault = horarioDefault.tecnicosDisponiveis[0]
       this.setState({
-        tecnicos: horarioDefault.tecnicosDisponiveis,
-        hora: horarioDefault.hora,
-        codtecnico: tecnicoDefault
+        tecnicos: horarioDefault.tecnicosDisponiveis
       })
     }
-    for(var key in this.state){
-      if(nextProps.data[key]) newState[key] = nextProps.data[key]
+    if(!u.isEqual(nextProps.data, this.props.data)){
+      for(var key in this.state){
+        if(nextProps.data[key]) newState[key] = nextProps.data[key]
+      }
+      console.log(newState)
+      this.setState(newState)
     }
-    if(clienteDefault) this.setState({idcliente: clienteDefault.codigocadastro})
-    this.setState(newState)
   },
   getDefaultProps: function(){
     return {
@@ -84,13 +84,26 @@ var CreateModal = React.createClass({
     this.setState({hora: e.target.value, tecnicos: tecnicosDisponiveis})
   },
   _handleDataChange: function(e){
-    AgendarHorarioAction.getHorariosDisponiveis(e.target.value)
+    AgendarHorarioActions.getHorariosDisponiveis(e.target.value)
     this.setState({data: e.target.value})
   },
+
+  _handleClienteChange: function(e){
+    AgendarHorarioActions.getVeiculos(e.target.value)
+    this.setState({idcliente: e.target.value})
+  },
+
   _sendToApi: function(){
-    //AgendarHorarioActions.updateVeiculo(this.state, this.props.index)
+    var newValues = jquery.extend(true, {}, this.props.data)
+    var oldValues = jquery.extend(true, {}, this.state)
+    newValues = u.omit(newValues, 'cliente', 'tecnico')
+    oldValues = u.omit(oldValues, 'tecnicos')
+    console.log(oldValues)
+    console.log(newValues)
+    AgendarHorarioActions.updateAgendarHorario(newValues, oldValues)
     this.props.onHide()
   },
+
   render: function(){
     var listaTecnicos = AgendarHorarioStore.getListaGerentes()
     var horariosArr = this.props.horarios.map(function(horario, index){
@@ -100,14 +113,17 @@ var CreateModal = React.createClass({
       var label = cliente.codigocadastro+"- "+cliente.nome+" "+cliente.sobrenome
       return option({key: "dono-"+cliente.codigocadastro, value: cliente.codigocadastro}, label)
     })
-    var tecnicosDisponiveis = this.state.tecnicos.map(function(codTecnico, index){
+    var tecnicosDisponiveis = this.state.tecnicos.map(function(codgerente, index){
       if(listaTecnicos.length > 0){
-        var gerenteUnico = u.findWhere(listaTecnicos, {codigocadastro: codTecnico})
-        var label = codTecnico+" - "+gerenteUnico.nome
+        var gerenteUnico = u.findWhere(listaTecnicos, {codigocadastro: codgerente})
+        var label = codgerente+" - "+gerenteUnico.nome
         if(gerenteUnico.sobrenome) label += " "+gerenteUnico.sobrenome
-        return option({key: 'codTecnicno-'+index, value: codTecnico}, label)
+        return option({key: 'codTecnicno-'+index, value: codgerente}, label)
       }
-      else return option({key: 'codTecnicno-'+index, value: codTecnico}, codTecnico)
+      else return option({key: 'codTecnicno-'+index, value: codgerente}, codgerente)
+    })
+    var veiculosArr = this.props.veiculos.map(function(veiculo, index){
+      return option({key: 'veiculos-'+index, value: veiculo.placa}, veiculo.placa)
     })
     return(
       Modal({show: this.props.show, onHide: this.props.onHide},
@@ -116,8 +132,6 @@ var CreateModal = React.createClass({
           Input({
             type: 'date',
             max: maxDate,
-            min: minDate,
-            defaultValue: minDate,
             value: this.state.data,
             onChange: this._handleDataChange
           }),
@@ -131,15 +145,23 @@ var CreateModal = React.createClass({
               type: 'select',
               label: 'Cliente',
               value: this.state.idcliente,
-              onChange: this._handleInputChange.bind(null, 'idcliente')
+              onChange: this._handleClienteChange
             },
             listaClientes
           ),
           Input({
               type: 'select',
+              label: 'Veículo',
+              value: this.state.placaveiculo,
+              onChange: this._handleInputChange.bind(null, 'placaveiculo')
+            },
+            veiculosArr
+          ),
+          Input({
+              type: 'select',
               label: 'Gerente Técnico',
-              value: this.state.codtecnico,
-              onChange: this._handleInputChange.bind(null, 'codtecnico')
+              value: this.state.codgerente,
+              onChange: this._handleInputChange.bind(null, 'codgerente')
             },
             tecnicosDisponiveis
           )
@@ -150,6 +172,4 @@ var CreateModal = React.createClass({
   }
 })
 
-module.exports = CreateModal/**
- * Created by thiagomurakami on 8/3/15.
- */
+module.exports = UpdateModal

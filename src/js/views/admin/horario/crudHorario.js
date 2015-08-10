@@ -35,7 +35,8 @@ var CrudHorario = React.createClass({
       selectedUpdateData: {},
       listaHorarios: AgendarHorarioStore.getHorarios(),
       listaClientes: AgendarHorarioStore.getListaClientes(),
-      listaGerentes: AgendarHorarioStore.getListaGerentes()
+      listaGerentes: AgendarHorarioStore.getListaGerentes(),
+      listaVeiculos: AgendarHorarioStore.getListaVeiculos()
     }
   },
   componentDidMount: function(){
@@ -55,7 +56,8 @@ var CrudHorario = React.createClass({
       tableData: AgendarHorarioStore.getTableData(),
       listaHorarios: AgendarHorarioStore.getHorarios(),
       listaClientes: AgendarHorarioStore.getListaClientes(),
-      listaGerentes: AgendarHorarioStore.getListaGerentes()
+      listaGerentes: AgendarHorarioStore.getListaGerentes(),
+      listaVeiculos: AgendarHorarioStore.getListaVeiculos()
     })
   },
   _read: function(){
@@ -67,22 +69,25 @@ var CrudHorario = React.createClass({
   _closeUpdateModal: function(){
     this.setState({showUpdateModal: false})
   },
-  _editClick: function(data, hora, codtecnico, idcliente){
-    console.log(data)
-    console.log(hora)
-    console.log(codtecnico)
-    console.log(idcliente)
-    var updateData = u.findWhere(this.state.tableData, {data: data, hora: hora, codtecnico: codtecnico, idcliente: idcliente})
+  _editClick: function(data, hora, codgerente, idcliente, placaveiculo){
+    var updateData = u.findWhere(this.state.tableData, {data: data, hora: hora,
+      codgerente: codgerente, idcliente: idcliente, placaveiculo: placaveiculo})
     this.setState({showUpdateModal: true, selectedUpdateData: updateData})
   },
-  _removeClick: function(index){
-    AgendarHorarioActions.deleteVeiculo(index)
+  _removeClick: function(data, hora, codgerente, idcliente, placaveiculo){
+    var values = {}
+    values.data = data
+    values.hora = hora
+    values.codgerente = codgerente
+    values.idcliente = idcliente
+    values.placaveiculo = placaveiculo
+    AgendarHorarioActions.deleteAgendarHorario(values)
   },
   render: function(){
     var tableProps = {
       striped: true,
       bordered: true,
-      condensed: true,
+      densed: true,
       hover: true,
       responsive: true
     }
@@ -98,14 +103,16 @@ var CrudHorario = React.createClass({
           data: this.state.selectedUpdateData,
           horarios: this.state.listaHorarios,
           clientes: this.state.listaClientes,
-          gerentes: this.state.listaGerentes
+          gerentes: this.state.listaGerentes,
+          veiculos: this.state.listaVeiculos
         }),
         CreateModal({
           show: this.state.showCreateModal,
           onHide: this._toggleCreate,
           horarios: this.state.listaHorarios,
           clientes: this.state.listaClientes,
-          gerentes: this.state.listaGerentes
+          gerentes: this.state.listaGerentes,
+          veiculos: this.state.listaVeiculos
         }),
         Table(tableProps,
           Header({tableColumns: this.state.tableColumns}),
@@ -124,7 +131,7 @@ var CrudHorario = React.createClass({
 
 var TableHeader = React.createClass({
   getDefaultProps: function(){
-    tableColumns: []
+    return {tableColumns: []}
   },
   render: function(){
     var content = []
@@ -146,7 +153,7 @@ var TableBody = React.createClass({
       tableColumns: [],
       data: [],
       onEditClick: function(){},
-      onRemoveClick: function(){},
+      onRemoveClick: function(){}
     }
   },
   render: function(){
@@ -156,8 +163,8 @@ var TableBody = React.createClass({
         return td({key: 'column-'+column.value+'-'+index}, row[column.value])
       })
       rowContent.push(td({key: "actions-"+index},
-        p({onClick: this.props.onEditClick.bind(null, row.data, row.hora, row.codtecnico, row.idcliente)}, 'Editar, '),
-        p({onClick: this.props.onRemoveClick.bind(null, row.data, row.hora, row.codtecnico, row.idcliente)}, "Remover")))
+        p({onClick: this.props.onEditClick.bind(null, row.data, row.hora, row.codgerente, row.idcliente, row.placaveiculo)}, 'Editar, '),
+        p({onClick: this.props.onRemoveClick.bind(null, row.data, row.hora, row.codgerente, row.idcliente, row.placaveiculo)}, "Remover")))
       var singleRow = tr({key: 'content-'+index}, rowContent)
       return singleRow
     }.bind(this))

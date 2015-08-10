@@ -22,24 +22,6 @@ var tableColumns = [
   {label: "Especialidade", value: 'especialidade'}
 ]
 
-// CREATE  TABLE usuario(
-//   codigoCadastro  SERIAL      PRIMARY KEY,
-//   email       VARCHAR(100)  NOT NULL,
-//   senha       VARCHAR(40)   NOT NULL,
-//   nome      VARCHAR(40)   NOT NULL,
-//   sobrenome   VARCHAR(40)   NOT NULL,
-//   CPF       VARCHAR(40)   NOT NULL,
-//   estado      VARCHAR(40)   NOT NULL,
-//   cidade      VARCHAR(40)   NOT NULL,
-//   cep       VARCHAR(40)   NOT NULL,
-//   rua       VARCHAR(100)  NOT NULL,
-//   numeroRua   INTEGER     NOT NULL,
-//   complemento   VARCHAR(40)       ,
-//   telefone    VARCHAR(40)   NOT NULL,
-//   bairro      VARCHAR(40)   NOT NULL,
-//   tipo      VARCHAR(40)   NOT NULL,
-//   especialidade   VARCHAR(40)
-// );
 var tableData = []
 
 var UsuarioStore = assign({}, EventEmitter.prototype, {
@@ -62,7 +44,6 @@ var UsuarioStore = assign({}, EventEmitter.prototype, {
   },
 
   dispatcherIndex: FluxDispatcher.register(function(dispatchedObj){
-    console.log(dispatchedObj)
     switch(dispatchedObj.actionType){
       case "changeUsuario":
         UsuarioStore.emitChange("refetch")

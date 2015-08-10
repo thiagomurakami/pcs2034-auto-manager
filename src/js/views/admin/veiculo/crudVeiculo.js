@@ -102,7 +102,7 @@ var ReadTipoServico = React.createClass({
 
 var TableHeader = React.createClass({
   getDefaultProps: function(){
-    tableColumns: []
+    return {tableColumns: []}
   },
   render: function(){
     var content = []
@@ -136,8 +136,7 @@ var TableBody = React.createClass({
       rowContent.push(td({key: "actions-"+index},
         p({onClick: this.props.onEditClick.bind(null, row.dono)}, 'Editar, '),
         p({onClick: this.props.onRemoveClick.bind(null, row.dono)}, "Remover")))
-      var singleRow = tr({key: 'content-'+index}, rowContent)
-      return singleRow
+      return tr({key: 'content-'+index}, rowContent)
     }.bind(this))
     return(
       tbody({}, content)

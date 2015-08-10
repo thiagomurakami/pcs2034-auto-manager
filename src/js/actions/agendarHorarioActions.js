@@ -27,10 +27,9 @@ var AgendarHorarioActions = {
       data: JSON.stringify(requestBody),
       async: true
     }).done(function(res){
-      console.log('done')
-    })
-    AppDispatcher.dispatch({
-      actionType: "changeAgendarHorario"
+      AppDispatcher.dispatch({
+        actionType: "changeAgendarHorario"
+      })
     })
   },
   readAgendarHorario: function(){
@@ -45,18 +44,16 @@ var AgendarHorarioActions = {
       data: JSON.stringify(requestBody),
       async: true
     }).done(function(res){
-      console.log(res)
       AppDispatcher.dispatch({
         actionType: "readAgendarHorario",
         rows: res
       })
     })
   },
-  updateAgendarHorario: function(values, id){
-    values.dono = id
+  updateAgendarHorario: function(values, oldValues){
     var requestBody = {
       table: "horarioCliente",
-      values: values
+      values: {newValues: values, oldValues: oldValues}
     }
     var key = "updateAgendarHorario"
     _pendingRequests[key] = jajax({
@@ -68,14 +65,12 @@ var AgendarHorarioActions = {
     }).done(function(res){
       console.log('done')
       AppDispatcher.dispatch({
-        actionType: "readAgendarHorario"
+        actionType: "changeAgendarHorario"
       })
     })
 
   },
-  deleteAgendarHorario: function(id){
-    var values = {}
-    values.dono = id
+  deleteAgendarHorario: function(values){
     var requestBody = {
       table: "horarioCliente",
       values: values
@@ -89,7 +84,7 @@ var AgendarHorarioActions = {
       async: true
     }).done(function(res){
       AppDispatcher.dispatch({
-        actionType: "readAgendarHorario"
+        actionType: "changeAgendarHorario"
       })
     })
   },
@@ -137,6 +132,21 @@ var AgendarHorarioActions = {
         horarios: res
       })
     }.bind(this))
+  },
+
+  getVeiculos: function(idCliente){
+    var key = "getVeiculo"
+    _pendingRequests[key] = jajax({
+      url: 'apiv1/veiculo/'+idCliente,
+      type: 'GET',
+      contentType: 'application/json',
+      async: true
+    }).done(function(res){
+      AppDispatcher.dispatch({
+        actionType: "GET_VEICULO",
+        veiculos: res
+      })
+    })
   }
 }
 

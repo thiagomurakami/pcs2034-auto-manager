@@ -31,62 +31,41 @@ VALUES('DVM-5464', '123', 'Chevrolet', 'Celta', 2007, 3);
 INSERT INTO veiculo(placa, renavam, fabricante, modelo, ano, dono) 
 VALUES('FHK-8423', '456', 'Honda', 'Fit', 2014, 4);
 
-INSERT INTO equipe(especialidade)
-VALUES('troca de oleo');
+INSERT INTO equipeTecnico(codTecnico1, codTecnico2, especialidade)
+VALUES(1, 2, 'Revisao');
 
-INSERT INTO equipeTecnico(idEquipe, codTecnico)
+INSERT INTO ordemServico(placaVeiculo, idEquipe, status, dataEmissao, dataPrevisao, valor)
+VALUES('ABC-1234', 1, 'Pendente', '2015-08-11', '2015-08-20', 300);
+
+INSERT INTO ordemServico(placaVeiculo, idEquipe, status, dataEmissao, dataPrevisao, valor)
+VALUES('ABC-1235', 1, 'Concluida', '2015-08-11', '2015-08-20', 150);
+
+INSERT INTO horarioCliente(data, hora, codGerente, idCliente, placaVeiculo) 
+VALUES ('2015-07-27', '15:00', 5, 3, 'ABC-1234');
+
+INSERT INTO horarioCliente(data, hora, codGerente, idCliente, placaVeiculo) 
+VALUES ('2015-08-04', '09:00', 6, 4, 'ABC-1235');
+
+INSERT INTO horarioCliente(data, hora, codGerente, idCliente, placaVeiculo) 
+VALUES ('2015-08-06', '10:00', 6, 4, 'ABC-1235');
+
+INSERT INTO horarioCliente(data, hora, codGerente, idCliente, placaVeiculo) 
+VALUES ('2015-08-06', '10:00', 5, 3, 'ABC-1234');
+
+INSERT INTO OSPeca(idOS, idPeca, quantidade)
+VALUES(1, 4, 4);
+
+INSERT INTO OSPeca(idOS, idPeca, quantidade)
+VALUES(2, 1, 1);
+
+INSERT INTO OSServico(idOS, idServico)
 VALUES(1, 1);
 
-INSERT INTO equipeTecnico(idEquipe, codTecnico)
-VALUES(1, 2);
-
-INSERT INTO ordemServico(placaVeiculo, idEquipe, status, dataEmissao, dataConclusao)
-VALUES('DVM-5464', 1, 'Em andamento', '24/07/2015', '26/07/2015');
-
-INSERT INTO ordemServico(placaVeiculo, idEquipe, status, dataEmissao, dataConclusao)
-VALUES('FHK-8423', 1, 'Concluida', '22/07/2015', '23/07/2015');
-
-INSERT INTO horario(data, hora, codTecnico) 
-VALUES ('2015-07-27', '15:00', 5);
-
-INSERT INTO horario(data, hora, codTecnico) 
-VALUES ('2015-08-04', '09:00', 6);
-
-INSERT INTO horario(data, hora, codTecnico) 
-VALUES ('2015-07-27', '10:00', 6);
-
-INSERT INTO horario(data, hora, codTecnico) 
-VALUES ('2015-07-27', '10:00', 5);
-
-INSERT INTO horario(data, hora, codTecnico, idOS)
-VALUES();
-
-INSERT INTO horario(data, hora, codTecnico, idOS)
-VALUES();
-
-INSERT INTO horarioCliente(data, hora, idCliente)
-VALUES();
-
-INSERT INTO OSPeca(idOS, idPeca)
-VALUES();
-
-INSERT INTO OSPeca(idOS, idPeca)
-VALUES();
-
-INSERT INTO OSPeca(idOS, idPeca)
-VALUES();
-
-INSERT INTO OSPeca(idOS, idPeca)
-VALUES();
-
 INSERT INTO OSServico(idOS, idServico)
-VALUES();
+VALUES(2, 1);
 
-INSERT INTO OSServico(idOS, idServico)
-VALUES();
+INSERT INTO horarioOS(data, hora, codEquipe, idOs)
+VALUES('2015-08-11', '15:00', 1, 1);
 
-INSERT INTO OSServico(idOS, idServico)
-VALUES();
-
-INSERT INTO OSServico(idOS, idServico)
-VALUES();
+INSERT INTO horarioOS(data, hora, codEquipe, idOs)
+VALUES('2015-08-11', '18:00', 1, 2);
