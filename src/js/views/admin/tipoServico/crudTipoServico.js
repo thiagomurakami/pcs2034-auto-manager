@@ -39,6 +39,12 @@ var ReadTipoServico = React.createClass({
 		TipoDeServicoStore.addChangeListener("rerender", this._dataChange)
 		TipoDeServicoActions.readTipoDeServico()
 	},
+
+	componentWillUnmount: function(){
+		TipoDeServicoStore.removeChangeListener("refetch", this._read)
+		TipoDeServicoStore.removeChangeListener("rerender", this._dataChange)
+	},
+
 	_dataChange: function(){
 		this.setState({tableData: TipoDeServicoStore.getTableData()})
 	},

@@ -40,6 +40,12 @@ var ReadTipoServico = React.createClass({
     VeiculoActions.getClientes()
     VeiculoActions.readVeiculo()
   },
+
+  componentWillUnmount: function(){
+    VeiculoStore.removeChangeListener("refetch", this._read)
+    VeiculoStore.removeChangeListener("rerender", this._dataChange)
+  },
+
   _dataChange: function(){
     this.setState({tableData: VeiculoStore.getTableData()})
   },

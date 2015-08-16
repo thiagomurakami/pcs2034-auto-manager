@@ -69,6 +69,24 @@ module.exports = function(app){
     })
   })
 
+  app.get('/apiv1/tecnicos', function(req, res){
+    functions.tecnicos(connectionString, function(err, gerentes){
+      res.send(gerentes)
+    })
+  })
+
+  app.get('/apiv1/pecas', function(req, res){
+    functions.pecasDisponiveis(connectionString, function(err, pecas){
+      res.send(pecas)
+    })
+  })
+
+  app.get('/apiv1/tipoServico', function(req, res){
+    functions.tiposDeServico(connectionString, function(err, tiposServicos){
+      res.send(tiposServicos)
+    })
+  })
+
   app.get('/apiv1/horarios/:date', function(req, res){
     var date = req.params.date
     functions.horariosDisponiveis(connectionString, date, function(err, horariosDisponiveis){
@@ -101,5 +119,16 @@ module.exports = function(app){
     })
   })
 
+  app.get('/apiv1/sugestaoEquipes', function(req, res){
+    functions.sugerirEquipe(connectionString, function(err, sugestao){
+      res.send(sugestao)
+    })
+  })
+
+  app.post('/apiv1/criarOs', function(req, res){
+    functions.criarOs(connectionString, body, function(err, results){
+
+    })
+  })
 
 }

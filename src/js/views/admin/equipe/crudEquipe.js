@@ -31,19 +31,27 @@ var CrudPeca = React.createClass({
       showCreateModal: false,
       showUpdateModal: false,
       selectedUpdateData: {},
-      updateModalIndex: 0
+      updateModalIndex: 0,
+      listaTecnicos: EquipeStore.getListaTecnicos()
     }
   },
   componentDidMount: function(){
     EquipeStore.addChangeListener("refetch", this._read)
     EquipeStore.addChangeListener("rerender", this._dataChange)
-    EquipeActions.readPeca()
+    EquipeActions.readEquipe()
+    EquipeActions.getTecnicos()
   },
+
+  componentWillUnmount: function(){
+    EquipeStore.removeChangeListener("refetch", this._read)
+    EquipeStore.removeChangeListener("rerender", this._dataChange)
+  },
+
   _dataChange: function(){
-    this.setState({tableData: EquipeStore.getTableData()})
+    this.setState({tableData: EquipeStore.getTableData(), listaTecnicos: EquipeStore.getListaTecnicos()})
   },
   _read: function(){
-    EquipeActions.readPeca()
+    EquipeActions.readEquipe()
   },
   _toggleCreate: function(){
     this.setState({showCreateModal: !this.state.showCreateModal})
@@ -53,12 +61,12 @@ var CrudPeca = React.createClass({
   },
   _editClick: function(index){
     var updateData = u.filter(this.state.tableData, function(singleData){
-      return singleData.idpeca == index
+      return singleData.idequipe == index
     })
     this.setState({showUpdateModal: true, updateModalIndex: index, selectedUpdateData: updateData[0]})
   },
   _removeClick: function(index){
-    EquipeActions.deletePeca(index)
+    EquipeActions.deleteEquipe(index)
   },
   render: function(){
     var tableProps = {
@@ -76,11 +84,13 @@ var CrudPeca = React.createClass({
           show: this.state.showUpdateModal,
           onHide: this._closeUpdateModal,
           data: this.state.selectedUpdateData,
-          index: this.state.updateModalIndex
+          index: this.state.updateModalIndex,
+          tecnicos: this.state.listaTecnicos
         }),
         CreateModal({
           show: this.state.showCreateModal,
-          onHide: this._toggleCreate
+          onHide: this._toggleCreate,
+          tecnicos: this.state.listaTecnicos
         }),
         Table(tableProps,
           Header({tableColumns: this.state.tableColumns}),
@@ -90,7 +100,7 @@ var CrudPeca = React.createClass({
             onRemoveClick: this._removeClick})
         ),
         Button({onClick: this._toggleCreate},
-          "Adicionar nova nova peça")
+          "Adicionar nova equipe")
       )
 
     )
@@ -131,8 +141,8 @@ var TableBody = React.createClass({
         return td({key: 'column-'+column.value+'-'+index}, row[column.value])
       })
       rowContent.push(td({key: "actions-"+index},
-        p({onClick: this.props.onEditClick.bind(null, row.idpeca)}, 'Editar, '),
-        p({onClick: this.props.onRemoveClick.bind(null, row.idpeca)}, "Remover")))
+        p({onClick: this.props.onEditClick.bind(null, row.idequipe)}, 'Editar, '),
+        p({onClick: this.props.onRemoveClick.bind(null, row.idequipe)}, "Remover")))
       var singleRow = tr({key: 'content-'+index}, rowContent)
       return singleRow
     }.bind(this))

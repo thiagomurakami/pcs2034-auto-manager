@@ -39,6 +39,12 @@ var CrudOrdemServico = React.createClass({
     PecaStore.addChangeListener("rerender", this._dataChange)
     PecaActions.readPeca()
   },
+
+  componentWillUnmount: function(){
+    PecaStore.removeChangeListener("refetch", this._read)
+    PecaStore.removeChangeListener("rerender", this._dataChange)
+  },
+
   _dataChange: function(){
     this.setState({tableData: PecaStore.getTableData()})
   },

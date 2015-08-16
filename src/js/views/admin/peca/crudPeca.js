@@ -39,6 +39,10 @@ var CrudPeca = React.createClass({
     PecaStore.addChangeListener("rerender", this._dataChange)
     PecaActions.readPeca()
   },
+  componentWillUnmount: function(){
+    PecaStore.removeChangeListener("refetch", this._read)
+    PecaStore.removeChangeListener("rerender", this._dataChange)
+  },
   _dataChange: function(){
     this.setState({tableData: PecaStore.getTableData()})
   },
@@ -90,7 +94,7 @@ var CrudPeca = React.createClass({
             onRemoveClick: this._removeClick})
         ),
         Button({onClick: this._toggleCreate},
-          "Adicionar nova nova peça")
+          "Adicionar nova peça")
       )
 
     )
@@ -102,8 +106,7 @@ var TableHeader = React.createClass({
     return {tableColumns: []}
   },
   render: function(){
-    var content = []
-    content = this.props.tableColumns.map(function(column){
+    var content = this.props.tableColumns.map(function(column){
       return th({key: column.value}, column.label)
     })
     content.push(th({key: 'actions'}, 'Ações'))
@@ -125,16 +128,14 @@ var TableBody = React.createClass({
     }
   },
   render: function(){
-    var content = []
-    content = this.props.data.map(function(row, index){
+    var content = this.props.data.map(function(row, index){
       var rowContent = this.props.tableColumns.map(function(column){
         return td({key: 'column-'+column.value+'-'+index}, row[column.value])
       })
       rowContent.push(td({key: "actions-"+index},
         p({onClick: this.props.onEditClick.bind(null, row.idpeca)}, 'Editar, '),
         p({onClick: this.props.onRemoveClick.bind(null, row.idpeca)}, "Remover")))
-      var singleRow = tr({key: 'content-'+index}, rowContent)
-      return singleRow
+      return tr({key: 'content-'+index}, rowContent)
     }.bind(this))
     return(
       tbody({}, content)

@@ -41,7 +41,7 @@ var AtendentePage = require('./atendente/atendentePage')
 var ClientePage = require('./cliente/clientePage')
 var GerentePage = require('./gerente/gerentePage')
 
-var Teste = require('./admin/peca/crudPeca')
+var Teste = require('./admin/ordemServico/criarOrdemServico')
 
 var br = React.createFactory('br')
 

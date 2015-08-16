@@ -89,6 +89,20 @@ var EquipeActions = {
         actionType: "changeEquipe"
       })
     })
+  },
+  getTecnicos: function(){
+    var key = "getTecnicos"
+    _pendingRequests[key] = jajax({
+      url: 'apiv1/tecnicos/',
+      type: 'GET',
+      contentType: 'application/json',
+      async: true
+    }).done(function(res){
+      AppDispatcher.dispatch({
+        actionType: "GET_TECNICOS",
+        tecnicos: res
+      })
+    })
   }
 }
 

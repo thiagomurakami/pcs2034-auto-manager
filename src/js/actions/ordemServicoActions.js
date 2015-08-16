@@ -32,7 +32,7 @@ var OrdemServicoActions = {
       })
     })
   },
-  readPeca: function(){
+  readOrdemServico: function(){
     var requestBody = {
       table: "peca"
     }
@@ -45,12 +45,12 @@ var OrdemServicoActions = {
       async: true
     }).done(function(res){
       AppDispatcher.dispatch({
-        actionType: "readPeca",
+        actionType: "readOrdemServico",
         rows: res
       })
     })
   },
-  updatePeca: function(values, id){
+  updateOrdemServico: function(values, id){
     values.idpeca = id
     var requestBody = {
       table: "peca",
@@ -70,7 +70,7 @@ var OrdemServicoActions = {
     })
 
   },
-  deletePeca: function(id){
+  deleteOrdemServico: function(id){
     var values = {}
     values.idpeca = id
     var requestBody = {
@@ -89,7 +89,83 @@ var OrdemServicoActions = {
         actionType: "changeOrdemServico"
       })
     })
+  },
+
+  getTipoServico: function(){
+    var key = "getTipoServico"
+    _pendingRequests[key] = jajax({
+      url: 'apiv1/tipoServico/',
+      type: 'GET',
+      contentType: 'application/json',
+      async: true
+    }).done(function(res){
+      AppDispatcher.dispatch({
+        actionType: "GET_TIPO_SERVICO",
+        tipoServico: res
+      })
+    })
+  },
+
+  getClientes: function(){
+    var key = "getClientes"
+    _pendingRequests[key] = jajax({
+      url: 'apiv1/clientes',
+      type: 'GET',
+      contentType: 'application/json',
+      async: true
+    }).done(function(res){
+      AppDispatcher.dispatch({
+        actionType: "GET_CLIENTES",
+        clientes: res
+      })
+    })
+  },
+
+  getVeiculos: function(idCliente){
+    var key = "getVeiculo"
+    _pendingRequests[key] = jajax({
+      url: 'apiv1/veiculo/'+idCliente,
+      type: 'GET',
+      contentType: 'application/json',
+      async: true
+    }).done(function(res){
+      AppDispatcher.dispatch({
+        actionType: "GET_VEICULO",
+        veiculos: res
+      })
+    })
+  },
+
+  getPecas: function(){
+    var key = "getPecas"
+    _pendingRequests[key] = jajax({
+      url: 'apiv1/pecas/',
+      type: 'GET',
+      contentType: 'application/json',
+      async: true
+    }).done(function(res){
+      AppDispatcher.dispatch({
+        actionType: "GET_PECAS",
+        pecas: res
+      })
+    })
+  },
+
+  getEquipes: function(){
+    var key = "getEquipes"
+    _pendingRequests[key] = jajax({
+      url: 'apiv1/sugestaoEquipes/',
+      type: 'GET',
+      contentType: 'application/json',
+      async: true
+    }).done(function(res){
+      AppDispatcher.dispatch({
+        actionType: "GET_EQUIPES",
+        equipes: res
+      })
+    })
   }
+
 }
 
 

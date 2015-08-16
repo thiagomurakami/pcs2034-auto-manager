@@ -39,6 +39,12 @@ var CrudUsuario = React.createClass({
     UsuarioStore.addChangeListener("rerender", this._dataChange)
     UsuarioActions.readUsuario()
   },
+
+  componentWillUnmount: function(){
+    UsuarioStore.removeChangeListener("refetch", this._read)
+    UsuarioStore.removeChangeListener("rerender", this._dataChange)
+  },
+
   _dataChange: function(){
     this.setState({tableData: UsuarioStore.getTableData()})
   },

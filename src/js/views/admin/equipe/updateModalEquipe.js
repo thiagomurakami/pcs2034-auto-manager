@@ -1,9 +1,8 @@
 var React = require('react')
-var u = require('underscore')
 
-var PecaStore = require('../../../stores/pecaStore')
+var EquipeStore = require('../../../stores/equipeStore')
 
-var PecaActions = require('../../../actions/pecaActions')
+var EquipeActions = require('../../../actions/equipeAction')
 
 var Modal = React.createFactory(require('react-bootstrap').Modal)
 var ModalHeader = React.createFactory(require('react-bootstrap').Modal.Header)
@@ -25,16 +24,13 @@ var th = React.createFactory('th')
 var td = React.createFactory('td')
 var tr = React.createFactory('tr')
 var span = React.createFactory('span')
+var option = React.createFactory('option')
 
 var CreateModal = React.createClass({
   getInitialState: function(){
     return {
-      idpeca: 0,
-      nome: '',
-      marca: '',
-      preco: 0,
-      quantidade: 0,
-      descricao: ''
+      codtecnico1: '',
+      codtecnico2: ''
     }
   },
   getDefaultProps: function(){
@@ -43,80 +39,51 @@ var CreateModal = React.createClass({
       onHide: function(){},
       values: [],
       onClick: function(){},
-      title: "Alterar Peça"
+      title: "Alterar Equipe"
     }
   },
 
   componentWillReceiveProps: function(nextProps){
     var newState = {}
-    var preco = 0
     for(var key in this.state){
       newState[key] = nextProps.data[key]
     }
-    if(nextProps.data.preco) {
-      preco = parseFloat(nextProps.data.preco.replace('$', ''))
-      newState.preco = preco
-    }
+    console.log(newState)
     this.setState(newState)
   },
-
   _handleInputChange: function(stateKey, e){
     var newState = {}
     newState[stateKey] = e.target.value
     this.setState(newState)
   },
   _sendToApi: function(){
-    var valuesToSend = u.omit(this.state, 'idpeca')
-    PecaActions.updatePeca(valuesToSend, this.props.index)
+    EquipeActions.updateEquipe(this.state, this.props.index)
     this.setState({
-      nome: '',
-      marca: '',
-      preco: 0,
-      quantidade: 0,
-      descricao: ''
+      codtecnico1: '',
+      codtecnico2: ''
     })
     this.props.onHide()
   },
   render: function(){
+    var tecnicosArr = this.props.tecnicos.map(function(tecnico, index){
+      return option({key: 'codTecnicno-'+index, value: tecnico.codigocadastro}, tecnico.nome+" "+tecnico.sobrenome)
+    })
     return(
       Modal({show: this.props.show, onHide: this.props.onHide},
         ModalHeader({}, ModalTitle(), h4({}, this.props.title)),
         ModalBody({},
           Input({
-            type: 'text',
-            label: 'Nome da Peça',
-            placeholder: 'Digite aqui o nome da peça...',
-            value: this.state.nome,
-            onChange: this._handleInputChange.bind(null, 'nome')
-          }),
+            type: 'select',
+            label: "Primeiro Técnico",
+            value: this.state.codtecnico1,
+            onChange: this._handleInputChange.bind(null, 'codtecnico1')
+          }, tecnicosArr),
           Input({
-            type: 'number',
-            label: 'Preço da Peça',
-            placeholder: 'Digite aqui o preço da peça',
-            value: this.state.preco,
-            onChange: this._handleInputChange.bind(null, 'preco')
-          }),
-          Input({
-            type: 'text',
-            label: 'Marca da Peça',
-            placeholder: 'Digite aqui a marca da peça',
-            value: this.state.marca,
-            onChange: this._handleInputChange.bind(null, 'marca')
-          }),
-          Input({
-            type: 'text',
-            label: 'Quantidade de Peça',
-            placeholder: 'Digite aqui a quantidade de peças',
-            value: this.state.quantidade,
-            onChange: this._handleInputChange.bind(null, 'quantidade')
-          }),
-          Input({
-            type: 'textarea',
-            label: 'Descrição da Peça',
-            placeholder: 'Digite aqui a descrição da peça',
-            value: this.state.descricao,
-            onChange: this._handleInputChange.bind(null, 'descricao')
-          })
+            type: 'select',
+            label: "Segundo Técnico",
+            value: this.state.codtecnico2,
+            onChange: this._handleInputChange.bind(null, 'codtecnico2')
+          }, tecnicosArr)
         ),
         ModalFooter({}, Button({onClick: this.props.onHide}, 'Fechar'), Button({onClick: this._sendToApi}, 'Alterar'))
       )
