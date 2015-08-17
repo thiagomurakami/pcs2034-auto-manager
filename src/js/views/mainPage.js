@@ -49,6 +49,7 @@ var ClienteCrudVeiculo = require('./cliente/veiculo/crudVeiculo')
 var GerenteCrudOs = require('./gerente/os/crudOrdemServico')
 var GerenteCriarOS = require('./gerente/os/criarOrdemServico')
 var GerenteEditarOS = require('./gerente/os/editarOrdemServico')
+var GerenteCrudHorario = require('./gerente/horario/crudHorario')
 
 // TECNICO
 var TecnicoCrudOs = require('./tecnico/ordemServico/crudOrdemServico')
@@ -122,7 +123,7 @@ var routes = (
       <Route name="admin" handler={AdminPage}>
         <DefaultRoute handler={AdminCrudUsuario} />
         <Route name="crudTipoServicoAdmin" path='tipoServico' handler={AdminCrudTipoServico} />
-        <Route name="crudEquipesAdmin" path='tipoServico' handler={AdminCrudEquipes} />
+        <Route name="crudEquipesAdmin" path='equipes' handler={AdminCrudEquipes} />
         <Route name="crudVeiculoAdmin" path='veiculo' handler={AdminCrudVeiculo} />
         <Route name="crudUsuarioAdmin" path='usuario' handler={AdminCrudUsuario} />
         <Route name="crudHorarioAdmin" path='horarioCliente' handler={AdminCrudHorarioCliente} />
@@ -148,6 +149,7 @@ var routes = (
         <Route name="criarOsGerente" path="criarOs" handler={GerenteCriarOS} />
         <Route name="editarOsGerente" path="editarOs/:id" handler={GerenteEditarOS} />
         <Route name="crudEquipesGerente" path='equipes' handler={AdminCrudEquipes} />
+        <Route name="horariosGerente" path="horario" handler={GerenteCrudHorario} />
       </Route>
 
       <Route name="diretor" handler={DiretorPage}>

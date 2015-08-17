@@ -49,7 +49,6 @@ var UsuarioStore = assign({}, EventEmitter.prototype, {
         UsuarioStore.emitChange("refetch")
         break;
       case "readUsuario":
-      	console.log(dispatchedObj.rows)
       	tableData = dispatchedObj.rows
       	UsuarioStore.emitChange("rerender")
       	break

@@ -50,7 +50,6 @@ var Login = React.createClass({
   },
 
   render: function(){
-    console.log(this.state.error)
     var errorMsg = this.state.error.message ? p({}, this.state.error.message) : null
     return(
       form({onSubmit: this._login, className: 'form-horizontal'},

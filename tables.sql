@@ -32,11 +32,6 @@ CREATE TABLE peca(
 	descricao 		TEXT
 );
 
--- CREATE TABLE peca(
--- 	codigoBarras 	VARCHAR(40) PRIMARY KEY,
--- 	numeroSerial 	VARCHAR(40) NOT NULL,
--- 	idTipoPeca 		INTEGER 	REFERENCES tipoPeca(id)
--- );
 
 CREATE TABLE veiculo(
 	placa 			VARCHAR(10) PRIMARY KEY,
@@ -66,7 +61,7 @@ CREATE TABLE equipeTecnico(
 CREATE TABLE ordemServico(
 	id 				 SERIAL PRIMARY KEY,
 	placaVeiculo 	 VARCHAR(10) REFERENCES veiculo(placa) 	NOT NULL,
-	idEquipe 		 INTEGER REFERENCES equipe(id) NOT NULL,
+	idEquipe 		 INTEGER REFERENCES equipeTecnico(idEquipe) NOT NULL,
 	status 			 VARCHAR(40) NOT NULL,
 	dataPrevisao 	 DATE NOT NULL,
 	dataEmissao		 DATE NOT NULL,
@@ -96,5 +91,3 @@ CREATE TABLE OSServico(
 	idServico	 INTEGER REFERENCES tipoServico(id),
 	PRIMARY KEY  (idOS, idServico)
 );
-
--- INSERT INTO tipoServico(nome, preco) values('Revisao Anual', 500.50);

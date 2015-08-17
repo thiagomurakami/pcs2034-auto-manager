@@ -102,6 +102,7 @@
 	var GerenteCrudOs = __webpack_require__(440)
 	var GerenteCriarOS = __webpack_require__(441)
 	var GerenteEditarOS = __webpack_require__(442)
+	var GerenteCrudHorario = __webpack_require__(458)
 
 	// TECNICO
 	var TecnicoCrudOs = __webpack_require__(453)
@@ -175,7 +176,7 @@
 	      React.createElement(Route, {name: "admin", handler: AdminPage}, 
 	        React.createElement(DefaultRoute, {handler: AdminCrudUsuario}), 
 	        React.createElement(Route, {name: "crudTipoServicoAdmin", path: "tipoServico", handler: AdminCrudTipoServico}), 
-	        React.createElement(Route, {name: "crudEquipesAdmin", path: "tipoServico", handler: AdminCrudEquipes}), 
+	        React.createElement(Route, {name: "crudEquipesAdmin", path: "equipes", handler: AdminCrudEquipes}), 
 	        React.createElement(Route, {name: "crudVeiculoAdmin", path: "veiculo", handler: AdminCrudVeiculo}), 
 	        React.createElement(Route, {name: "crudUsuarioAdmin", path: "usuario", handler: AdminCrudUsuario}), 
 	        React.createElement(Route, {name: "crudHorarioAdmin", path: "horarioCliente", handler: AdminCrudHorarioCliente}), 
@@ -200,7 +201,8 @@
 	        React.createElement(Route, {name: "crudOsGerente", path: "ordemServico", handler: GerenteCrudOs}), 
 	        React.createElement(Route, {name: "criarOsGerente", path: "criarOs", handler: GerenteCriarOS}), 
 	        React.createElement(Route, {name: "editarOsGerente", path: "editarOs/:id", handler: GerenteEditarOS}), 
-	        React.createElement(Route, {name: "crudEquipesGerente", path: "equipes", handler: AdminCrudEquipes})
+	        React.createElement(Route, {name: "crudEquipesGerente", path: "equipes", handler: AdminCrudEquipes}), 
+	        React.createElement(Route, {name: "horariosGerente", path: "horario", handler: GerenteCrudHorario})
 	      ), 
 
 	      React.createElement(Route, {name: "diretor", handler: DiretorPage}, 
@@ -650,7 +652,6 @@
 	  },
 
 	  render: function(){
-	    console.log(this.state.error)
 	    var errorMsg = this.state.error.message ? p({}, this.state.error.message) : null
 	    return(
 	      form({onSubmit: this._login, className: 'form-horizontal'},
@@ -2685,7 +2686,9 @@
 	        {path: '#/admin/horarioCliente', label: "CRUD Horário Cliente"},
 	        {path: '#/admin/veiculo', label: "CRUD Veículo"},
 	        {path: '#/admin/usuario', label: "CRUD Usuário"},
-	        {path: '#/admin/ordemServico', label: "CRUD OS"}
+	        {path: '#/admin/ordemServico', label: "CRUD OS"},
+	        {path: '#/admin/pecas', label: "CRUD Peças"},
+	        {path: '#/admin/equipes', label: "CRUD Equipes"},
 	      ]
 	    }
 	  },
@@ -2870,7 +2873,7 @@
 	      tableData: AgendarHorarioStore.getTableData(),
 	      showCreateModal: false,
 	      showUpdateModal: false,
-	      selectedUpdateData: {},
+	      selectedUpdateData: {}
 	    }
 	  },
 	  componentDidMount: function(){
@@ -3078,6 +3081,7 @@
 	        {path: '#/gerente/criarOs', label: "Adicionar OS"},
 	        {path: '#/gerente/equipes', label: "Gerenciar Equipes"},
 	        {path: '#/gerente/pecas', label: "Estoque Peças"},
+	        {path: '#/gerente/horario', label: "Ver Agendamentos"},
 	        {path: '#/gerente/editar', label: "Editar Dados"}
 	      ]
 	    }
@@ -14054,7 +14058,6 @@
 	        UsuarioStore.emitChange("refetch")
 	        break;
 	      case "readUsuario":
-	      	console.log(dispatchedObj.rows)
 	      	tableData = dispatchedObj.rows
 	      	UsuarioStore.emitChange("rerender")
 	      	break
@@ -14142,7 +14145,7 @@
 	  },
 	  deleteUsuario: function(id){
 	    var values = {}
-	    values.id = id
+	    values.codigocadastro = id
 	    var requestBody = {
 	      table: "usuario",
 	      values: values
@@ -62373,7 +62376,6 @@
 
 	var HomeCliente = React.createClass({displayName: "HomeCliente",
 	  render: function(){
-	    console.log(SessionStore.getState())
 	    var nome = SessionStore.getState().nome
 	    var sobrenome = SessionStore.getState().sobrenome
 	    return (
@@ -66260,6 +66262,561 @@
 	})
 
 	module.exports = TecnicoPage
+
+
+/***/ },
+/* 458 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(26);
+	var jquery = __webpack_require__(27)
+	var u = __webpack_require__(54)
+	var moment = __webpack_require__(53)
+	var AgendarHorarioStore = __webpack_require__(32)
+
+	var AgendarHorarioActions = __webpack_require__(33)
+
+	var SessionStore = __webpack_require__(2)
+
+	var Table = React.createFactory(__webpack_require__(52).Table)
+	var Button = React.createFactory(__webpack_require__(52).Button)
+	var ButtonInput = React.createFactory(__webpack_require__(52).ButtonInput)
+	var Input = React.createFactory(__webpack_require__(52).Input)
+	var CreateModal = React.createFactory(__webpack_require__(459))
+	var UpdateModal = React.createFactory(__webpack_require__(460))
+	var div = React.createFactory('div')
+	var p = React.createFactory('p')
+	var h4 = React.createFactory('h4')
+	var form = React.createFactory('form')
+	var thead = React.createFactory('thead')
+	var table = React.createFactory('table')
+	var tbody = React.createFactory('tbody')
+	var th = React.createFactory('th')
+	var td = React.createFactory('td')
+	var tr = React.createFactory('tr')
+	var span = React.createFactory('span')
+
+	var minDate = moment().format('YYYY-MM-DD')
+
+	var CrudHorario = React.createClass({displayName: "CrudHorario",
+	  getInitialState: function(){
+	    console.log(AgendarHorarioStore.getTableColumns())
+	    return {
+	      tableColumns: AgendarHorarioStore.getTableColumns(),
+	      tableData: AgendarHorarioStore.getTableData(),
+	      showCreateModal: false,
+	      showUpdateModal: false,
+	      selectedUpdateData: {},
+	      listaHorarios: AgendarHorarioStore.getHorarios(),
+	      listaClientes: AgendarHorarioStore.getListaClientes(),
+	      listaGerentes: AgendarHorarioStore.getListaGerentes(),
+	      listaVeiculos: AgendarHorarioStore.getListaVeiculos()
+	    }
+	  },
+	  componentDidMount: function(){
+	    AgendarHorarioStore.addChangeListener("refetch", this._read)
+	    AgendarHorarioStore.addChangeListener("rerender", this._dataChange)
+	    AgendarHorarioActions.getClientes()
+	    AgendarHorarioActions.getGerentes()
+	    AgendarHorarioActions.readAgendarHorario()
+	    AgendarHorarioActions.getHorariosDisponiveis(minDate)
+	  },
+	  componentWillUnmount: function(){
+	    AgendarHorarioStore.removeChangeListener("refetch", this._read)
+	    AgendarHorarioStore.removeChangeListener("rerender", this._dataChange)
+	  },
+	  _dataChange: function(){
+	    var newTableData = jquery.extend(true, {}, AgendarHorarioStore.getTableData())
+	    newTableData = u.filter(newTableData, function(row){
+	      return row.codgerente == SessionStore.getId()
+	    })
+	    this.setState({
+	      tableData: newTableData,
+	      listaHorarios: AgendarHorarioStore.getHorarios(),
+	      listaClientes: AgendarHorarioStore.getListaClientes(),
+	      listaGerentes: AgendarHorarioStore.getListaGerentes(),
+	      listaVeiculos: AgendarHorarioStore.getListaVeiculos()
+	    })
+	  },
+	  _read: function(){
+	    AgendarHorarioActions.readAgendarHorario()
+	  },
+	  _toggleCreate: function(){
+	    this.setState({showCreateModal: !this.state.showCreateModal})
+	  },
+	  _closeUpdateModal: function(){
+	    this.setState({showUpdateModal: false})
+	  },
+	  _editClick: function(data, hora, codgerente, idcliente, placaveiculo){
+	    var updateData = u.findWhere(this.state.tableData, {data: data, hora: hora,
+	      codgerente: codgerente, idcliente: idcliente, placaveiculo: placaveiculo})
+	    this.setState({showUpdateModal: true, selectedUpdateData: updateData})
+	  },
+	  _removeClick: function(data, hora, codgerente, idcliente, placaveiculo){
+	    var values = {}
+	    values.data = data
+	    values.hora = hora
+	    values.codgerente = codgerente
+	    values.idcliente = idcliente
+	    values.placaveiculo = placaveiculo
+	    AgendarHorarioActions.deleteAgendarHorario(values)
+	  },
+	  render: function(){
+	    var tableProps = {
+	      striped: true,
+	      bordered: true,
+	      densed: true,
+	      hover: true,
+	      responsive: true
+	    }
+	    var Header = React.createFactory(TableHeader)
+	    var Body = React.createFactory(TableBody)
+	    return (
+
+
+	      div({},
+	        UpdateModal({
+	          show: this.state.showUpdateModal,
+	          onHide: this._closeUpdateModal,
+	          data: this.state.selectedUpdateData,
+	          horarios: this.state.listaHorarios,
+	          clientes: this.state.listaClientes,
+	          gerentes: this.state.listaGerentes,
+	          veiculos: this.state.listaVeiculos
+	        }),
+	        CreateModal({
+	          show: this.state.showCreateModal,
+	          onHide: this._toggleCreate,
+	          horarios: this.state.listaHorarios,
+	          clientes: this.state.listaClientes,
+	          gerentes: this.state.listaGerentes,
+	          veiculos: this.state.listaVeiculos
+	        }),
+	        Table(tableProps,
+	          Header({tableColumns: this.state.tableColumns}),
+	          Body({tableColumns: this.state.tableColumns,
+	            data: this.state.tableData,
+	            onEditClick: this._editClick,
+	            onRemoveClick: this._removeClick})
+	        ),
+	        Button({onClick: this._toggleCreate},
+	          "Adicionar novo horário")
+	      )
+
+	    )
+	  }
+	})
+
+	var TableHeader = React.createClass({displayName: "TableHeader",
+	  getDefaultProps: function(){
+	    return {tableColumns: []}
+	  },
+	  render: function(){
+	    var content = this.props.tableColumns.map(function(column){
+	      return th({key: column.value}, column.label)
+	    })
+	    //content.push(th({key: 'actions'}, 'Ações'))
+	    return(
+	      thead({},
+	        content
+	      )
+	    )
+	  }
+	})
+
+	var TableBody = React.createClass({displayName: "TableBody",
+	  getDefaultProps: function(){
+	    return {
+	      tableColumns: [],
+	      data: [],
+	      onEditClick: function(){},
+	      onRemoveClick: function(){}
+	    }
+	  },
+	  render: function(){
+	    var content = []
+	    content = this.props.data.map(function(row, index){
+	      var rowContent = this.props.tableColumns.map(function(column){
+	        return td({key: 'column-'+column.value+'-'+index}, row[column.value])
+	      })
+	      //rowContent.push(td({key: "actions-"+index},
+	      //  p({onClick: this.props.onEditClick.bind(null, row.data, row.hora, row.codgerente, row.idcliente, row.placaveiculo)}, 'Editar, '),
+	      //  p({onClick: this.props.onRemoveClick.bind(null, row.data, row.hora, row.codgerente, row.idcliente, row.placaveiculo)}, "Remover")))
+	      var singleRow = tr({key: 'content-'+index}, rowContent)
+	      return singleRow
+	    }.bind(this))
+	    return(
+	      tbody({}, content)
+	    )
+	  }
+	})
+
+	module.exports = CrudHorario
+
+
+/***/ },
+/* 459 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(26)
+	var moment = __webpack_require__(53)
+	var u = __webpack_require__(54)
+	var jquery = __webpack_require__(27)
+
+	var AgendarHorarioStore = __webpack_require__(32)
+
+	var AgendarHorarioAction = __webpack_require__(33)
+
+	var Modal = React.createFactory(__webpack_require__(52).Modal)
+	var ModalHeader = React.createFactory(__webpack_require__(52).Modal.Header)
+	var ModalBody = React.createFactory(__webpack_require__(52).Modal.Body)
+	var ModalFooter = React.createFactory(__webpack_require__(52).Modal.Footer)
+	var ModalTitle = React.createFactory(__webpack_require__(52).Modal.Title)
+
+	var Button = React.createFactory(__webpack_require__(52).Button)
+	var ButtonInput = React.createFactory(__webpack_require__(52).ButtonInput)
+	var Input = React.createFactory(__webpack_require__(52).Input)
+
+	var div = React.createFactory('div')
+	var h4 = React.createFactory('h4')
+	var form = React.createFactory('form')
+	var thead = React.createFactory('thead')
+	var table = React.createFactory('table')
+	var tbody = React.createFactory('tbody')
+	var th = React.createFactory('th')
+	var td = React.createFactory('td')
+	var tr = React.createFactory('tr')
+	var span = React.createFactory('span')
+	var option = React.createFactory('option')
+
+	var minDate = moment().format('YYYY-MM-DD')
+	var maxDate = moment().add(30, 'days').format('YYYY-MM-DD')
+
+	var CreateModal = React.createClass({displayName: "CreateModal",
+	  getInitialState: function(){
+	    return {
+	      data: minDate,
+	      hora: '',
+	      tecnicos: [],
+	      codgerente: '',
+	      idcliente: '',
+	      placaveiculo: ''
+	    }
+	  },
+	  componentWillReceiveProps: function(nextProps){
+	    var horarioDefault = null
+	    var clienteDefault = null
+	    var veiculoDefault = null
+	    var tecnicoDefault = null
+	    var idCliente = null
+	    if(!u.isEqual(nextProps.horarios, this.props.horarios)){
+	      horarioDefault = u.first(jquery.extend(true, [], nextProps.horarios))
+	      tecnicoDefault = horarioDefault.tecnicosDisponiveis[0]
+	      this.setState({
+	        tecnicos: horarioDefault.tecnicosDisponiveis,
+	        hora: horarioDefault.hora,
+	        codgerente: tecnicoDefault
+	      })
+	    }
+	    if(!u.isEqual(nextProps.clientes, this.props.clientes)){
+	      clienteDefault = u.first(jquery.extend(true, [], nextProps.clientes))
+	      idCliente = (this.state.idcliente !== '') ? this.state.idcliente : clienteDefault.codigocadastro
+	      if(!this.props.veiculo) AgendarHorarioAction.getVeiculos(idCliente)
+	    }
+	    if(!u.isEqual(nextProps.veiculos, this.props.veiculos)){
+	      veiculoDefault = u.first(jquery.extend(true, [], nextProps.veiculos))
+	      this.setState({placaveiculo: veiculoDefault.placa})
+	    }
+	    if(clienteDefault) this.setState({idcliente: clienteDefault.codigocadastro})
+	  },
+	  getDefaultProps: function(){
+	    return {
+	      show: false,
+	      onHide: function(){},
+	      values: [],
+	      onClick: function(){},
+	      title: "Adicionar Horário",
+	      horarios: [],
+	      clientes: [],
+	      gerentes: [],
+	      veiculos: []
+	    }
+	  },
+	  _handleInputChange: function(stateKey, e){
+	    var newState = {}
+	    newState[stateKey] = e.target.value
+	    this.setState(newState)
+	  },
+	  _handleHoraChange: function(e){
+	    var tecnicosDisponiveis = u.filter(jquery.extend(true, [], this.props.horarios), function(horario){
+	      return horario.hora === e.target.value
+	    })
+	    tecnicosDisponiveis = tecnicosDisponiveis[0].tecnicosDisponiveis
+	    this.setState({hora: e.target.value, tecnicos: tecnicosDisponiveis, codgerente: tecnicosDisponiveis[0]})
+	  },
+	  _handleDataChange: function(e){
+	    AgendarHorarioAction.getHorariosDisponiveis(e.target.value)
+	    this.setState({data: e.target.value})
+	  },
+	  _hanldeClienteChange: function(e){
+	    AgendarHorarioAction.getVeiculos(e.target.value)
+	    this.setState({idcliente: e.target.value})
+	  },
+	  _sendToApi: function(){
+	    var objToSend = jquery.extend(true, {}, this.state)
+	    objToSend = u.omit(objToSend, 'tecnicos')
+	    AgendarHorarioAction.createAgendarHorario(objToSend)
+	    this.props.onHide()
+	  },
+	  render: function(){
+	    var listaTecnicos = AgendarHorarioStore.getListaGerentes()
+	    var horariosArr = this.props.horarios.map(function(horario, index){
+	      return option({key: 'horario-'+index}, horario.hora)
+	    })
+	    var listaClientes = this.props.clientes.map(function(cliente, index){
+	      var label = cliente.codigocadastro+"- "+cliente.nome+" "+cliente.sobrenome
+	      return option({key: "dono-"+cliente.codigocadastro, value: cliente.codigocadastro}, label)
+	    })
+	    var veiculosArr = this.props.veiculos.map(function(veiculo, index){
+	      return option({key: 'veiculos-'+index, value: veiculo.placa}, veiculo.placa)
+	    })
+	    var tecnicosDisponiveis = this.state.tecnicos.map(function(codgerente, index){
+	      if(listaTecnicos.length > 0){
+	        var gerenteUnico = u.findWhere(listaTecnicos, {codigocadastro: codgerente})
+	        var label = codgerente+" - "+gerenteUnico.nome
+	        if(gerenteUnico.sobrenome) label += " "+gerenteUnico.sobrenome
+	        return option({key: 'codTecnicno-'+index, value: codgerente}, label)
+	      }
+	      else return option({key: 'codTecnicno-'+index, value: codgerente}, codgerente)
+	    })
+	    return(
+	      Modal({show: this.props.show, onHide: this.props.onHide},
+	        ModalHeader({}, ModalTitle(), h4({}, this.props.title)),
+	        ModalBody({},
+	          Input({
+	            type: 'date',
+	            max: maxDate,
+	            min: minDate,
+	            defaultValue: minDate,
+	            value: this.state.data,
+	            onChange: this._handleDataChange
+	          }),
+	          Input({
+	            type: 'select',
+	            label: "Horário",
+	            value: this.state.hora,
+	            onChange: this._handleHoraChange
+	          }, horariosArr),
+	          Input({
+	              type: 'select',
+	              label: 'Cliente',
+	              value: this.state.idcliente,
+	              onChange: this._hanldeClienteChange
+	            },
+	            listaClientes
+	          ),
+	          Input({
+	              type: 'select',
+	              label: 'Veículo',
+	              value: this.state.placaveiculo,
+	              onChange: this._handleInputChange.bind(null, 'placaveiculo')
+	            },
+	            veiculosArr
+	          ),
+	          Input({
+	              type: 'select',
+	              label: 'Gerente Técnico',
+	              value: this.state.codgerente,
+	              onChange: this._handleInputChange.bind(null, 'codgerente')
+	            },
+	            tecnicosDisponiveis
+	          )
+	        ),
+	        ModalFooter({}, Button({onClick: this.props.onHide}, 'Fechar'), Button({onClick: this._sendToApi}, 'Agendar Horário'))
+	      )
+	    )
+	  }
+	})
+
+	module.exports = CreateModal
+
+
+/***/ },
+/* 460 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(26)
+	var moment = __webpack_require__(53)
+	var u = __webpack_require__(54)
+	var jquery = __webpack_require__(27)
+
+	var AgendarHorarioStore = __webpack_require__(32)
+
+	var AgendarHorarioActions = __webpack_require__(33)
+
+	var Modal = React.createFactory(__webpack_require__(52).Modal)
+	var ModalHeader = React.createFactory(__webpack_require__(52).Modal.Header)
+	var ModalBody = React.createFactory(__webpack_require__(52).Modal.Body)
+	var ModalFooter = React.createFactory(__webpack_require__(52).Modal.Footer)
+	var ModalTitle = React.createFactory(__webpack_require__(52).Modal.Title)
+
+	var Button = React.createFactory(__webpack_require__(52).Button)
+	var ButtonInput = React.createFactory(__webpack_require__(52).ButtonInput)
+	var Input = React.createFactory(__webpack_require__(52).Input)
+
+	var div = React.createFactory('div')
+	var h4 = React.createFactory('h4')
+	var form = React.createFactory('form')
+	var thead = React.createFactory('thead')
+	var table = React.createFactory('table')
+	var tbody = React.createFactory('tbody')
+	var th = React.createFactory('th')
+	var td = React.createFactory('td')
+	var tr = React.createFactory('tr')
+	var span = React.createFactory('span')
+	var option = React.createFactory('option')
+
+	var minDate = moment().format('YYYY-MM-DD')
+	var maxDate = moment().add(30, 'days').format('YYYY-MM-DD')
+
+	var UpdateModal = React.createClass({displayName: "UpdateModal",
+	  getInitialState: function(){
+	    return {
+	      data: minDate,
+	      hora: '',
+	      codgerente: '',
+	      idcliente: '',
+	      placaveiculo: '',
+	      tecnicos: []
+	    }
+	  },
+	  componentWillReceiveProps: function(nextProps){
+	    var newState = {}
+	    var horarioDefault = null
+	    if(!u.isEqual(nextProps.horarios, this.props.horarios)){
+	      horarioDefault = u.first(jquery.extend(true, [], nextProps.horarios))
+	    }
+	    if(horarioDefault) {
+	      this.setState({
+	        tecnicos: horarioDefault.tecnicosDisponiveis
+	      })
+	    }
+	    if(!u.isEqual(nextProps.data, this.props.data)){
+	      for(var key in this.state){
+	        if(nextProps.data[key]) newState[key] = nextProps.data[key]
+	      }
+	      this.setState(newState)
+	    }
+	  },
+	  getDefaultProps: function(){
+	    return {
+	      show: false,
+	      onHide: function(){},
+	      data: {},
+	      onClick: function(){},
+	      title: "Alterar Horário"
+	    }
+	  },
+	  _handleInputChange: function(stateKey, e){
+	    var newState = {}
+	    newState[stateKey] = e.target.value
+	    this.setState(newState)
+	  },
+	  _handleHoraChange: function(e){
+	    var tecnicosDisponiveis = u.filter(jquery.extend(true, [], this.props.horarios), function(horario){
+	      return horario.hora === e.target.value
+	    })
+	    tecnicosDisponiveis = tecnicosDisponiveis[0].tecnicosDisponiveis
+	    this.setState({hora: e.target.value, tecnicos: tecnicosDisponiveis})
+	  },
+	  _handleDataChange: function(e){
+	    AgendarHorarioActions.getHorariosDisponiveis(e.target.value)
+	    this.setState({data: e.target.value})
+	  },
+
+	  _handleClienteChange: function(e){
+	    AgendarHorarioActions.getVeiculos(e.target.value)
+	    this.setState({idcliente: e.target.value})
+	  },
+
+	  _sendToApi: function(){
+	    var newValues = jquery.extend(true, {}, this.props.data)
+	    var oldValues = jquery.extend(true, {}, this.state)
+	    newValues = u.omit(newValues, 'cliente', 'tecnico')
+	    oldValues = u.omit(oldValues, 'tecnicos')
+	    AgendarHorarioActions.updateAgendarHorario(newValues, oldValues)
+	    this.props.onHide()
+	  },
+
+	  render: function(){
+	    var listaTecnicos = AgendarHorarioStore.getListaGerentes()
+	    var horariosArr = this.props.horarios.map(function(horario, index){
+	      return option({key: 'horario-'+index}, horario.hora)
+	    })
+	    var listaClientes = this.props.clientes.map(function(cliente, index){
+	      var label = cliente.codigocadastro+"- "+cliente.nome+" "+cliente.sobrenome
+	      return option({key: "dono-"+cliente.codigocadastro, value: cliente.codigocadastro}, label)
+	    })
+	    var tecnicosDisponiveis = this.state.tecnicos.map(function(codgerente, index){
+	      if(listaTecnicos.length > 0){
+	        var gerenteUnico = u.findWhere(listaTecnicos, {codigocadastro: codgerente})
+	        var label = codgerente+" - "+gerenteUnico.nome
+	        if(gerenteUnico.sobrenome) label += " "+gerenteUnico.sobrenome
+	        return option({key: 'codTecnicno-'+index, value: codgerente}, label)
+	      }
+	      else return option({key: 'codTecnicno-'+index, value: codgerente}, codgerente)
+	    })
+	    var veiculosArr = this.props.veiculos.map(function(veiculo, index){
+	      return option({key: 'veiculos-'+index, value: veiculo.placa}, veiculo.placa)
+	    })
+	    return(
+	      Modal({show: this.props.show, onHide: this.props.onHide},
+	        ModalHeader({}, ModalTitle(), h4({}, this.props.title)),
+	        ModalBody({},
+	          Input({
+	            type: 'date',
+	            max: maxDate,
+	            value: this.state.data,
+	            onChange: this._handleDataChange
+	          }),
+	          Input({
+	            type: 'select',
+	            label: "Horário",
+	            value: this.state.hora,
+	            onChange: this._handleHoraChange
+	          }, horariosArr),
+	          Input({
+	              type: 'select',
+	              label: 'Cliente',
+	              value: this.state.idcliente,
+	              onChange: this._handleClienteChange
+	            },
+	            listaClientes
+	          ),
+	          Input({
+	              type: 'select',
+	              label: 'Veículo',
+	              value: this.state.placaveiculo,
+	              onChange: this._handleInputChange.bind(null, 'placaveiculo')
+	            },
+	            veiculosArr
+	          ),
+	          Input({
+	              type: 'select',
+	              label: 'Gerente Técnico',
+	              value: this.state.codgerente,
+	              onChange: this._handleInputChange.bind(null, 'codgerente')
+	            },
+	            tecnicosDisponiveis
+	          )
+	        ),
+	        ModalFooter({}, Button({onClick: this.props.onHide}, 'Fechar'), Button({onClick: this._sendToApi}, 'Alterar'))
+	      )
+	    )
+	  }
+	})
+
+	module.exports = UpdateModal
 
 
 /***/ }

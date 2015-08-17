@@ -24,7 +24,6 @@ var minDate = moment().format('YYYY-MM-DD')
 
 var HomeCliente = React.createClass({
   render: function(){
-    console.log(SessionStore.getState())
     var nome = SessionStore.getState().nome
     var sobrenome = SessionStore.getState().sobrenome
     return (

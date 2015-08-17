@@ -72,7 +72,7 @@ var UsuarioActions = {
   },
   deleteUsuario: function(id){
     var values = {}
-    values.id = id
+    values.codigocadastro = id
     var requestBody = {
       table: "usuario",
       values: values

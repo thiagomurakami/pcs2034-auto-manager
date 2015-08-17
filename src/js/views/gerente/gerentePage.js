@@ -20,6 +20,7 @@ var AdminPage = React.createClass({
         {path: '#/gerente/criarOs', label: "Adicionar OS"},
         {path: '#/gerente/equipes', label: "Gerenciar Equipes"},
         {path: '#/gerente/pecas', label: "Estoque Peças"},
+        {path: '#/gerente/horario', label: "Ver Agendamentos"},
         {path: '#/gerente/editar', label: "Editar Dados"}
       ]
     }

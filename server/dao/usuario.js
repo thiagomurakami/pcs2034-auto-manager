@@ -4,6 +4,7 @@ var u = require('underscore')
 
 var usuarioDAO = function(connectionString, operation, params, callback){
 	var stringQuery = ""
+	console.log(params)
 	params = u.omit(params, function(value, key, object){
 		return u.isUndefined(value) || u.isNull(value)
 	})
