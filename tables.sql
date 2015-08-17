@@ -1,6 +1,6 @@
 CREATE 	TABLE usuario(
 	codigoCadastro	SERIAL 			PRIMARY KEY,
-	email 			VARCHAR(100)	NOT NULL,
+	email 			VARCHAR(100)	NOT NULL UNIQUE,
 	senha 			VARCHAR(40)		NOT NULL,
 	nome			VARCHAR(40) 	NOT NULL,
 	sobrenome		VARCHAR(40) 	NOT NULL,

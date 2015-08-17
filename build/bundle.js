@@ -64595,11 +64595,11 @@
 	var CreateModal = React.createClass({displayName: "CreateModal",
 	  getInitialState: function(){
 	    return {
-	      nome: '',
-	      marca: '',
-	      preco: 0,
-	      quantidade: 0,
-	      descricao: ''
+	      nome: null,
+	      marca: null,
+	      preco: null,
+	      quantidade: null,
+	      descricao: null
 	    }
 	  },
 	  getDefaultProps: function(){

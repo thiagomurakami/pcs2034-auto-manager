@@ -1,13 +1,20 @@
 var pg = require('pg')
+var u = require('underscore')
 //var client = new pg.Client(connectionString)
 
 var tipoServicoDao = function(connectionString, operation, params, callback){
 	var stringQuery = ""
+	params = u.omit(params, function(value, key, object){
+		return u.isUndefined(value) || u.isNull(value) || value === ''
+	})
+	var keys = u.keys(params)
+	var values = u.values(params).map(function(value){
+		return "'"+value+"'"
+	})
 	switch(operation){
 		case 'create':
-			stringQuery = "INSERT INTO tipoServico(nome, preco) values('"
-			stringQuery += params.nomeServico
-			stringQuery += "', " + params.precoServico + ");"
+			stringQuery = "INSERT INTO tipoServico ("+keys.join()+")"
+			stringQuery += " VALUES ("+values.join()+");"
 		break;
 
 		case 'read':
@@ -15,9 +22,12 @@ var tipoServicoDao = function(connectionString, operation, params, callback){
 		break;
 
 		case 'update':
-			stringQuery = "UPDATE tipoServico SET nome=('"
-			stringQuery += params.nomeServico+"'), preco=("
-			stringQuery += params.precoServico + ") WHERE id=(" + params.id + ")"
+			keys = u.without(keys, 'id')
+			var updateString = keys.map(function(key){
+				return key+"=('"+params[key]+"')"
+			})
+			stringQuery = "UPDATE tipoServico SET " + updateString.join()
+			stringQuery += " WHERE idpeca=("+params.id+")"
 		break;
 
 		case 'delete':

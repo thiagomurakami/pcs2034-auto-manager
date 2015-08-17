@@ -5,7 +5,7 @@ var u = require('underscore')
 var pecaDAO = function(connectionString, operation, params, callback){
   var stringQuery = ""
   params = u.omit(params, function(value, key, object){
-    return u.isUndefined(value) || u.isNull(value)
+    return u.isUndefined(value) || u.isNull(value) || value === ''
   })
   var keys = u.keys(params)
   var values = u.values(params).map(function(value){
