@@ -89,6 +89,25 @@ var UsuarioActions = {
         actionType: "changeUsuario"
       })
     })
+  },
+  readCliente: function(id){
+    var requestBody = {
+      table: "usuario",
+      id: id
+    }
+    var key = "readUsuario"
+    _pendingRequests[key] = jajax({
+      url: 'apiv1/read/clienteDados',
+      type: 'POST',
+      contentType: 'application/json',
+      data: JSON.stringify(requestBody),
+      async: true
+    }).done(function(res){
+      AppDispatcher.dispatch({
+        actionType: "readUsuario",
+        rows: res
+      })
+    })
   }
 }
 

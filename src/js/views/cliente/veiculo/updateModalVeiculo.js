@@ -1,6 +1,7 @@
 var React = require('react')
 
 var VeiculoStore = require('../../../stores/veiculoStore')
+var SessionStore = require('../../../stores/sessionStore')
 
 var VeiculoActions = require('../../../actions/veiculoAction')
 
@@ -26,7 +27,7 @@ var tr = React.createFactory('tr')
 var span = React.createFactory('span')
 var option = React.createFactory('option')
 
-var CreateModal = React.createClass({
+var UpdateModalVeiculo = React.createClass({
   getInitialState: function(){
     return {
       placa: '',
@@ -34,16 +35,24 @@ var CreateModal = React.createClass({
       fabricante: '',
       modelo: '',
       ano: '',
-      dono: ''
+      dono: SessionStore.getId()
     }
+  },
+  componentWillReceiveProps: function(newProps){
+    var newState = {}
+    for(var key in this.state){
+      newState[key] = newProps.data[key]
+    }
+    this.setState(newState)
   },
   getDefaultProps: function(){
     return {
       show: false,
       onHide: function(){},
-      values: [],
+      data: {},
+      index: 0,
       onClick: function(){},
-      title: "Adicionar Veículo"
+      title: "Alterar Veículo"
     }
   },
   _handleInputChange: function(stateKey, e){
@@ -52,15 +61,7 @@ var CreateModal = React.createClass({
     this.setState(newState)
   },
   _sendToApi: function(){
-    VeiculoActions.createVeiculo(this.state)
-    this.setState({
-      placa: '',
-      renavam: '',
-      fabricante: '',
-      modelo: '',
-      ano: '',
-      dono: ''
-    })
+    VeiculoActions.updateVeiculo(this.state, this.props.index)
     this.props.onHide()
   },
   render: function(){
@@ -106,20 +107,12 @@ var CreateModal = React.createClass({
             placeholder: 'Digite aqui o ano...',
             value: this.state.ano,
             onChange: this._handleInputChange.bind(null, 'ano')
-          }),
-          Input({
-              type: 'select',
-              label: 'Dono',
-              value: this.state.dono,
-              onChange: this._handleInputChange.bind(null, 'dono')
-            },
-            listaClientes
-          )
+          })
         ),
-        ModalFooter({}, Button({onClick: this.props.onHide}, 'Fechar'), Button({onClick: this._sendToApi}, 'Adicionar'))
+        ModalFooter({}, Button({onClick: this.props.onHide}, 'Fechar'), Button({onClick: this._sendToApi}, 'Alterar'))
       )
     )
   }
 })
 
-module.exports = CreateModal
+module.exports = UpdateModalVeiculo

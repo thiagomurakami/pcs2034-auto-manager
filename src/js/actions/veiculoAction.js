@@ -27,15 +27,14 @@ var VeiculoActions = {
       data: JSON.stringify(requestBody),
       async: true
     }).done(function(res){
-      console.log('done')
-    })
-    AppDispatcher.dispatch({
-      actionType: "changeVeiculo"
+      AppDispatcher.dispatch({
+        actionType: "changeVeiculo"
+      })
     })
   },
   readVeiculo: function(){
     var requestBody = {
-      table: "veiculo",
+      table: "veiculo"
     }
     var key = "readVeiculo"
     _pendingRequests[key] = jajax({
@@ -73,9 +72,9 @@ var VeiculoActions = {
     })
 
   },
-  deleteVeiculo: function(id){
+  deleteVeiculo: function(placa){
     var values = {}
-    values.dono = id
+    values.placa = placa
     var requestBody = {
       table: "veiculo",
       values: values
@@ -88,9 +87,8 @@ var VeiculoActions = {
       data: JSON.stringify(requestBody),
       async: true
     }).done(function(res){
-      console.log('done')
       AppDispatcher.dispatch({
-        actionType: "changeVeiculo",
+        actionType: "changeVeiculo"
       })
     })
   },

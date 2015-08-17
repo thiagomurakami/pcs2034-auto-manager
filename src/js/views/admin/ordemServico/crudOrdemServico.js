@@ -59,10 +59,7 @@ var CrudOrdemServico = React.createClass({
     this.setState({showUpdateModal: false})
   },
   _editClick: function(index){
-    var updateData = u.filter(this.state.tableData, function(singleData){
-      return singleData.idpeca == index
-    })
-    this.setState({showUpdateModal: true, updateModalIndex: index, selectedUpdateData: updateData[0]})
+    this.transitionTo('editarOs', {id: index})
   },
   _removeClick: function(index){
     //OrdemServicoActions.deletePeca(index)
@@ -127,8 +124,8 @@ var TableBody = React.createClass({
         return td({key: 'column-'+column.value+'-'+index}, row[column.value])
       })
       rowContent.push(td({key: "actions-"+index},
-        p({onClick: this.props.onEditClick.bind(null, row.idpeca)}, 'Editar, '),
-        p({onClick: this.props.onRemoveClick.bind(null, row.idpeca)}, "Remover")))
+        p({onClick: this.props.onEditClick.bind(null, row.id)}, 'Editar, '),
+        p({onClick: this.props.onRemoveClick.bind(null, row.id)}, "Remover")))
       var singleRow = tr({key: 'content-'+index}, rowContent)
       return singleRow
     }.bind(this))

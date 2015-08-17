@@ -11,6 +11,8 @@ _state = {
   id: null,
   authenticated: false,
   tipo: null,
+  nome: '',
+  sobrenome: '',
   error: {
     code: false,
     message: false,
@@ -24,6 +26,8 @@ function validateLogin(loginData){
   _state.authenticated = true
   _state.tipo = loginData.tipo
   _state.email = loginData.email
+  _state.nome = loginData.nome
+  _state.sobrenome = loginData.sobrenome
   RouterContainer.get().transitionTo('/'+_state.tipo)
 
 }
@@ -70,7 +74,9 @@ var SessionStore = assign({}, EventEmitter.prototype, {
   getState: function(){
     return _state
   },
-
+  getId: function(){
+    return _state.id
+  },
   isLoggedIn: function(){
     return _state.authenticated
   },

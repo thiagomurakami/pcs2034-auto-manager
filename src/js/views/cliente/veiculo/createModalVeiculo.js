@@ -1,5 +1,7 @@
 var React = require('react')
 
+var SessionStore = require('../../../stores/sessionStore')
+
 var VeiculoStore = require('../../../stores/veiculoStore')
 
 var VeiculoActions = require('../../../actions/veiculoAction')
@@ -34,7 +36,7 @@ var CreateModal = React.createClass({
       fabricante: '',
       modelo: '',
       ano: '',
-      dono: ''
+      dono: SessionStore.getId()
     }
   },
   getDefaultProps: function(){
@@ -64,10 +66,6 @@ var CreateModal = React.createClass({
     this.props.onHide()
   },
   render: function(){
-    var listaClientes = VeiculoStore.getListaClientes().map(function(cliente, index){
-      var label = cliente.codigocadastro+"- "+cliente.nome+" "+cliente.sobrenome
-      return option({key: "dono-"+cliente.codigocadastro, value: cliente.codigocadastro}, label)
-    })
     return(
       Modal({show: this.props.show, onHide: this.props.onHide},
         ModalHeader({}, ModalTitle(), h4({}, this.props.title)),
@@ -106,15 +104,7 @@ var CreateModal = React.createClass({
             placeholder: 'Digite aqui o ano...',
             value: this.state.ano,
             onChange: this._handleInputChange.bind(null, 'ano')
-          }),
-          Input({
-              type: 'select',
-              label: 'Dono',
-              value: this.state.dono,
-              onChange: this._handleInputChange.bind(null, 'dono')
-            },
-            listaClientes
-          )
+          })
         ),
         ModalFooter({}, Button({onClick: this.props.onHide}, 'Fechar'), Button({onClick: this._sendToApi}, 'Adicionar'))
       )

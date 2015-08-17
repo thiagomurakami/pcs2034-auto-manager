@@ -2,7 +2,7 @@ var React = require('react');
 var u = require('underscore')
 
 var VeiculoStore = require('../../../stores/veiculoStore')
-
+var SessionStore = require('../../../stores/sessionStore')
 var VeiculoActions = require('../../../actions/veiculoAction')
 
 var Table = React.createFactory(require('react-bootstrap').Table)
@@ -11,6 +11,7 @@ var ButtonInput = React.createFactory(require('react-bootstrap').ButtonInput)
 var Input = React.createFactory(require('react-bootstrap').Input)
 var CreateModal = React.createFactory(require('./createModalVeiculo'))
 var UpdateModal = React.createFactory(require('./updateModalVeiculo'))
+var DeleteModal = React.createFactory(require('./deleteModalVeiculo'))
 var div = React.createFactory('div')
 var p = React.createFactory('p')
 var h4 = React.createFactory('h4')
@@ -25,8 +26,11 @@ var span = React.createFactory('span')
 
 var ReadTipoServico = React.createClass({
   getInitialState: function(){
+    var columns = u.filter(VeiculoStore.getTableColumns(), function(column){
+      return !u.isEqual(column, {label: "Dono", value: 'dono'})
+    })
     return {
-      tableColumns: VeiculoStore.getTableColumns(),
+      tableColumns: columns,
       tableData: VeiculoStore.getTableData(),
       showCreateModal: false,
       showUpdateModal: false,
@@ -47,7 +51,11 @@ var ReadTipoServico = React.createClass({
   },
 
   _dataChange: function(){
-    this.setState({tableData: VeiculoStore.getTableData()})
+    console.log(VeiculoStore.getTableData())
+    var tableData = u.filter(VeiculoStore.getTableData(), function(obj){
+      return obj.dono == SessionStore.getId()
+    })
+    this.setState({tableData: tableData})
   },
   _read: function(){
     VeiculoActions.readVeiculo()
@@ -56,7 +64,7 @@ var ReadTipoServico = React.createClass({
     this.setState({showCreateModal: !this.state.showCreateModal})
   },
   _closeUpdateModal: function(){
-    this.setState({showUpdateModal: false})
+    this.setState({showUpdateModal: false, showDeleteModal: false})
   },
   _editClick: function(index){
     var updateData = u.filter(this.state.tableData, function(singleData){
@@ -64,8 +72,12 @@ var ReadTipoServico = React.createClass({
     })
     this.setState({showUpdateModal: true, updateModalIndex: index, selectedUpdateData: updateData[0]})
   },
-  _removeClick: function(index){
-    VeiculoActions.deleteVeiculo(index)
+  _removeClick: function(placa){
+    this.setState({deleteData: placa, showDeleteModal: true})
+  },
+  _deleteModalClick: function(){
+    VeiculoActions.deleteVeiculo(this.state.deleteData)
+    this.setState({showDeleteModal: false})
   },
   render: function(){
     var tableProps = {
@@ -81,6 +93,11 @@ var ReadTipoServico = React.createClass({
 
 
       div({},
+        DeleteModal({
+          show: this.state.showDeleteModal,
+          onHide: this._closeUpdateModal,
+          cancelar: this._deleteModalClick
+        }),
         UpdateModal({
           show: this.state.showUpdateModal,
           onHide: this._closeUpdateModal,

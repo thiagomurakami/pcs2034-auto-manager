@@ -12,21 +12,18 @@ var tableColumns = [
   {label: "Cliente", value: 'cliente'},
   {label: "Placa Veículo", value: 'placaveiculo'}
 ]
-//{label: "Técnico", value: 'codtecnico'},
-//{label: "Cliente", value: 'idcliente'}
+var tableColumnsCliente = [
+  {label: "Data", value: 'data'},
+  {label: "Hora", value: 'hora'},
+  {label: "Técnico", value: 'tecnico'},
+  {label: "Placa Veículo", value: 'placaveiculo'}
+]
+
 var listaClientes = []
 var listaHorarios = []
 var listaGerentes = []
 var listaVeiculos = []
 
-//CREATE TABLE veiculo(
-//  placa 			VARCHAR(10) PRIMARY KEY,
-//  renavam 		VARCHAR(20),
-//  fabricante 		VARCHAR(40),
-//  modelo 			VARCHAR(40),
-//  ano 			INTEGER,
-//  dono			INTEGER REFERENCES usuario(codigoCadastro) NOT NULL
-//);
 var tableData = []
 
 var AgendarHorarioStore = assign({}, EventEmitter.prototype, {
@@ -35,6 +32,9 @@ var AgendarHorarioStore = assign({}, EventEmitter.prototype, {
   },
   getTableColumns: function(){
     return tableColumns
+  },
+  getTableColumnsClientes: function(){
+    return tableColumnsCliente
   },
   getListaClientes: function(){
     return listaClientes

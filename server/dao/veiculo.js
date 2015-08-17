@@ -28,18 +28,18 @@ var veiculoDAO = function(connectionString, operation, params, callback){
         return key+"=('"+params[key]+"')"
       })
       stringQuery = "UPDATE veiculo SET " + updateString.join()
-      stringQuery += " WHERE dono=("+params.dono+")"
+      stringQuery += " WHERE placa=('"+params.placa+"')"
       break;
 
     case 'delete':
-      stringQuery = "DELETE FROM veiculo WHERE dono="
-      stringQuery += params.dono
+      stringQuery = "DELETE FROM veiculo WHERE placa='"
+      stringQuery += params.placa+"';"
       break;
   }
   console.log(stringQuery)
   pg.connect(connectionString, function(err, client, done){
   	client.query(stringQuery, function(err, results){
-      console.log(results.rows)
+      console.log(err)
   		if(!err){
   			callback(null, results.rows)
   		}

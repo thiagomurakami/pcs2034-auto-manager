@@ -3,6 +3,7 @@ var request = require('request')
 
 var functions = requireDir('./functions', {recursive: true})
 var dao = requireDir('./dao', {recursive: true})
+var cliente = requireDir('./cliente', {recursive: true})
 var connectionString = process.env.DATABASE_URL || 'postgres://@localhost:5432/test'
 
 // All archives within the functions directory must have a function
@@ -129,6 +130,19 @@ module.exports = function(app){
     var body = req.body.values
     functions.criarOs(connectionString, body, function(err, results){
 
+    })
+  })
+
+  app.post('/apiv1/read/clienteHorario', function(req, res){
+    var body = req.body
+    cliente.horario(connectionString, body.idCliente,  function(err, rows){
+      res.send(rows)
+    })
+  })
+  app.post('/apiv1/read/clienteDados', function(req, res){
+    var body = req.body
+    cliente.dadosCadastrais(connectionString, body.id,  function(err, rows){
+      res.send(rows)
     })
   })
 

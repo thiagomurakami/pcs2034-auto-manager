@@ -147,7 +147,27 @@ var AgendarHorarioActions = {
         veiculos: res
       })
     })
-  }
+  },
+
+  readAgendarHorarioCliente: function(idCliente){
+    var requestBody = {
+      table: "horarioCliente",
+      idCliente: idCliente
+    }
+    var key = "readAgendarHorario"
+    _pendingRequests[key] = jajax({
+      url: 'apiv1/read/clienteHorario',
+      type: 'POST',
+      contentType: 'application/json',
+      data: JSON.stringify(requestBody),
+      async: true
+    }).done(function(res){
+      AppDispatcher.dispatch({
+        actionType: "readAgendarHorario",
+        rows: res
+      })
+    })
+  },
 }
 
 

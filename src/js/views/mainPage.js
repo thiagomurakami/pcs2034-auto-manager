@@ -26,13 +26,23 @@ var Login = require('./login.js')
 var Header = React.createFactory(require('../components/header.js'))
 var SideMenu = React.createFactory(require('../components/sideMenu.js'))
 var Footer = React.createFactory(require('../components/footer.js'))
+// ADMIN
 var AdminCrudUsuario = require('./admin/usuario/crudUsuario')
 var AdminCrudVeiculo = require('./admin/veiculo/crudVeiculo')
 var AdminCrudTipoServico = require('./admin/tipoServico/crudTipoServico')
 var AdminCrudHorarioCliente = require('./admin/horario/crudHorario')
 var AdminCrudOs = require('./admin/ordemServico/crudOrdemServico')
 var AdminCriarOS = require('./admin/ordemServico/criarOrdemServico')
-var AgendarHorario = React.createFactory(require('./agendarHorario'))
+var AdminEditarOS = require('./admin/ordemServico/editarOrdemServico')
+// CLIENTE
+var ClienteHome = require('./cliente/clienteHome')
+var ClienteVerHorario = require('./cliente/horarios/verHorarios')
+var ClienteAgendarHorario = require('./cliente/horarios/agendarHorario')
+var ClienteEditarDados = require('./cliente/editarDadosCadastrais')
+var ClienteCrudVeiculo = require('./cliente/veiculo/crudVeiculo')
+
+// ATENDENTE
+
 var AuthenticationApp = require('./authenticationApp')
 
 // Pages
@@ -93,12 +103,13 @@ var routes = (
     <Route name="app" path='/' handler={MainPage}>
       <Route name="admin" handler={AdminPage}>
         <DefaultRoute handler={AdminCrudUsuario} />
-        <Route name="crudTipoServico" path='tipoServico' handler={AdminCrudTipoServico} />
-        <Route name="crudVeiculo" path='veiculo' handler={AdminCrudVeiculo} />
-        <Route name="crudUsuario" path='usuario' handler={AdminCrudUsuario} />
-        <Route name="crudHorario" path='horarioCliente' handler={AdminCrudHorarioCliente} />
+        <Route name="crudTipoServicoAdmin" path='tipoServico' handler={AdminCrudTipoServico} />
+        <Route name="crudVeiculoAdmin" path='veiculo' handler={AdminCrudVeiculo} />
+        <Route name="crudUsuarioAdmin" path='usuario' handler={AdminCrudUsuario} />
+        <Route name="crudHorarioAdmin" path='horarioCliente' handler={AdminCrudHorarioCliente} />
         <Route name="crudOs" path='ordemServico' handler={AdminCrudOs} />
         <Route name="criarOs" path="criarOs" handler={AdminCriarOS} />
+        <Route name="editarOs" path="editarOs/:id" handler={AdminEditarOS} />
       </Route>
       <Route name="tecnico" handler={TecnicoPage}>
 
@@ -107,10 +118,17 @@ var routes = (
 
       </Route>
       <Route name="cliente" handler={ClientePage}>
-
+        <DefaultRoute handler={ClienteHome} />
+        <Route name="verHorariosCliente" path='verHorarios' handler={ClienteVerHorario} />
+        <Route name="agendarHorarioCliente" path='agendar' handler={ClienteAgendarHorario} />
+        <Route name="editarDadosCliente" path='editar' handler={ClienteEditarDados} />
+        <Route name="veiculosCliente" path='veiculos' handler={ClienteCrudVeiculo} />
       </Route>
       <Route name="atendente" handler={AtendentePage}>
-
+        <Route name="crudVeiculoAtendente" path='veiculo' handler={AdminCrudVeiculo} />
+        <Route name="crudUsuarioAtendente" path='usuario' handler={CadastroCliente} />
+        <Route name="crudHorarioAtendente" path='horarioCliente' handler={AdminCrudHorarioCliente} />
+        <Route name="editarAtendente" path='editar' handler={ClienteEditarDados} />
       </Route>
     </Route>
 
