@@ -28,8 +28,8 @@ var span = React.createFactory('span')
 var CreateModal = React.createClass({
   getInitialState: function(){
     return {
-      nomeServico: '',
-      precoServico: ''
+      nome: '',
+      preco: null
     }
   },
 	getDefaultProps: function(){
@@ -47,8 +47,9 @@ var CreateModal = React.createClass({
   	this.setState(newState)
   },
   _sendToApi: function(){
+    this.state.precoServico = parseFloat(this.state.precoServico)
   	TipoDeServicoActions.createTipoDeServico(this.state)
-  	this.setState({nomeServico: '', precoServico: ''})
+  	this.setState({nome: '', preco: null})
   	this.props.onHide()
   },
   render: function(){
@@ -61,16 +62,16 @@ var CreateModal = React.createClass({
                type: 'text',
                label: 'Nome do Serviço',
                placeholder: 'Digite aqui o nome do serviço...',
-               value: this.state.nomeServico,
-               onChange: this._handleInputChange.bind(null, 'nomeServico')
+               value: this.state.nome,
+               onChange: this._handleInputChange.bind(null, 'nome')
             }),
             Input({
               ref: 'precoServico',
                type: 'number',
                label: 'Preço do Serviço',
                placeholder: 'Digite aqui o preço do serviço',
-               value: this.state.precoServico,
-               onChange: this._handleInputChange.bind(null, 'precoServico')
+               value: this.state.preco,
+               onChange: this._handleInputChange.bind(null, 'preco')
             })
           ),
           ModalFooter({}, Button({onClick: this.props.onHide}, 'Fechar'), Button({onClick: this._sendToApi}, 'Adicionar'))

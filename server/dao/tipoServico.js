@@ -9,6 +9,7 @@ var tipoServicoDao = function(connectionString, operation, params, callback){
 	})
 	var keys = u.keys(params)
 	var values = u.values(params).map(function(value){
+		if(u.isNumber(value)) return value
 		return "'"+value+"'"
 	})
 	switch(operation){
@@ -35,6 +36,7 @@ var tipoServicoDao = function(connectionString, operation, params, callback){
 			stringQuery += params.id
 		break;
 	}
+	console.log(stringQuery)
 	pg.connect(connectionString, function(err, client, done){
 			client.query(stringQuery, function(err, results){
 				if(!err){

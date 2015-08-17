@@ -186,6 +186,7 @@ var CriarOrdemServico = React.createClass({
       'pecasOs', 'pecasSelecionadas', 'cliente']
     if(objToSend.dataConclusao == '') keysToRemove.push('dataConclusao')
     objToSend = u.omit(objToSend, keysToRemove)
+    objToSend.idequipe = parseInt(objToSend.idequipe)
     OrdemServicoActions.createOrdemServico(objToSend)
     this.goBack()
   },
@@ -217,13 +218,15 @@ var CriarOrdemServico = React.createClass({
       var label = (index===0) ? equipe.idequipe + " (Equipe sugerida)" : equipe.idequipe
       return option({key: 'equipe-'+index, value: equipe.idequipe}, label)
     }.bind(this))
-
-    if(u.findWhere(this.state.listaEquipes, {idequipe: this.state.idequipe})){
-      var horarios = u.findWhere(this.state.listaEquipes, {idequipe: this.state.idequipe}).horarios.map(
+    console.log(this.state.listaEquipes)
+    console.log(this.state.idequipe)
+    if(u.findWhere(this.state.listaEquipes, {idequipe: parseInt(this.state.idequipe)})){
+      var horarios = u.findWhere(this.state.listaEquipes, {idequipe: parseInt(this.state.idequipe)}).horarios.map(
         function(horario, index){
           return option({key: 'horario-'+index, value: horario}, ""+horario+":00")
         })
     }
+    console.log(horarios)
     return(
       form({onSubmit: this._sendToApi, className: 'form-horizontal'},
         Input({

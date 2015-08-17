@@ -12,6 +12,7 @@ var criarOs = function(connectionString, body, callback){
   body = u.omit(body, 'pecas', 'servicosSelecionados', 'dataExecucao', 'horaExecucao', 'idEquipe')
   var keys = u.keys(body)
   var values = u.values(body).map(function(value){
+    if(u.isNumber(value)) return value
     return "'"+value+"'"
   })
   var stringQuery = "BEGIN;"
@@ -28,8 +29,10 @@ var criarOs = function(connectionString, body, callback){
     stringQuery += "INSERT INTO OSServico(idOs, idServico) VALUES (currval('ordemServico_id_seq'), "+servico.value+");"
   })
   stringQuery += "COMMIT;"
+  console.log(stringQuery)
   pg.connect(connectionString, function(err, client, done){
     client.query(stringQuery, function(err, results){
+      console.log(err)
       if(!err){
         callback(null, results.rows)
       }

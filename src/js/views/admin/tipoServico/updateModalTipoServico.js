@@ -28,8 +28,8 @@ var span = React.createFactory('span')
 var CreateModal = React.createClass({
   getInitialState: function(){
     return {
-      nomeServico: '',
-      precoServico: ''
+      nome: '',
+      preco: ''
     }
   },
   componentWillReceiveProps: function(nextProps){
@@ -66,7 +66,7 @@ var CreateModal = React.createClass({
                type: 'text',
                label: 'Nome do Serviço',
                placeholder: 'Digite aqui o nome do serviço...',
-               value: this.state.nomeServico,
+               value: this.state.nome,
                onChange: this._handleInputChange.bind(null, 'nomeServico')
             }),
             Input({
@@ -74,7 +74,7 @@ var CreateModal = React.createClass({
                type: 'number',
                label: 'Preço do Serviço',
                placeholder: 'Digite aqui o preço do serviço',
-               value: this.state.precoServico,
+               value: this.state.preco,
                onChange: this._handleInputChange.bind(null, 'precoServico')
             })
           ),

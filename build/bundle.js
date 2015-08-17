@@ -14787,8 +14787,8 @@
 	var CreateModal = React.createClass({displayName: "CreateModal",
 	  getInitialState: function(){
 	    return {
-	      nomeServico: '',
-	      precoServico: ''
+	      nome: '',
+	      preco: null
 	    }
 	  },
 		getDefaultProps: function(){
@@ -14806,8 +14806,9 @@
 	  	this.setState(newState)
 	  },
 	  _sendToApi: function(){
+	    this.state.precoServico = parseFloat(this.state.precoServico)
 	  	TipoDeServicoActions.createTipoDeServico(this.state)
-	  	this.setState({nomeServico: '', precoServico: ''})
+	  	this.setState({nome: '', preco: null})
 	  	this.props.onHide()
 	  },
 	  render: function(){
@@ -14820,16 +14821,16 @@
 	               type: 'text',
 	               label: 'Nome do Serviço',
 	               placeholder: 'Digite aqui o nome do serviço...',
-	               value: this.state.nomeServico,
-	               onChange: this._handleInputChange.bind(null, 'nomeServico')
+	               value: this.state.nome,
+	               onChange: this._handleInputChange.bind(null, 'nome')
 	            }),
 	            Input({
 	              ref: 'precoServico',
 	               type: 'number',
 	               label: 'Preço do Serviço',
 	               placeholder: 'Digite aqui o preço do serviço',
-	               value: this.state.precoServico,
-	               onChange: this._handleInputChange.bind(null, 'precoServico')
+	               value: this.state.preco,
+	               onChange: this._handleInputChange.bind(null, 'preco')
 	            })
 	          ),
 	          ModalFooter({}, Button({onClick: this.props.onHide}, 'Fechar'), Button({onClick: this._sendToApi}, 'Adicionar'))
@@ -14874,8 +14875,8 @@
 	var CreateModal = React.createClass({displayName: "CreateModal",
 	  getInitialState: function(){
 	    return {
-	      nomeServico: '',
-	      precoServico: ''
+	      nome: '',
+	      preco: ''
 	    }
 	  },
 	  componentWillReceiveProps: function(nextProps){
@@ -14912,7 +14913,7 @@
 	               type: 'text',
 	               label: 'Nome do Serviço',
 	               placeholder: 'Digite aqui o nome do serviço...',
-	               value: this.state.nomeServico,
+	               value: this.state.nome,
 	               onChange: this._handleInputChange.bind(null, 'nomeServico')
 	            }),
 	            Input({
@@ -14920,7 +14921,7 @@
 	               type: 'number',
 	               label: 'Preço do Serviço',
 	               placeholder: 'Digite aqui o preço do serviço',
-	               value: this.state.precoServico,
+	               value: this.state.preco,
 	               onChange: this._handleInputChange.bind(null, 'precoServico')
 	            })
 	          ),
@@ -62566,7 +62567,7 @@
 	          },
 	          tecnicosDisponiveis
 	        ),
-	        Button({onClick: this.props.onHide}, 'Voltar'),
+	        Button({onClick: this.goBack}, 'Voltar'),
 	        Button({type: 'button', onClick: this._sendToApi}, 'Agendar Horário')
 	    )
 	    )
@@ -63665,6 +63666,7 @@
 	      'pecasOs', 'pecasSelecionadas', 'cliente']
 	    if(objToSend.dataConclusao == '') keysToRemove.push('dataConclusao')
 	    objToSend = u.omit(objToSend, keysToRemove)
+	    objToSend.idequipe = parseInt(objToSend.idequipe)
 	    OrdemServicoActions.createOrdemServico(objToSend)
 	    this.goBack()
 	  },
@@ -63696,13 +63698,15 @@
 	      var label = (index===0) ? equipe.idequipe + " (Equipe sugerida)" : equipe.idequipe
 	      return option({key: 'equipe-'+index, value: equipe.idequipe}, label)
 	    }.bind(this))
-
-	    if(u.findWhere(this.state.listaEquipes, {idequipe: this.state.idequipe})){
-	      var horarios = u.findWhere(this.state.listaEquipes, {idequipe: this.state.idequipe}).horarios.map(
+	    console.log(this.state.listaEquipes)
+	    console.log(this.state.idequipe)
+	    if(u.findWhere(this.state.listaEquipes, {idequipe: parseInt(this.state.idequipe)})){
+	      var horarios = u.findWhere(this.state.listaEquipes, {idequipe: parseInt(this.state.idequipe)}).horarios.map(
 	        function(horario, index){
 	          return option({key: 'horario-'+index, value: horario}, ""+horario+":00")
 	        })
 	    }
+	    console.log(horarios)
 	    return(
 	      form({onSubmit: this._sendToApi, className: 'form-horizontal'},
 	        Input({
@@ -65207,7 +65211,8 @@
 	  getInitialState: function(){
 	    return {
 	      codtecnico1: '',
-	      codtecnico2: ''
+	      codtecnico2: '',
+	      especialidade: ''
 	    }
 	  },
 	  getDefaultProps: function(){
@@ -65251,7 +65256,13 @@
 	            label: "Segundo Técnico",
 	            value: this.state.codtecnico2,
 	            onChange: this._handleInputChange.bind(null, 'codtecnico2')
-	          }, tecnicosArr)
+	          }, tecnicosArr),
+	          Input({
+	            type: 'text',
+	            label: "Especialidade",
+	            value: this.state.especialidade,
+	            onChange: this._handleInputChange.bind(null, 'especialidade')
+	          })
 	        ),
 	        ModalFooter({}, Button({onClick: this.props.onHide}, 'Fechar'), Button({onClick: this._sendToApi}, 'Adicionar'))
 	      )
@@ -65298,7 +65309,8 @@
 	  getInitialState: function(){
 	    return {
 	      codtecnico1: '',
-	      codtecnico2: ''
+	      codtecnico2: '',
+	      especialidade: ''
 	    }
 	  },
 	  getDefaultProps: function(){
@@ -65350,7 +65362,13 @@
 	            label: "Segundo Técnico",
 	            value: this.state.codtecnico2,
 	            onChange: this._handleInputChange.bind(null, 'codtecnico2')
-	          }, tecnicosArr)
+	          }, tecnicosArr),
+	          Input({
+	            type: 'text',
+	            label: "Especialidade",
+	            value: this.state.especialidade,
+	            onChange: this._handleInputChange.bind(null, 'especialidade')
+	          })
 	        ),
 	        ModalFooter({}, Button({onClick: this.props.onHide}, 'Fechar'), Button({onClick: this._sendToApi}, 'Alterar'))
 	      )

@@ -30,7 +30,8 @@ var CreateModal = React.createClass({
   getInitialState: function(){
     return {
       codtecnico1: '',
-      codtecnico2: ''
+      codtecnico2: '',
+      especialidade: ''
     }
   },
   getDefaultProps: function(){
@@ -82,7 +83,13 @@ var CreateModal = React.createClass({
             label: "Segundo Técnico",
             value: this.state.codtecnico2,
             onChange: this._handleInputChange.bind(null, 'codtecnico2')
-          }, tecnicosArr)
+          }, tecnicosArr),
+          Input({
+            type: 'text',
+            label: "Especialidade",
+            value: this.state.especialidade,
+            onChange: this._handleInputChange.bind(null, 'especialidade')
+          })
         ),
         ModalFooter({}, Button({onClick: this.props.onHide}, 'Fechar'), Button({onClick: this._sendToApi}, 'Alterar'))
       )

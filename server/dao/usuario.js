@@ -10,6 +10,7 @@ var usuarioDAO = function(connectionString, operation, params, callback){
 	})
 	var keys = u.keys(params)
 	var values = u.values(params).map(function(value){
+		if(u.isNumber(value)) return value
 		return "'"+value+"'"
 	})
 	switch(operation){

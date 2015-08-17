@@ -169,7 +169,7 @@ var CreateModal = React.createClass({
           },
           tecnicosDisponiveis
         ),
-        Button({onClick: this.props.onHide}, 'Voltar'),
+        Button({onClick: this.goBack}, 'Voltar'),
         Button({type: 'button', onClick: this._sendToApi}, 'Agendar Horário')
     )
     )
