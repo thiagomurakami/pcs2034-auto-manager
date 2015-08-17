@@ -36,6 +36,7 @@ var CriarOrdemServico = React.createClass({
       status: 'pendente',
       dataPrevisao: '',
       dataEmissao: moment().format("YYYY-MM-DD"),
+      dataExecucao: moment().format("YYYY-MM-DD"),
       dataConclusao: '',
       valor: 0,
       descricao: '',
@@ -55,7 +56,7 @@ var CriarOrdemServico = React.createClass({
     OrdemServicoActions.getTipoServico()
     OrdemServicoActions.getClientes()
     OrdemServicoActions.getPecas()
-    OrdemServicoActions.getEquipes()
+    OrdemServicoActions.getEquipes(moment().format("YYYY-MM-DD"))
   },
   componentWillUnmount: function(){
     OrdemServicoStore.removeChangeListener("rerender", this._dataChange)
@@ -77,6 +78,7 @@ var CriarOrdemServico = React.createClass({
       newState.placaveiculo = OrdemServicoStore.getListaVeiculos()[0].placa
     }
     if(!u.isEqual(this.state.listaEquipes, OrdemServicoStore.getListaEquipes())){
+      newState.horaExecucao = OrdemServicoStore.getListaEquipes()[0].horarios[0]
       newState.idequipe =  OrdemServicoStore.getListaEquipes()[0].idequipe
     }
     if(!u.isEqual(this.state.listaPecas, OrdemServicoStore.getListaPecas())){
@@ -162,6 +164,11 @@ var CriarOrdemServico = React.createClass({
       valor: valor
     })
   },
+
+  _handleDataExecucao: function(e){
+    OrdemServicoActions.getEquipes(e.target.value)
+    this.setState({dataExecucao: e.target.value})
+  },
   _sendToApi: function(e){
     this.interceptEvent(e)
     var objToSend = jquery.extend(true, {}, this.state)
@@ -174,10 +181,14 @@ var CriarOrdemServico = React.createClass({
     objToSend.pecas = u.filter(objToSend.pecas, function(obj){
       return obj.quantidade > 0
     })
-    objToSend = u.omit(objToSend, 'listaClientes', 'listaEquipes', 'listaPecas', 'listaServicos', 'listaVeiculos',
-      'pecasOs', 'pecasSelecionadas')
+    var keysToRemove = ['listaClientes', 'listaEquipes', 'listaPecas', 'listaServicos', 'listaVeiculos',
+      'pecasOs', 'pecasSelecionadas', 'cliente']
+    if(objToSend.dataConclusao == '') keysToRemove.push('dataConclusao')
+    objToSend = u.omit(objToSend, keysToRemove)
     console.log(objToSend)
+    OrdemServicoActions.createOrdemServico(objToSend)
   },
+
   render: function(){
     var listaClientes = this.state.listaClientes.map(function(cliente, index){
       var label = cliente.codigocadastro+"- "+cliente.nome+" "+cliente.sobrenome
@@ -205,6 +216,13 @@ var CriarOrdemServico = React.createClass({
       var label = (index===0) ? equipe.idequipe + " (Equipe sugerida)" : equipe.idequipe
       return option({key: 'equipe-'+index, value: equipe.idequipe}, label)
     }.bind(this))
+
+    if(u.findWhere(this.state.listaEquipes, {idequipe: this.state.idequipe})){
+      var horarios = u.findWhere(this.state.listaEquipes, {idequipe: this.state.idequipe}).horarios.map(
+        function(horario, index){
+          return option({key: 'horario-'+index, value: horario}, ""+horario+":00")
+        })
+    }
     return(
       form({onSubmit: this._sendToApi, className: 'form-horizontal'},
         Input({
@@ -241,6 +259,14 @@ var CriarOrdemServico = React.createClass({
           option({value: 'finalizada'}, 'Finalizada')
         ),
         Input({
+          type: 'date',
+          label: 'Data Execução',
+          labelClassName: 'col-xs-1',
+          wrapperClassName: 'col-xs-11',
+          value: this.state.dataExecucao,
+          onChange: this._handleDataExecucao
+        }),
+        Input({
             type: 'select',
             label: 'Equipe',
             labelClassName: 'col-xs-1',
@@ -249,6 +275,16 @@ var CriarOrdemServico = React.createClass({
             onChange: this._handleInputChange.bind(null, 'idequipe')
           },
           listaEquipes
+        ),
+        Input({
+            type: 'select',
+            label: 'Hora Execução',
+            labelClassName: 'col-xs-1',
+            wrapperClassName: 'col-xs-11',
+            value: this.state.horaExecucao,
+            onChange: this._handleInputChange.bind(null, 'horaExecucao')
+          },
+          horarios
         ),
         Input({
           type: 'date',
@@ -321,7 +357,15 @@ var CriarOrdemServico = React.createClass({
           labelClassName: 'col-xs-1',
           wrapperClassName: 'col-xs-11',
           onClick: this._sendToApi
+        }),
+        ButtonInput({
+          type: 'button',
+          value: 'Voltar',
+          labelClassName: 'col-xs-1',
+          wrapperClassName: 'col-xs-11',
+          onClick: this.goBack
         })
+
       )
     )
   }

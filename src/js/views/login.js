@@ -38,7 +38,6 @@ var Login = React.createClass({
   },
 
   render: function(){
-    console.log(this.props.query.nextPath)
     return(
       form({onSubmit: this._login},
        Input({
@@ -56,7 +55,7 @@ var Login = React.createClass({
        // ButtonToolbar({},
         ButtonInput({
           type: 'submit',
-          value: 'Enviar'
+          value: 'Entrar'
         }),
         ButtonInput({
           value: 'Cadastre-se',

@@ -16,12 +16,11 @@ function abortPendingRequestsIfPending(key){
 var OrdemServicoActions = {
   createOrdemServico: function(values) {
     var requestBody = {
-      table: "peca",
       values: values
     }
     var key = "createPeca"
     _pendingRequests[key] = jajax({
-      url: 'apiv1/create',
+      url: 'apiv1/criarOs',
       type: 'POST',
       contentType: 'application/json',
       data: JSON.stringify(requestBody),
@@ -34,9 +33,9 @@ var OrdemServicoActions = {
   },
   readOrdemServico: function(){
     var requestBody = {
-      table: "peca"
+      table: "ordemServico"
     }
-    var key = "readPeca"
+    var key = "readOrdemServico"
     _pendingRequests[key] = jajax({
       url: 'apiv1/read',
       type: 'POST',
@@ -151,10 +150,10 @@ var OrdemServicoActions = {
     })
   },
 
-  getEquipes: function(){
+  getEquipes: function(date){
     var key = "getEquipes"
     _pendingRequests[key] = jajax({
-      url: 'apiv1/sugestaoEquipes/',
+      url: 'apiv1/sugestaoEquipes/'+date,
       type: 'GET',
       contentType: 'application/json',
       async: true

@@ -1,16 +1,17 @@
 var React = require('react');
 var u = require('underscore')
 
-var PecaStore = require('../../../stores/pecaStore')
+var Navigation = require('react-router').Navigation
+var OrdemServicoStore = require('../../../stores/ordemServicoStore')
 
-var PecaActions = require('../../../actions/pecaActions')
+var OrdemServicoActions = require('../../../actions/ordemServicoActions')
 
 var Table = React.createFactory(require('react-bootstrap').Table)
 var Button = React.createFactory(require('react-bootstrap').Button)
 var ButtonInput = React.createFactory(require('react-bootstrap').ButtonInput)
 var Input = React.createFactory(require('react-bootstrap').Input)
-var CreateModal = React.createFactory(require('./createModalPeca'))
-var UpdateModal = React.createFactory(require('./updateModalPeca'))
+//var CreateModal = React.createFactory(require('./createModalPeca'))
+//var UpdateModal = React.createFactory(require('./updateModalPeca'))
 var div = React.createFactory('div')
 var p = React.createFactory('p')
 var h4 = React.createFactory('h4')
@@ -24,35 +25,35 @@ var tr = React.createFactory('tr')
 var span = React.createFactory('span')
 
 var CrudOrdemServico = React.createClass({
+  mixins: [Navigation],
+
   getInitialState: function(){
     return {
-      tableColumns: PecaStore.getTableColumns(),
-      tableData: PecaStore.getTableData(),
-      showCreateModal: false,
-      showUpdateModal: false,
+      tableColumns: OrdemServicoStore.getTableColumns(),
+      tableData: OrdemServicoStore.getTableData(),
       selectedUpdateData: {},
       updateModalIndex: 0
     }
   },
   componentDidMount: function(){
-    PecaStore.addChangeListener("refetch", this._read)
-    PecaStore.addChangeListener("rerender", this._dataChange)
-    PecaActions.readPeca()
+    OrdemServicoStore.addChangeListener("refetch", this._read)
+    OrdemServicoStore.addChangeListener("rerender", this._dataChange)
+    OrdemServicoActions.readOrdemServico()
   },
 
   componentWillUnmount: function(){
-    PecaStore.removeChangeListener("refetch", this._read)
-    PecaStore.removeChangeListener("rerender", this._dataChange)
+    OrdemServicoStore.removeChangeListener("refetch", this._read)
+    OrdemServicoStore.removeChangeListener("rerender", this._dataChange)
   },
 
   _dataChange: function(){
-    this.setState({tableData: PecaStore.getTableData()})
+    this.setState({tableData: OrdemServicoStore.getTableData()})
   },
   _read: function(){
-    PecaActions.readPeca()
+    OrdemServicoActions.readOrdemServico()
   },
   _toggleCreate: function(){
-    this.setState({showCreateModal: !this.state.showCreateModal})
+    this.transitionTo('criarOs')
   },
   _closeUpdateModal: function(){
     this.setState({showUpdateModal: false})
@@ -64,7 +65,8 @@ var CrudOrdemServico = React.createClass({
     this.setState({showUpdateModal: true, updateModalIndex: index, selectedUpdateData: updateData[0]})
   },
   _removeClick: function(index){
-    PecaActions.deletePeca(index)
+    //OrdemServicoActions.deletePeca(index)
+
   },
   render: function(){
     var tableProps = {
@@ -78,16 +80,6 @@ var CrudOrdemServico = React.createClass({
     var Body = React.createFactory(TableBody)
     return (
       div({},
-        UpdateModal({
-          show: this.state.showUpdateModal,
-          onHide: this._closeUpdateModal,
-          data: this.state.selectedUpdateData,
-          index: this.state.updateModalIndex
-        }),
-        CreateModal({
-          show: this.state.showCreateModal,
-          onHide: this._toggleCreate
-        }),
         Table(tableProps,
           Header({tableColumns: this.state.tableColumns}),
           Body({tableColumns: this.state.tableColumns,
@@ -96,7 +88,7 @@ var CrudOrdemServico = React.createClass({
             onRemoveClick: this._removeClick})
         ),
         Button({onClick: this._toggleCreate},
-          "Adicionar nova nova peça")
+          "Adicionar nova OS")
       )
 
     )
@@ -108,8 +100,7 @@ var TableHeader = React.createClass({
     return {tableColumns: []}
   },
   render: function(){
-    var content = []
-    content = this.props.tableColumns.map(function(column){
+    var content = this.props.tableColumns.map(function(column){
       return th({key: column.value}, column.label)
     })
     content.push(th({key: 'actions'}, 'Ações'))
@@ -131,8 +122,7 @@ var TableBody = React.createClass({
     }
   },
   render: function(){
-    var content = []
-    content = this.props.data.map(function(row, index){
+    var content = this.props.data.map(function(row, index){
       var rowContent = this.props.tableColumns.map(function(column){
         return td({key: 'column-'+column.value+'-'+index}, row[column.value])
       })

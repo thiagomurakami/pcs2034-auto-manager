@@ -119,13 +119,14 @@ module.exports = function(app){
     })
   })
 
-  app.get('/apiv1/sugestaoEquipes', function(req, res){
-    functions.sugerirEquipe(connectionString, function(err, sugestao){
+  app.get('/apiv1/sugestaoEquipes/:date', function(req, res){
+    functions.sugerirEquipe(connectionString, req.params.date, function(err, sugestao){
       res.send(sugestao)
     })
   })
 
   app.post('/apiv1/criarOs', function(req, res){
+    var body = req.body.values
     functions.criarOs(connectionString, body, function(err, results){
 
     })

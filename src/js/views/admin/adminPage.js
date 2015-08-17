@@ -19,7 +19,8 @@ var AdminPage = React.createClass({
         {path: '#/admin/tipoServico', label: "CRUD Tipo Serviço"},
         {path: '#/admin/horarioCliente', label: "CRUD Horário Cliente"},
         {path: '#/admin/veiculo', label: "CRUD Veículo"},
-        {path: '#/admin/usuario', label: "CRUD Usuário"}
+        {path: '#/admin/usuario', label: "CRUD Usuário"},
+        {path: '#/admin/ordemServico', label: "CRUD OS"}
       ]
     }
   },

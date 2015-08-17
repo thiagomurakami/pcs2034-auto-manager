@@ -4,10 +4,8 @@ var u = require('underscore')
 var async = require('async')
 var moment = require('moment').utc
 
-var sugestaoEquipe = function(connectionString, callback){
-  var dateArray = u.range(0, 29).map(function(numberOfDay){
-    return "'"+moment().add(numberOfDay, 'days').format('YYYY-MM-DD')+"'"
-  })
+var sugestaoEquipe = function(connectionString, date, callback){
+  var horarioFuncionamento = u.range(9, 19)
   async.series([
     function(cb){
       pg.connect(connectionString, function(err, client, done){
@@ -23,8 +21,8 @@ var sugestaoEquipe = function(connectionString, callback){
     },
     function(cb){
       pg.connect(connectionString, function(err, client, done){
-        var stringQuery = "select count(hora) as horarios, codEquipe from horarioOs where "
-        stringQuery += "data in ("+dateArray.join()+") group by codequipe order by horarios asc;"
+        var stringQuery = "select hora, codEquipe from horarioOs where "
+        stringQuery += "data ='"+date+"';"
         client.query(stringQuery, function(err, results){
           if(!err){
             cb(null, results.rows)
@@ -36,16 +34,22 @@ var sugestaoEquipe = function(connectionString, callback){
     }
   ], function(err, results){
     var equipes = results[0]
-    var equipesPorHorario = results[1]
+    var horarios = results[1]
+    horarios.forEach(function(obj){
+      obj.hora = parseInt(obj.hora.substring(0, 2))
+    })
     equipes.forEach(function(equipe){
-      equipe.horarios = 0
-      equipesPorHorario.forEach(function(equipePorHorario){
-        if(equipePorHorario.codequipe = equipe.idequipe){
-          equipe.horarios += equipePorHorario.horarios
+      equipe.horarios = horarioFuncionamento
+      horarios.forEach(function(horario){
+        if(horario.codequipe == equipe.idequipe){
+          equipe.horarios = u.without(equipe.horarios, horario.hora)
         }
       })
     })
-    var sugestao = u.sortBy(equipes, 'horarios').reverse()
+    var sugestao = u.sortBy(equipes, function(obj){
+      return obj.horarios.length
+    }).reverse()
+    console.log(sugestao)
     callback(null, sugestao)
   })
 }

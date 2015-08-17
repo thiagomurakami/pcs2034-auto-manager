@@ -1,53 +1,45 @@
-//select count(hora) as horarios, codEquipe from horarioOs where data='2015-08-11' group by codequipe;
 var pg = require('pg')
 var u = require('underscore')
 var async = require('async')
 var moment = require('moment').utc
 
-var sugestaoEquipe = function(connectionString, body, callback){
-  var dateArray = u.range(0, 29).map(function(numberOfDay){
-    return "'"+moment().add(numberOfDay, 'days').format('YYYY-MM-DD')+"'"
+var criarOs = function(connectionString, body, callback){
+  var pecas = body.pecas || []
+  var servicosSelecionados = body.servicosSelecionados || []
+  var dataExecucao = body.dataExecucao
+  var horaExecucao = body.horaExecucao+":00"
+  var idEquipe = body.idequipe
+  body = u.omit(body, 'pecas', 'servicosSelecionados', 'dataExecucao', 'horaExecucao', 'idEquipe')
+  var keys = u.keys(body)
+  var values = u.values(body).map(function(value){
+    return "'"+value+"'"
   })
-  //async.series([
-  //  function(cb){
-  //    pg.connect(connectionString, function(err, client, done){
-  //      var stringQuery = "select idequipe from equipeTecnico;"
-  //      client.query(stringQuery, function(err, results){
-  //        if(!err){
-  //          cb(null, results.rows)
-  //        }
-  //        else cb(err)
-  //        done()
-  //      })
-  //    })
-  //  },
-  //  function(cb){
-  //    pg.connect(connectionString, function(err, client, done){
-  //      var stringQuery = "select count(hora) as horarios, codEquipe from horarioOs where "
-  //      stringQuery += "data in ("+dateArray.join()+") group by codequipe order by horarios asc;"
-  //      client.query(stringQuery, function(err, results){
-  //        if(!err){
-  //          cb(null, results.rows)
-  //        }
-  //        else cb(err)
-  //        done()
-  //      })
-  //    })
-  //  }
-  //], function(err, results){
-  //  var equipes = results[0]
-  //  var equipesPorHorario = results[1]
-  //  equipes.forEach(function(equipe){
-  //    equipe.horarios = 0
-  //    equipesPorHorario.forEach(function(equipePorHorario){
-  //      if(equipePorHorario.codequipe = equipe.idequipe){
-  //        equipe.horarios += equipePorHorario.horarios
-  //      }
-  //    })
-  //  })
-  //  var sugestao = u.sortBy(equipes, 'horarios').reverse()
-  //  callback(null, sugestao)
-  //})
+  var stringQuery = "BEGIN;"
+  stringQuery += "INSERT INTO ordemServico ("+keys.join()+") "
+  stringQuery += "VALUES ("+values.join()+");"
+  stringQuery += "INSERT INTO horarioOs(data, hora, codEquipe, idOs) VALUES ('"+dataExecucao+"', '"+horaExecucao+"', '"
+  stringQuery += idEquipe+"', currval('ordemServico_id_seq'));"
+  pecas.forEach(function(peca){
+    stringQuery += "INSERT INTO osPeca(idOs, idPeca, quantidade) VALUES (currval('ordemServico_id_seq'), "
+    stringQuery += peca.idpeca+","+peca.quantidade+");"
+    stringQuery += "UPDATE peca SET quantidade=quantidade-"+peca.quantidade+" WHERE idPeca="+peca.idpeca+";"
+  })
+  servicosSelecionados.forEach(function(servico){
+    stringQuery += "INSERT INTO OSServico(idOs, idServico) VALUES (currval('ordemServico_id_seq'), "+servico.value+");"
+  })
+  stringQuery += "COMMIT;"
+  console.log(stringQuery)
+  pg.connect(connectionString, function(err, client, done){
+    client.query(stringQuery, function(err, results){
+      console.log(err)
+      console.log(results)
+      if(!err){
+        callback(null, results.rows)
+      }
+      else callback(err)
+      done()
+    })
+  })
 }
 
-module.exports = sugestaoEquipe
+module.exports = criarOs

@@ -4,11 +4,14 @@ var FluxDispatcher = require('../dispatcher/dispatcher.js')
 var assign = require('object-assign')
 
 var tableColumns = [
-  {label: "ID", value: 'idpeca'},
-  {label: "Nome", value: 'nome'},
-  {label: "Preço", value: 'preco'},
-  {label: "Marca", value: 'marca'},
-  {label: "Qtd", value: 'quantidade'},
+  {label: "ID", value: 'id'},
+  {label: "Veículo", value: 'placaveiculo'},
+  {label: "Equipe", value: 'idequipe'},
+  {label: "Status", value: 'status'},
+  {label: "Data Emissão", value: 'dataemissao'},
+  {label: "Data Previsão", value: 'dataprevisao'},
+  {label: "Data Conclusão", value: 'dataconclusao'},
+  {label: "Valor", value: 'valor'},
   {label: "Descrição", value: 'descricao'}
 ]
 var tableData = []
