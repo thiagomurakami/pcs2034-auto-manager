@@ -16,6 +16,9 @@ var TecnicoPage = React.createClass({
   getInitialState: function(){
     return {
       links: [
+        {path: '#/tecnico/ordemServico', label: "Ver Ordens"},
+        {path: '#/tecnico/agenda', label: "Ver Agenda"},
+        {path: '#/tecnico/editar', label: "Editar Dados"}
       ]
     }
   },

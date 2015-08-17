@@ -109,7 +109,6 @@ var CreateModal = React.createClass({
     this.props.onHide()
   },
   render: function(){
-    console.log(this.state)
     var listaTecnicos = AgendarHorarioStore.getListaGerentes()
     var horariosArr = this.props.horarios.map(function(horario, index){
       return option({key: 'horario-'+index}, horario.hora)

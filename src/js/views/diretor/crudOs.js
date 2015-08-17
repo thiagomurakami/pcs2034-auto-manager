@@ -2,9 +2,9 @@ var React = require('react');
 var u = require('underscore')
 
 var Navigation = require('react-router').Navigation
-var OrdemServicoStore = require('../../../stores/ordemServicoStore')
+var OrdemServicoStore = require('../../stores/ordemServicoStore')
 
-var OrdemServicoActions = require('../../../actions/ordemServicoActions')
+var OrdemServicoActions = require('../../actions/ordemServicoActions')
 
 var Table = React.createFactory(require('react-bootstrap').Table)
 var Button = React.createFactory(require('react-bootstrap').Button)
@@ -53,13 +53,10 @@ var CrudOrdemServico = React.createClass({
     OrdemServicoActions.readOrdemServico()
   },
   _toggleCreate: function(){
-    this.transitionTo('criarOsAdmin')
+    this.transitionTo('criarOsGerente')
   },
   _closeUpdateModal: function(){
     this.setState({showUpdateModal: false})
-  },
-  _editClick: function(index){
-    this.transitionTo('editarOsAdmin', {id: index})
   },
   _removeClick: function(index){
     //OrdemServicoActions.deletePeca(index)
@@ -123,8 +120,6 @@ var TableBody = React.createClass({
       var rowContent = this.props.tableColumns.map(function(column){
         return td({key: 'column-'+column.value+'-'+index}, row[column.value])
       })
-      rowContent.push(td({key: "actions-"+index},
-        p({onClick: this.props.onEditClick.bind(null, row.id)}, 'Editar')))
       var singleRow = tr({key: 'content-'+index}, rowContent)
       return singleRow
     }.bind(this))

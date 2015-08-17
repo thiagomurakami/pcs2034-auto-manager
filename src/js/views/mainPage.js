@@ -30,8 +30,10 @@ var Footer = React.createFactory(require('../components/footer.js'))
 var AdminCrudUsuario = require('./admin/usuario/crudUsuario')
 var AdminCrudVeiculo = require('./admin/veiculo/crudVeiculo')
 var AdminCrudTipoServico = require('./admin/tipoServico/crudTipoServico')
+var AdminCrudEquipes = require('./admin/equipe/crudEquipe')
 var AdminCrudHorarioCliente = require('./admin/horario/crudHorario')
 var AdminCrudOs = require('./admin/ordemServico/crudOrdemServico')
+var AdminCrudPeca = require('./admin/peca/crudPeca')
 var AdminCriarOS = require('./admin/ordemServico/criarOrdemServico')
 var AdminEditarOS = require('./admin/ordemServico/editarOrdemServico')
 // CLIENTE
@@ -43,6 +45,20 @@ var ClienteCrudVeiculo = require('./cliente/veiculo/crudVeiculo')
 
 // ATENDENTE
 
+// GERENTE
+var GerenteCrudOs = require('./gerente/os/crudOrdemServico')
+var GerenteCriarOS = require('./gerente/os/criarOrdemServico')
+var GerenteEditarOS = require('./gerente/os/editarOrdemServico')
+
+// TECNICO
+var TecnicoCrudOs = require('./tecnico/ordemServico/crudOrdemServico')
+var TecnicoEditarOS = require('./tecnico/ordemServico/editarOrdemServico')
+var TecnicoAgenda = require('./tecnico/ordemServico/agenda')
+
+// DIRETOR
+
+var DiretorCrudOs = require('./diretor/crudOs')
+
 var AuthenticationApp = require('./authenticationApp')
 
 // Pages
@@ -52,6 +68,7 @@ var TecnicoPage = require('./tecnico/tecnicoPage')
 var AtendentePage = require('./atendente/atendentePage')
 var ClientePage = require('./cliente/clientePage')
 var GerentePage = require('./gerente/gerentePage')
+var DiretorPage = require('./diretor/diretorPage')
 
 var Teste = require('./admin/ordemServico/crudOrdemServico')
 
@@ -97,26 +114,51 @@ var MainPage = React.createClass({
 
 var routes = (
   <Route handler={AuthenticationApp}>
-    <Route name='teste' handler={Teste} />
+    <Route name='teste' handler={AdminCriarOS} />
+    <Route name='teste1' path='teste1/:id' handler={AdminEditarOS} />
     <Route name="login" handler={Login} />
     <Route name="cadastro" handler={CadastroCliente} />
     <Route name="app" path='/' handler={MainPage}>
       <Route name="admin" handler={AdminPage}>
         <DefaultRoute handler={AdminCrudUsuario} />
         <Route name="crudTipoServicoAdmin" path='tipoServico' handler={AdminCrudTipoServico} />
+        <Route name="crudEquipesAdmin" path='tipoServico' handler={AdminCrudEquipes} />
         <Route name="crudVeiculoAdmin" path='veiculo' handler={AdminCrudVeiculo} />
         <Route name="crudUsuarioAdmin" path='usuario' handler={AdminCrudUsuario} />
         <Route name="crudHorarioAdmin" path='horarioCliente' handler={AdminCrudHorarioCliente} />
-        <Route name="crudOs" path='ordemServico' handler={AdminCrudOs} />
-        <Route name="criarOs" path="criarOs" handler={AdminCriarOS} />
-        <Route name="editarOs" path="editarOs/:id" handler={AdminEditarOS} />
+        <Route name="crudOsAdmin" path='ordemServico' handler={AdminCrudOs} />
+        <Route name="crudPecasAdmin" path='pecas' handler={AdminCrudPeca} />
+        <Route name="criarOsAdmin" path="criarOs" handler={AdminCriarOS} />
+        <Route name="editarOsAdmin" path="editarOs/:id" handler={AdminEditarOS} />
       </Route>
+
       <Route name="tecnico" handler={TecnicoPage}>
-
+        <DefaultRoute handler={ClienteHome} />
+        <Route name="editarDadosTecnico" path='editar' handler={ClienteEditarDados} />
+        <Route name="crudOsTecnico" path='ordemServico' handler={TecnicoCrudOs} />
+        <Route name="editarOsTecnico" path="editarOs/:id" handler={TecnicoEditarOS} />
+        <Route name="agendaTecnico" path="agenda" handler={TecnicoAgenda} />
       </Route>
+
       <Route name="gerente" handler={GerentePage}>
-
+        <DefaultRoute handler={ClienteHome} />
+        <Route name="editarDadosGerente" path='editar' handler={ClienteEditarDados} />
+        <Route name="crudPecasGerente" path='pecas' handler={AdminCrudPeca} />
+        <Route name="crudOsGerente" path='ordemServico' handler={GerenteCrudOs} />
+        <Route name="criarOsGerente" path="criarOs" handler={GerenteCriarOS} />
+        <Route name="editarOsGerente" path="editarOs/:id" handler={GerenteEditarOS} />
+        <Route name="crudEquipesGerente" path='equipes' handler={AdminCrudEquipes} />
       </Route>
+
+      <Route name="diretor" handler={DiretorPage}>
+        <DefaultRoute handler={ClienteHome} />
+        <Route name="editarDadosDiretor" path='editar' handler={ClienteEditarDados} />
+        <Route name="crudPecasDiretor" path='pecas' handler={AdminCrudPeca} />
+        <Route name="crudOsDiretor" path='ordemServico' handler={DiretorCrudOs} />
+        <Route name="criarOsDiretor" path="criarOs" handler={GerenteCriarOS} />
+        <Route name="editarOsDiretor" path="editarOs/:id" handler={GerenteEditarOS} />
+      </Route>
+
       <Route name="cliente" handler={ClientePage}>
         <DefaultRoute handler={ClienteHome} />
         <Route name="verHorariosCliente" path='verHorarios' handler={ClienteVerHorario} />
@@ -125,6 +167,7 @@ var routes = (
         <Route name="veiculosCliente" path='veiculos' handler={ClienteCrudVeiculo} />
       </Route>
       <Route name="atendente" handler={AtendentePage}>
+        <DefaultRoute handler={ClienteHome} />
         <Route name="crudVeiculoAtendente" path='veiculo' handler={AdminCrudVeiculo} />
         <Route name="crudUsuarioAtendente" path='usuario' handler={CadastroCliente} />
         <Route name="crudHorarioAtendente" path='horarioCliente' handler={AdminCrudHorarioCliente} />

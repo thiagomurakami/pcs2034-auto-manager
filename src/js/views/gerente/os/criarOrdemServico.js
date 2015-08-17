@@ -63,6 +63,7 @@ var CriarOrdemServico = React.createClass({
   },
 
   _dataChange: function(){
+    console.log("_dataChange")
     var newState = {
       listaServicos: OrdemServicoStore.getTipoServico(),
       listaVeiculos: OrdemServicoStore.getListaVeiculos(),

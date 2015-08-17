@@ -49,15 +49,15 @@ var OrdemServicoActions = {
       })
     })
   },
-  updateOrdemServico: function(values, id){
-    values.idpeca = id
+  updateOrdemServico: function(previousState, newState, id){
     var requestBody = {
-      table: "peca",
-      values: values
+      previousState: previousState,
+      newState: newState,
+      id: id
     }
     var key = "updatePeca"
     _pendingRequests[key] = jajax({
-      url: 'apiv1/update',
+      url: 'apiv1/updateOs',
       type: 'POST',
       contentType: 'application/json',
       data: JSON.stringify(requestBody),
@@ -163,8 +163,35 @@ var OrdemServicoActions = {
         equipes: res
       })
     })
+  },
+  getHorarios: function(id){
+    var key = "getHorarios"
+    _pendingRequests[key] = jajax({
+      url: 'apiv1/horarioTecnico/'+id,
+      type: 'GET',
+      contentType: 'application/json',
+      async: true
+    }).done(function(res){
+      AppDispatcher.dispatch({
+        actionType: "GET_HORARIO",
+        horario: res
+      })
+    })
+  },
+  fullReadOrdemServico: function(id){
+    var key = "fullReadOrdemServico"
+    _pendingRequests[key] = jajax({
+      url: 'apiv1/readFullOs/'+id,
+      type: 'GET',
+      contentType: 'application/json',
+      async: true
+    }).done(function(res){
+      AppDispatcher.dispatch({
+        actionType: "deepReadOrdemServico",
+        info: res
+      })
+    })
   }
-
 }
 
 

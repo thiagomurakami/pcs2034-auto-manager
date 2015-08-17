@@ -58,7 +58,6 @@ var UpdateModal = React.createClass({
       for(var key in this.state){
         if(nextProps.data[key]) newState[key] = nextProps.data[key]
       }
-      console.log(newState)
       this.setState(newState)
     }
   },
@@ -98,8 +97,6 @@ var UpdateModal = React.createClass({
     var oldValues = jquery.extend(true, {}, this.state)
     newValues = u.omit(newValues, 'cliente', 'tecnico')
     oldValues = u.omit(oldValues, 'tecnicos')
-    console.log(oldValues)
-    console.log(newValues)
     AgendarHorarioActions.updateAgendarHorario(newValues, oldValues)
     this.props.onHide()
   },

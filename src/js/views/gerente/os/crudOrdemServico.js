@@ -53,13 +53,13 @@ var CrudOrdemServico = React.createClass({
     OrdemServicoActions.readOrdemServico()
   },
   _toggleCreate: function(){
-    this.transitionTo('criarOsAdmin')
+    this.transitionTo('criarOsGerente')
   },
   _closeUpdateModal: function(){
     this.setState({showUpdateModal: false})
   },
   _editClick: function(index){
-    this.transitionTo('editarOsAdmin', {id: index})
+    this.transitionTo('editarOsGerente', {id: index})
   },
   _removeClick: function(index){
     //OrdemServicoActions.deletePeca(index)
@@ -124,7 +124,8 @@ var TableBody = React.createClass({
         return td({key: 'column-'+column.value+'-'+index}, row[column.value])
       })
       rowContent.push(td({key: "actions-"+index},
-        p({onClick: this.props.onEditClick.bind(null, row.id)}, 'Editar')))
+        p({onClick: this.props.onEditClick.bind(null, row.id)}, 'Editar')
+      ))
       var singleRow = tr({key: 'content-'+index}, rowContent)
       return singleRow
     }.bind(this))

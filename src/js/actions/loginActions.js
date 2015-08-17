@@ -26,7 +26,6 @@ var loginActions = {
       contentType: 'application/json'
     })
     .done(function(res){
-      console.log(res)
       if(res.err){
         AppDispatcher.dispatch({
         action: LoginConstants.LOGIN_FAILURE,

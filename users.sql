@@ -97,6 +97,38 @@ VALUES('gerente2@automanager.com',
 );
 
 INSERT INTO usuario(email,senha,nome,sobrenome,CPF,estado,cidade,cep,rua,numeroRua,telefone,bairro,tipo) 
+VALUES('atendente@automanager.com',
+	'123',
+	'Atendente',
+	'Primeiro',
+	'123412',
+	'SP',
+	'Campinas',
+	'984123',
+	'Av foo',
+	'98',
+	'(44) 4444-4444',
+	'Mooca',
+	'atendente'
+);
+
+INSERT INTO usuario(email,senha,nome,sobrenome,CPF,estado,cidade,cep,rua,numeroRua,telefone,bairro,tipo) 
+VALUES('diretor@automanager.com',
+	'123',
+	'Diretor',
+	'Diretor',
+	'123412',
+	'SP',
+	'Campinas',
+	'984123',
+	'Av foo',
+	'98',
+	'(44) 4444-4444',
+	'Mooca',
+	'diretor'
+);
+
+INSERT INTO usuario(email,senha,nome,sobrenome,CPF,estado,cidade,cep,rua,numeroRua,telefone,bairro,tipo) 
 VALUES('admin@automanager.com',
 	'123',
 	'Admin',

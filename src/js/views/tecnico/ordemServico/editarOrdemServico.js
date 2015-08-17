@@ -27,7 +27,7 @@ var option = React.createFactory('option')
 
 require('react-select/less/default.less')
 
-var CriarOrdemServico = React.createClass({
+var EditarOrdemServico = React.createClass({
   mixins: [Navigation],
   getInitialState: function(){
     return({
@@ -53,15 +53,36 @@ var CriarOrdemServico = React.createClass({
   },
   componentDidMount: function(){
     OrdemServicoStore.addChangeListener("rerender", this._dataChange)
+    OrdemServicoStore.addChangeListener("fullread", this._newState)
     OrdemServicoActions.getTipoServico()
     OrdemServicoActions.getClientes()
     OrdemServicoActions.getPecas()
     OrdemServicoActions.getEquipes(moment().format("YYYY-MM-DD"))
+    OrdemServicoActions.fullReadOrdemServico(this.props.params.id)
   },
   componentWillUnmount: function(){
     OrdemServicoStore.removeChangeListener("rerender", this._dataChange)
+    OrdemServicoStore.removeChangeListener("fullread", this._newState)
   },
-
+  _newState: function(){
+    var objToSend = jquery.extend(true, {}, OrdemServicoStore.getEditState())
+    objToSend.pecas = u.keys(objToSend.pecasOs).map(function(peca){
+      return {
+        idpeca: objToSend.pecasOs[peca].idpeca,
+        quantidade: objToSend.pecasOs[peca].quantidade
+      }
+    })
+    objToSend.pecas = u.filter(objToSend.pecas, function(obj){
+      return obj.quantidade > 0
+    })
+    var keysToRemove = ['listaClientes', 'listaEquipes', 'listaPecas', 'listaServicos', 'listaVeiculos',
+      'pecasOs', 'pecasSelecionadas', 'cliente']
+    if(objToSend.dataConclusao == '') keysToRemove.push('dataConclusao')
+    objToSend = u.omit(objToSend, keysToRemove)
+    var newState = OrdemServicoStore.getEditState()
+    newState.previouObjToSend = objToSend
+    this.setState(newState)
+  },
   _dataChange: function(){
     var newState = {
       listaServicos: OrdemServicoStore.getTipoServico(),
@@ -88,9 +109,9 @@ var CriarOrdemServico = React.createClass({
         newState.pecasOs[peca.label].quantidade = 0
         newState.pecasOs[peca.label].idpeca = peca.value
         newState.pecasOs[peca.label].preco = parseFloat(peca.preco.replace("$", ''))
+        newState.pecasOs[peca.label].total = peca.quantidade
       }
     })
-
     this.setState(newState)
   },
 
@@ -169,7 +190,6 @@ var CriarOrdemServico = React.createClass({
     this.setState({dataExecucao: e.target.value})
   },
   _sendToApi: function(e){
-    console.log(this.state)
     this.interceptEvent(e)
     var objToSend = jquery.extend(true, {}, this.state)
     objToSend.pecas = u.keys(objToSend.pecasOs).map(function(peca){
@@ -182,10 +202,10 @@ var CriarOrdemServico = React.createClass({
       return obj.quantidade > 0
     })
     var keysToRemove = ['listaClientes', 'listaEquipes', 'listaPecas', 'listaServicos', 'listaVeiculos',
-      'pecasOs', 'pecasSelecionadas', 'cliente']
+      'pecasOs', 'pecasSelecionadas', 'cliente', 'previouObjToSend']
     if(objToSend.dataConclusao == '') keysToRemove.push('dataConclusao')
     objToSend = u.omit(objToSend, keysToRemove)
-    OrdemServicoActions.createOrdemServico(objToSend)
+    OrdemServicoActions.updateOrdemServico(this.state.previouObjToSend, objToSend, this.props.params.id)
     this.goBack()
   },
 
@@ -198,6 +218,7 @@ var CriarOrdemServico = React.createClass({
       return option({key: 'veiculos-'+index, value: veiculo.placa}, veiculo.placa)
     })
     var selectPecas = this.state.pecasSelecionadas.map(function(peca, index){
+      var pecaInfo = u.findWhere(this.state.listaPecas, {value: peca.value})
       return Input({
           key: "select-peca-"+index,
           type: 'select',
@@ -207,7 +228,7 @@ var CriarOrdemServico = React.createClass({
           value: this.state.pecasOs[peca.label].quantidade,
           onChange: this._handlePeca.bind(null, peca.label)
         },
-        u.range(0, peca.quantidade+1).map(function(quantidade, index){
+        u.range(0, pecaInfo.quantidade+1).map(function(quantidade, index){
           return option({key: 'peca-quantidade-'+index, value: quantidade}, quantidade)
         })
       )
@@ -231,7 +252,8 @@ var CriarOrdemServico = React.createClass({
             labelClassName: 'col-xs-1',
             wrapperClassName: 'col-xs-11',
             value: this.state.cliente,
-            onChange: this._handleClienteChange
+            onChange: this._handleClienteChange,
+            disabled: true
           },
           listaClientes
         ),
@@ -241,7 +263,8 @@ var CriarOrdemServico = React.createClass({
             labelClassName: 'col-xs-1',
             wrapperClassName: 'col-xs-11',
             value: this.state.placaveiculo,
-            onChange: this._handleInputChange.bind(null, 'placaveiculo')
+            onChange: this._handleInputChange.bind(null, 'placaveiculo'),
+            disabled: true
           },
           veiculosArr
         ),
@@ -320,7 +343,9 @@ var CriarOrdemServico = React.createClass({
                 options: this.state.listaServicos,
                 value: this.state.servicosSelecionados,
                 multi: true,
-                onChange: this._handleServicos
+                onChange: this._handleServicos,
+                disabled: true
+
               })
             )
           ),
@@ -353,7 +378,7 @@ var CriarOrdemServico = React.createClass({
         b({}, 'Valor Total da OS: '+"R$ "+this.state.valor),
         ButtonInput({
           type: 'submit',
-          value: 'Criar OS',
+          value: 'Alterar OS',
           labelClassName: 'col-xs-1',
           wrapperClassName: 'col-xs-11',
           onClick: this._sendToApi
@@ -371,4 +396,4 @@ var CriarOrdemServico = React.createClass({
   }
 })
 
-module.exports = CriarOrdemServico
+module.exports = EditarOrdemServico

@@ -16,21 +16,6 @@ var NavItem = React.createFactory(require('react-bootstrap').NavItem)
 
 var Link = React.createFactory(require('react-router').Link)
 
-/*
- var SideMenu = React.createClass({
- render: function(){
- var styleObj = {
- width: 150,
- height: '100%',
- backgroundColor: 'blue',
- float: 'left'
- }
- return(
- div({style: styleObj}, p({}, 'Side Menu 1'))
- )
- }
- })
- */
 
 var SideMenu = React.createClass({
   _logOut: function(e){

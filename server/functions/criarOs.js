@@ -28,11 +28,8 @@ var criarOs = function(connectionString, body, callback){
     stringQuery += "INSERT INTO OSServico(idOs, idServico) VALUES (currval('ordemServico_id_seq'), "+servico.value+");"
   })
   stringQuery += "COMMIT;"
-  console.log(stringQuery)
   pg.connect(connectionString, function(err, client, done){
     client.query(stringQuery, function(err, results){
-      console.log(err)
-      console.log(results)
       if(!err){
         callback(null, results.rows)
       }

@@ -17,8 +17,6 @@ module.exports = function(app){
 
   app.post('/login', function(req, res){
     functions.login(connectionString, req.body, function(err, loginData){
-      console.log(err)
-      console.log(loginData)
       var responseObj = {
         err: err,
         data: loginData
@@ -143,6 +141,22 @@ module.exports = function(app){
     var body = req.body
     cliente.dadosCadastrais(connectionString, body.id,  function(err, rows){
       res.send(rows)
+    })
+  })
+  app.post('/apiv1/updateOs', function(req, res){
+    var body = req.body
+    functions.updateOs(connectionString, body,  function(err, rows){
+      res.send(rows)
+    })
+  })
+  app.get('/apiv1/horarioTecnico/:id', function(req, res){
+    functions.horariosTecnicos(connectionString, req.params.id, function(err, infos){
+      res.send(infos)
+    })
+  })
+  app.get('/apiv1/readFullOs/:id', function(req, res){
+    functions.readFullOs(connectionString, req.params.id, function(err, infos){
+      res.send(infos)
     })
   })
 

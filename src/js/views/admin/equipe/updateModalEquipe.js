@@ -48,7 +48,6 @@ var CreateModal = React.createClass({
     for(var key in this.state){
       newState[key] = nextProps.data[key]
     }
-    console.log(newState)
     this.setState(newState)
   },
   _handleInputChange: function(stateKey, e){

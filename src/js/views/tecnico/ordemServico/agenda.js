@@ -6,6 +6,12 @@ var OrdemServicoStore = require('../../../stores/ordemServicoStore')
 
 var OrdemServicoActions = require('../../../actions/ordemServicoActions')
 
+var EquipeStore = require('../../../stores/equipeStore')
+
+var EquipeActions = require('../../../actions/equipeAction')
+
+var SessionStore = require('../../../stores/sessionStore')
+
 var Table = React.createFactory(require('react-bootstrap').Table)
 var Button = React.createFactory(require('react-bootstrap').Button)
 var ButtonInput = React.createFactory(require('react-bootstrap').ButtonInput)
@@ -29,8 +35,8 @@ var CrudOrdemServico = React.createClass({
 
   getInitialState: function(){
     return {
-      tableColumns: OrdemServicoStore.getTableColumns(),
-      tableData: OrdemServicoStore.getTableData(),
+      tableColumns: OrdemServicoStore.getAgendaTecnicoColumns(),
+      tableData: OrdemServicoStore.getAgendaTecnicoData(),
       selectedUpdateData: {},
       updateModalIndex: 0
     }
@@ -38,28 +44,27 @@ var CrudOrdemServico = React.createClass({
   componentDidMount: function(){
     OrdemServicoStore.addChangeListener("refetch", this._read)
     OrdemServicoStore.addChangeListener("rerender", this._dataChange)
-    OrdemServicoActions.readOrdemServico()
+    EquipeStore.addChangeListener("rerender", this._dataChange)
+    OrdemServicoActions.getHorarios(SessionStore.getId())
   },
 
   componentWillUnmount: function(){
     OrdemServicoStore.removeChangeListener("refetch", this._read)
     OrdemServicoStore.removeChangeListener("rerender", this._dataChange)
+    EquipeStore.removeChangeListener("rerender", this._dataChange)
   },
 
   _dataChange: function(){
-    this.setState({tableData: OrdemServicoStore.getTableData()})
+    this.setState({tableData: OrdemServicoStore.getAgendaTecnicoData()})
   },
   _read: function(){
     OrdemServicoActions.readOrdemServico()
-  },
-  _toggleCreate: function(){
-    this.transitionTo('criarOsAdmin')
   },
   _closeUpdateModal: function(){
     this.setState({showUpdateModal: false})
   },
   _editClick: function(index){
-    this.transitionTo('editarOsAdmin', {id: index})
+    this.transitionTo('editarOsTecnico', {id: index})
   },
   _removeClick: function(index){
     //OrdemServicoActions.deletePeca(index)
@@ -83,11 +88,8 @@ var CrudOrdemServico = React.createClass({
             data: this.state.tableData,
             onEditClick: this._editClick,
             onRemoveClick: this._removeClick})
-        ),
-        Button({onClick: this._toggleCreate},
-          "Adicionar nova OS")
+        )
       )
-
     )
   }
 })
@@ -124,7 +126,8 @@ var TableBody = React.createClass({
         return td({key: 'column-'+column.value+'-'+index}, row[column.value])
       })
       rowContent.push(td({key: "actions-"+index},
-        p({onClick: this.props.onEditClick.bind(null, row.id)}, 'Editar')))
+        p({onClick: this.props.onEditClick.bind(null, row.idos)}, 'Editar')
+      ))
       var singleRow = tr({key: 'content-'+index}, rowContent)
       return singleRow
     }.bind(this))

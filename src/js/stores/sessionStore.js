@@ -28,13 +28,18 @@ function validateLogin(loginData){
   _state.email = loginData.email
   _state.nome = loginData.nome
   _state.sobrenome = loginData.sobrenome
+  _state.error = {
+    code: false,
+      message: false,
+      body: false
+  }
   RouterContainer.get().transitionTo('/'+_state.tipo)
 
 }
 
 function loginError(errMsg){
   _state.error.code = -1
-  _state.error.message = "Could not connect to server"
+  _state.error.message = errMsg
 }
 
 function changeAppPage(goToPage){
@@ -93,13 +98,12 @@ var SessionStore = assign({}, EventEmitter.prototype, {
     switch(payload.action){
       case LoginConstants.LOGIN:
         _state.authenticated = true
-        console.log(payload)
          validateLogin(payload.value.loginData)
-        SessionStore.emitChange()
+        SessionStore.emitChange('login')
         break
       case LoginConstants.LOGIN_FAILURE:
         loginError(payload.value)
-        SessionStore.emitChange()
+        SessionStore.emitChange('login')
         break
       case LoginConstants.CHANGE_APP_PAGE:
         //did not work AppDispatcher.waitFor([CreateCampaignIdAndTypeStore.dispatcherIndex])
@@ -108,7 +112,7 @@ var SessionStore = assign({}, EventEmitter.prototype, {
         break
       case LoginConstants.LOGOUT:
         logout()
-        SessionStore.emitChange()
+        SessionStore.emitChange('login')
         break
     }
   })

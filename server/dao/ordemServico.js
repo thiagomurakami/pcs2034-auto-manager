@@ -22,10 +22,8 @@ var pecaDAO = function(connectionString, operation, params, callback){
     case 'delete':
       break;
   }
-  console.log(stringQuery)
   pg.connect(connectionString, function(err, client, done){
     client.query(stringQuery, function(err, results){
-      console.log(results.rows)
       if(!err){
         callback(null, results.rows)
       }

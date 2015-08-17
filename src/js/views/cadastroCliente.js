@@ -68,7 +68,6 @@ var CadastroCliente = React.createClass({
   },
   _sendToApi: function(e){
     this.interceptEvent(e)
-    console.log(this.state)
     var key = "sendToApi"
     var requestBody = {
       table: "usuario",
@@ -81,17 +80,19 @@ var CadastroCliente = React.createClass({
       data: JSON.stringify(requestBody),
       async: true
     }).done(function(res){
-      console.log('done')
+      this.transitionTo('login')
     }.bind(this))
   },
   render: function(){
     return(
-      form({onSubmit: this._sendToApi},
+      form({onSubmit: this._sendToApi, className: 'form-horizontal'},
         Input({
           ref: 'nomeInput',
           type: 'text',
           label: 'Nome',
           placeholder: 'Nome',
+          labelClassName: 'col-xs-1',
+          wrapperClassName: 'col-xs-11',
           value: this.state.nome,
           onChange: this._handleInputChange.bind(null, 'nome')
         }),
@@ -100,6 +101,8 @@ var CadastroCliente = React.createClass({
           type: 'text',
           label: 'Sobrenome',
           placeholder: 'Sobrenome',
+          labelClassName: 'col-xs-1',
+          wrapperClassName: 'col-xs-11',
           value: this.state.sobrenome,
           onChange: this._handleInputChange.bind(null, 'sobrenome')
         }),
@@ -107,6 +110,8 @@ var CadastroCliente = React.createClass({
           type: 'text',
           label: 'CPF',
           placeholder: 'CPF',
+          labelClassName: 'col-xs-1',
+          wrapperClassName: 'col-xs-11',
           value: this.state.cpf,
           onChange: this._handleInputChange.bind(null, 'cpf')
         }),
@@ -115,6 +120,8 @@ var CadastroCliente = React.createClass({
           type: 'email',
           label: 'Email',
           placeholder: 'Digite seu email',
+          labelClassName: 'col-xs-1',
+          wrapperClassName: 'col-xs-11',
           value: this.state.email,
           onChange: this._handleInputChange.bind(null, 'email')
         }),
@@ -122,6 +129,8 @@ var CadastroCliente = React.createClass({
           type: 'text',
           label: 'Telefone',
           placeholder: 'Digite seu telefone',
+          labelClassName: 'col-xs-1',
+          wrapperClassName: 'col-xs-11',
           value: this.state.telefone,
           onChange: this._handleInputChange.bind(null, 'telefone')
         }),
@@ -130,6 +139,8 @@ var CadastroCliente = React.createClass({
           type: 'password',
           label: 'Senha',
           placeholder: 'Digite sua senha',
+          labelClassName: 'col-xs-1',
+          wrapperClassName: 'col-xs-11',
           value: this.state.senha,
           onChange: this._handleInputChange.bind(null, 'senha')
         }),
@@ -138,7 +149,9 @@ var CadastroCliente = React.createClass({
           type: 'text',
           label: 'CEP',
           placeholder: 'Entre seu CEP',
-          onBlur: this._cepInput,
+          labelClassName: 'col-xs-1',
+          wrapperClassName: 'col-xs-11',
+          onBlur: this._cepInput
         }),
         Input({
           ref: 'rua',
@@ -146,6 +159,8 @@ var CadastroCliente = React.createClass({
           label: 'Endereço',
           placeholder: '',
           disabled: true,
+          labelClassName: 'col-xs-1',
+          wrapperClassName: 'col-xs-11',
           value: this.state.rua
         }),
         Input({
@@ -153,6 +168,8 @@ var CadastroCliente = React.createClass({
           type: 'text',
           label: 'Bairro',
           placeholder: '',
+          labelClassName: 'col-xs-1',
+          wrapperClassName: 'col-xs-11',
           disabled: true,
           value: this.state.bairro
         }),
@@ -160,6 +177,8 @@ var CadastroCliente = React.createClass({
           ref: 'numeroRua',
           type: 'text',
           label: 'Número',
+          labelClassName: 'col-xs-1',
+          wrapperClassName: 'col-xs-11',
           placeholder: '',
           value: this.state.numeroRua,
           disabled: false,
@@ -169,6 +188,8 @@ var CadastroCliente = React.createClass({
           ref: 'cidade',
           type: 'text',
           label: 'Cidade',
+          labelClassName: 'col-xs-1',
+          wrapperClassName: 'col-xs-11',
           placeholder: '',
           value: this.state.cidade,
           disabled: true
@@ -177,6 +198,8 @@ var CadastroCliente = React.createClass({
           ref: 'estado',
           type: 'text',
           label: 'Estado',
+          labelClassName: 'col-xs-1',
+          wrapperClassName: 'col-xs-11',
           placeholder: '',
           value: this.state.estado,
           disabled: true,
@@ -186,17 +209,23 @@ var CadastroCliente = React.createClass({
           ref: 'complemento',
           type: 'text',
           label: 'Complemento',
+          labelClassName: 'col-xs-1',
+          wrapperClassName: 'col-xs-11',
           value: this.state.complemento,
           onChange: this._handleInputChange.bind(null, 'complemento')
         }),
         ButtonInput({
-          type: 'submit',
-          value: 'Enviar'
-        }),
-        ButtonInput({
           type: 'button',
           value: 'Voltar',
+          labelClassName: 'col-xs-1',
+          wrapperClassName: 'col-xs-11',
           onClick: this.transitionTo.bind(null, 'login')
+        }),
+        ButtonInput({
+          type: 'submit',
+          labelClassName: 'col-xs-1',
+          wrapperClassName: 'col-xs-11',
+          value: 'Enviar'
         })
       )
     )

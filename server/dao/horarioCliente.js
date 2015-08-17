@@ -6,7 +6,6 @@ var jquery = require('jquery')
 
 var agendarHorarioDAO = function(connectionString, operation, params, callback){
   var stringQuery = ""
-  console.log(params)
   params = u.omit(params, function(value, key, object){
     return u.isUndefined(value) || u.isNull(value)
   })
@@ -29,7 +28,6 @@ var agendarHorarioDAO = function(connectionString, operation, params, callback){
       updateString = keys.map(function(key){
         return key+"=('"+params[key]+"')"
       })
-      console.log(updateString)
       stringQuery = "UPDATE horarioCliente SET " + updateString.join()
       stringQuery += " WHERE " + updateString.join()
       break;
@@ -42,12 +40,9 @@ var agendarHorarioDAO = function(connectionString, operation, params, callback){
       stringQuery += values.join() + ")"
       break;
   }
-  console.log(stringQuery)
   if(operation != 'update'){
     pg.connect(connectionString, function(err, client, done){
       client.query(stringQuery, function(err, results){
-        console.log(err)
-        console.log(results.rows)
         if(results.rows){
           results.rows.forEach(function(result){
             result.data = moment(result.data).format('YYYY-MM-DD')

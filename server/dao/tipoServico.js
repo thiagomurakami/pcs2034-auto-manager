@@ -11,7 +11,6 @@ var tipoServicoDao = function(connectionString, operation, params, callback){
 		break;
 
 		case 'read':
-			console.log(connectionString)
 			stringQuery = "SELECT * FROM tipoServico ORDER BY id ASC;"
 		break;
 
@@ -26,11 +25,8 @@ var tipoServicoDao = function(connectionString, operation, params, callback){
 			stringQuery += params.id
 		break;
 	}
-	console.log(stringQuery)
 	pg.connect(connectionString, function(err, client, done){
 			client.query(stringQuery, function(err, results){
-				console.log(err)
-				console.log(results.rows)
 				if(!err){
 					callback(null, results.rows)
 				}

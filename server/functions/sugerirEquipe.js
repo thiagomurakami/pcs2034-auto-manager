@@ -49,7 +49,6 @@ var sugestaoEquipe = function(connectionString, date, callback){
     var sugestao = u.sortBy(equipes, function(obj){
       return obj.horarios.length
     }).reverse()
-    console.log(sugestao)
     callback(null, sugestao)
   })
 }

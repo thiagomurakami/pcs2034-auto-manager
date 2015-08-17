@@ -63,7 +63,6 @@ var AgendarHorarioActions = {
       data: JSON.stringify(requestBody),
       async: true
     }).done(function(res){
-      console.log('done')
       AppDispatcher.dispatch({
         actionType: "changeAgendarHorario"
       })

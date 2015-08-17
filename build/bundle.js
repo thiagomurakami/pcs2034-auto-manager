@@ -83,8 +83,10 @@
 	var AdminCrudUsuario = __webpack_require__(13)
 	var AdminCrudVeiculo = __webpack_require__(14)
 	var AdminCrudTipoServico = __webpack_require__(15)
+	var AdminCrudEquipes = __webpack_require__(448)
 	var AdminCrudHorarioCliente = __webpack_require__(16)
 	var AdminCrudOs = __webpack_require__(17)
+	var AdminCrudPeca = __webpack_require__(443)
 	var AdminCriarOS = __webpack_require__(18)
 	var AdminEditarOS = __webpack_require__(19)
 	// CLIENTE
@@ -96,6 +98,20 @@
 
 	// ATENDENTE
 
+	// GERENTE
+	var GerenteCrudOs = __webpack_require__(440)
+	var GerenteCriarOS = __webpack_require__(441)
+	var GerenteEditarOS = __webpack_require__(442)
+
+	// TECNICO
+	var TecnicoCrudOs = __webpack_require__(453)
+	var TecnicoEditarOS = __webpack_require__(454)
+	var TecnicoAgenda = __webpack_require__(455)
+
+	// DIRETOR
+
+	var DiretorCrudOs = __webpack_require__(456)
+
 	var AuthenticationApp = __webpack_require__(11)
 
 	// Pages
@@ -105,6 +121,7 @@
 	var AtendentePage = __webpack_require__(22)
 	var ClientePage = __webpack_require__(24)
 	var GerentePage = __webpack_require__(25)
+	var DiretorPage = __webpack_require__(457)
 
 	var Teste = __webpack_require__(17)
 
@@ -150,26 +167,51 @@
 
 	var routes = (
 	  React.createElement(Route, {handler: AuthenticationApp}, 
-	    React.createElement(Route, {name: "teste", handler: Teste}), 
+	    React.createElement(Route, {name: "teste", handler: AdminCriarOS}), 
+	    React.createElement(Route, {name: "teste1", path: "teste1/:id", handler: AdminEditarOS}), 
 	    React.createElement(Route, {name: "login", handler: Login}), 
 	    React.createElement(Route, {name: "cadastro", handler: CadastroCliente}), 
 	    React.createElement(Route, {name: "app", path: "/", handler: MainPage}, 
 	      React.createElement(Route, {name: "admin", handler: AdminPage}, 
 	        React.createElement(DefaultRoute, {handler: AdminCrudUsuario}), 
 	        React.createElement(Route, {name: "crudTipoServicoAdmin", path: "tipoServico", handler: AdminCrudTipoServico}), 
+	        React.createElement(Route, {name: "crudEquipesAdmin", path: "tipoServico", handler: AdminCrudEquipes}), 
 	        React.createElement(Route, {name: "crudVeiculoAdmin", path: "veiculo", handler: AdminCrudVeiculo}), 
 	        React.createElement(Route, {name: "crudUsuarioAdmin", path: "usuario", handler: AdminCrudUsuario}), 
 	        React.createElement(Route, {name: "crudHorarioAdmin", path: "horarioCliente", handler: AdminCrudHorarioCliente}), 
-	        React.createElement(Route, {name: "crudOs", path: "ordemServico", handler: AdminCrudOs}), 
-	        React.createElement(Route, {name: "criarOs", path: "criarOs", handler: AdminCriarOS}), 
-	        React.createElement(Route, {name: "editarOs", path: "editarOs/:id", handler: AdminEditarOS})
+	        React.createElement(Route, {name: "crudOsAdmin", path: "ordemServico", handler: AdminCrudOs}), 
+	        React.createElement(Route, {name: "crudPecasAdmin", path: "pecas", handler: AdminCrudPeca}), 
+	        React.createElement(Route, {name: "criarOsAdmin", path: "criarOs", handler: AdminCriarOS}), 
+	        React.createElement(Route, {name: "editarOsAdmin", path: "editarOs/:id", handler: AdminEditarOS})
 	      ), 
-	      React.createElement(Route, {name: "tecnico", handler: TecnicoPage}
 
+	      React.createElement(Route, {name: "tecnico", handler: TecnicoPage}, 
+	        React.createElement(DefaultRoute, {handler: ClienteHome}), 
+	        React.createElement(Route, {name: "editarDadosTecnico", path: "editar", handler: ClienteEditarDados}), 
+	        React.createElement(Route, {name: "crudOsTecnico", path: "ordemServico", handler: TecnicoCrudOs}), 
+	        React.createElement(Route, {name: "editarOsTecnico", path: "editarOs/:id", handler: TecnicoEditarOS}), 
+	        React.createElement(Route, {name: "agendaTecnico", path: "agenda", handler: TecnicoAgenda})
 	      ), 
-	      React.createElement(Route, {name: "gerente", handler: GerentePage}
 
+	      React.createElement(Route, {name: "gerente", handler: GerentePage}, 
+	        React.createElement(DefaultRoute, {handler: ClienteHome}), 
+	        React.createElement(Route, {name: "editarDadosGerente", path: "editar", handler: ClienteEditarDados}), 
+	        React.createElement(Route, {name: "crudPecasGerente", path: "pecas", handler: AdminCrudPeca}), 
+	        React.createElement(Route, {name: "crudOsGerente", path: "ordemServico", handler: GerenteCrudOs}), 
+	        React.createElement(Route, {name: "criarOsGerente", path: "criarOs", handler: GerenteCriarOS}), 
+	        React.createElement(Route, {name: "editarOsGerente", path: "editarOs/:id", handler: GerenteEditarOS}), 
+	        React.createElement(Route, {name: "crudEquipesGerente", path: "equipes", handler: AdminCrudEquipes})
 	      ), 
+
+	      React.createElement(Route, {name: "diretor", handler: DiretorPage}, 
+	        React.createElement(DefaultRoute, {handler: ClienteHome}), 
+	        React.createElement(Route, {name: "editarDadosDiretor", path: "editar", handler: ClienteEditarDados}), 
+	        React.createElement(Route, {name: "crudPecasDiretor", path: "pecas", handler: AdminCrudPeca}), 
+	        React.createElement(Route, {name: "crudOsDiretor", path: "ordemServico", handler: DiretorCrudOs}), 
+	        React.createElement(Route, {name: "criarOsDiretor", path: "criarOs", handler: GerenteCriarOS}), 
+	        React.createElement(Route, {name: "editarOsDiretor", path: "editarOs/:id", handler: GerenteEditarOS})
+	      ), 
+
 	      React.createElement(Route, {name: "cliente", handler: ClientePage}, 
 	        React.createElement(DefaultRoute, {handler: ClienteHome}), 
 	        React.createElement(Route, {name: "verHorariosCliente", path: "verHorarios", handler: ClienteVerHorario}), 
@@ -178,6 +220,7 @@
 	        React.createElement(Route, {name: "veiculosCliente", path: "veiculos", handler: ClienteCrudVeiculo})
 	      ), 
 	      React.createElement(Route, {name: "atendente", handler: AtendentePage}, 
+	        React.createElement(DefaultRoute, {handler: ClienteHome}), 
 	        React.createElement(Route, {name: "crudVeiculoAtendente", path: "veiculo", handler: AdminCrudVeiculo}), 
 	        React.createElement(Route, {name: "crudUsuarioAtendente", path: "usuario", handler: CadastroCliente}), 
 	        React.createElement(Route, {name: "crudHorarioAtendente", path: "horarioCliente", handler: AdminCrudHorarioCliente}), 
@@ -235,13 +278,18 @@
 	  _state.email = loginData.email
 	  _state.nome = loginData.nome
 	  _state.sobrenome = loginData.sobrenome
+	  _state.error = {
+	    code: false,
+	      message: false,
+	      body: false
+	  }
 	  RouterContainer.get().transitionTo('/'+_state.tipo)
 
 	}
 
 	function loginError(errMsg){
 	  _state.error.code = -1
-	  _state.error.message = "Could not connect to server"
+	  _state.error.message = errMsg
 	}
 
 	function changeAppPage(goToPage){
@@ -300,13 +348,12 @@
 	    switch(payload.action){
 	      case LoginConstants.LOGIN:
 	        _state.authenticated = true
-	        console.log(payload)
 	         validateLogin(payload.value.loginData)
-	        SessionStore.emitChange()
+	        SessionStore.emitChange('login')
 	        break
 	      case LoginConstants.LOGIN_FAILURE:
 	        loginError(payload.value)
-	        SessionStore.emitChange()
+	        SessionStore.emitChange('login')
 	        break
 	      case LoginConstants.CHANGE_APP_PAGE:
 	        //did not work AppDispatcher.waitFor([CreateCampaignIdAndTypeStore.dispatcherIndex])
@@ -315,7 +362,7 @@
 	        break
 	      case LoginConstants.LOGOUT:
 	        logout()
-	        SessionStore.emitChange()
+	        SessionStore.emitChange('login')
 	        break
 	    }
 	  })
@@ -555,6 +602,7 @@
 	var jajax 						  = __webpack_require__(27).ajax
 
 	var LoginActions = __webpack_require__(31)
+	var SessionStore = __webpack_require__(2)
 	var Navigation = __webpack_require__(28).Navigation;
 	// Components
 	var Input = React.createFactory(__webpack_require__(52).Input)
@@ -563,26 +611,37 @@
 	var ButtonGroup = React.createFactory(__webpack_require__(52).ButtonGroup)
 	var div = React.createFactory('div')
 	var p = React.createFactory('p')
+	var h2 = React.createFactory('h2')
 	var form = React.createFactory('form')
 	var input = React.createFactory('input')
 
 	var Login = React.createClass({displayName: "Login",
 	  mixins: [Navigation],
-		getInitialState: function(){
-			return({
-				email: '',
-	      password: ''
-			})
-		},
-		interceptEvent: function(event){
+	  getInitialState: function(){
+	    return({
+	      email: '',
+	      password: '',
+	      error: SessionStore.getState().error
+	    })
+	  },
+	  componentDidMount: function(){
+	    SessionStore.addChangeListener('login', this._error)
+	  },
+	  componentWillUnmount: function(){
+	    SessionStore.removeChangeListener('login', this._error)
+	  },
+	  _error: function(){
+	    this.setState({error: SessionStore.getState().error})
+	  },
+	  interceptEvent: function(event){
 	    if(event){
 	      if(event.preventDefault) event.preventDefault()
-	        if(event.stopPropagation) event.stopPropagation()
-	      }
+	      if(event.stopPropagation) event.stopPropagation()
+	    }
 	  },
 
 	  _login: function(e){
-	  	this.interceptEvent(e)
+	    this.interceptEvent(e)
 	    var loginObj = {}
 	    loginObj.email = this.refs.emailInput.getValue()
 	    loginObj.senha = this.refs.passwordInput.getValue()
@@ -591,32 +650,43 @@
 	  },
 
 	  render: function(){
+	    console.log(this.state.error)
+	    var errorMsg = this.state.error.message ? p({}, this.state.error.message) : null
 	    return(
-	      form({onSubmit: this._login},
-	       Input({
-	        ref: 'emailInput',
-	        type: 'email',
-	        label: 'Email',
-	        placeholder: 'Digite seu email',
-	      }),
-	       Input({
-	        ref: 'passwordInput',
-	        type: 'password',
-	        label: 'Senha',
-	        placeholder: 'Digite sua senha',
-	      }),
-	       // ButtonToolbar({},
+	      form({onSubmit: this._login, className: 'form-horizontal'},
+	        h2({}, 'Sistema Auto Manager - Log In'),
+	        Input({
+	          ref: 'emailInput',
+	          type: 'email',
+	          label: 'Email',
+	          labelClassName: 'col-xs-1',
+	          wrapperClassName: 'col-xs-11',
+	          placeholder: 'Digite seu email'
+	        }),
+	        Input({
+	          ref: 'passwordInput',
+	          type: 'password',
+	          label: 'Senha',
+	          labelClassName: 'col-xs-1',
+	          wrapperClassName: 'col-xs-11',
+	          placeholder: 'Digite sua senha'
+	        }),
+	        errorMsg,
 	        ButtonInput({
 	          type: 'submit',
+	          labelClassName: 'col-xs-1',
+	          wrapperClassName: 'col-xs-11',
 	          value: 'Entrar'
 	        }),
 	        ButtonInput({
 	          value: 'Cadastre-se',
+	          labelClassName: 'col-xs-1',
+	          wrapperClassName: 'col-xs-11',
 	          onClick: this.transitionTo.bind(null, 'cadastro')
 	        })
 	        // )
-	       )
 	      )
+	    )
 	  }
 	})
 
@@ -690,21 +760,6 @@
 
 	var Link = React.createFactory(__webpack_require__(28).Link)
 
-	/*
-	 var SideMenu = React.createClass({
-	 render: function(){
-	 var styleObj = {
-	 width: 150,
-	 height: '100%',
-	 backgroundColor: 'blue',
-	 float: 'left'
-	 }
-	 return(
-	 div({style: styleObj}, p({}, 'Side Menu 1'))
-	 )
-	 }
-	 })
-	 */
 
 	var SideMenu = React.createClass({displayName: "SideMenu",
 	  _logOut: function(e){
@@ -752,14 +807,8 @@
 	var Footer = React.createClass({displayName: "Footer",
 	  render: function(){
 	  	var styleObj = {
-	  	//	width: '100%',
-	  	//	height: '50%',
-	  	//	backgroundColor: 'green',
 	  		clear: 'both',
 	      float: 'center'
-	      //fontAlign: 'center',
-	      //fontSize: 12
-	      //bsSize: 'small'
 	      }
 	    return(
 	        Well({style: styleObj}, 
@@ -769,20 +818,6 @@
 	  }
 	})
 
-	/*
-	var teste= React.createClass({
-	  render: function(){
-	    var style1 = {
-	      postion: 'center',
-	      fontSize: '23',
-	      fontColor: 'blue'
-	    }
-	    return(
-	      div({className: 'blablabla'}, p({style: style1}, 'a new para'))
-	      )
-	  }  
-	})
-	*/
 	module.exports = Footer
 
 /***/ },
@@ -879,7 +914,6 @@
 	  },
 	  _sendToApi: function(e){
 	    this.interceptEvent(e)
-	    console.log(this.state)
 	    var key = "sendToApi"
 	    var requestBody = {
 	      table: "usuario",
@@ -892,17 +926,19 @@
 	      data: JSON.stringify(requestBody),
 	      async: true
 	    }).done(function(res){
-	      console.log('done')
+	      this.transitionTo('login')
 	    }.bind(this))
 	  },
 	  render: function(){
 	    return(
-	      form({onSubmit: this._sendToApi},
+	      form({onSubmit: this._sendToApi, className: 'form-horizontal'},
 	        Input({
 	          ref: 'nomeInput',
 	          type: 'text',
 	          label: 'Nome',
 	          placeholder: 'Nome',
+	          labelClassName: 'col-xs-1',
+	          wrapperClassName: 'col-xs-11',
 	          value: this.state.nome,
 	          onChange: this._handleInputChange.bind(null, 'nome')
 	        }),
@@ -911,6 +947,8 @@
 	          type: 'text',
 	          label: 'Sobrenome',
 	          placeholder: 'Sobrenome',
+	          labelClassName: 'col-xs-1',
+	          wrapperClassName: 'col-xs-11',
 	          value: this.state.sobrenome,
 	          onChange: this._handleInputChange.bind(null, 'sobrenome')
 	        }),
@@ -918,6 +956,8 @@
 	          type: 'text',
 	          label: 'CPF',
 	          placeholder: 'CPF',
+	          labelClassName: 'col-xs-1',
+	          wrapperClassName: 'col-xs-11',
 	          value: this.state.cpf,
 	          onChange: this._handleInputChange.bind(null, 'cpf')
 	        }),
@@ -926,6 +966,8 @@
 	          type: 'email',
 	          label: 'Email',
 	          placeholder: 'Digite seu email',
+	          labelClassName: 'col-xs-1',
+	          wrapperClassName: 'col-xs-11',
 	          value: this.state.email,
 	          onChange: this._handleInputChange.bind(null, 'email')
 	        }),
@@ -933,6 +975,8 @@
 	          type: 'text',
 	          label: 'Telefone',
 	          placeholder: 'Digite seu telefone',
+	          labelClassName: 'col-xs-1',
+	          wrapperClassName: 'col-xs-11',
 	          value: this.state.telefone,
 	          onChange: this._handleInputChange.bind(null, 'telefone')
 	        }),
@@ -941,6 +985,8 @@
 	          type: 'password',
 	          label: 'Senha',
 	          placeholder: 'Digite sua senha',
+	          labelClassName: 'col-xs-1',
+	          wrapperClassName: 'col-xs-11',
 	          value: this.state.senha,
 	          onChange: this._handleInputChange.bind(null, 'senha')
 	        }),
@@ -949,7 +995,9 @@
 	          type: 'text',
 	          label: 'CEP',
 	          placeholder: 'Entre seu CEP',
-	          onBlur: this._cepInput,
+	          labelClassName: 'col-xs-1',
+	          wrapperClassName: 'col-xs-11',
+	          onBlur: this._cepInput
 	        }),
 	        Input({
 	          ref: 'rua',
@@ -957,6 +1005,8 @@
 	          label: 'Endereço',
 	          placeholder: '',
 	          disabled: true,
+	          labelClassName: 'col-xs-1',
+	          wrapperClassName: 'col-xs-11',
 	          value: this.state.rua
 	        }),
 	        Input({
@@ -964,6 +1014,8 @@
 	          type: 'text',
 	          label: 'Bairro',
 	          placeholder: '',
+	          labelClassName: 'col-xs-1',
+	          wrapperClassName: 'col-xs-11',
 	          disabled: true,
 	          value: this.state.bairro
 	        }),
@@ -971,6 +1023,8 @@
 	          ref: 'numeroRua',
 	          type: 'text',
 	          label: 'Número',
+	          labelClassName: 'col-xs-1',
+	          wrapperClassName: 'col-xs-11',
 	          placeholder: '',
 	          value: this.state.numeroRua,
 	          disabled: false,
@@ -980,6 +1034,8 @@
 	          ref: 'cidade',
 	          type: 'text',
 	          label: 'Cidade',
+	          labelClassName: 'col-xs-1',
+	          wrapperClassName: 'col-xs-11',
 	          placeholder: '',
 	          value: this.state.cidade,
 	          disabled: true
@@ -988,6 +1044,8 @@
 	          ref: 'estado',
 	          type: 'text',
 	          label: 'Estado',
+	          labelClassName: 'col-xs-1',
+	          wrapperClassName: 'col-xs-11',
 	          placeholder: '',
 	          value: this.state.estado,
 	          disabled: true,
@@ -997,17 +1055,23 @@
 	          ref: 'complemento',
 	          type: 'text',
 	          label: 'Complemento',
+	          labelClassName: 'col-xs-1',
+	          wrapperClassName: 'col-xs-11',
 	          value: this.state.complemento,
 	          onChange: this._handleInputChange.bind(null, 'complemento')
 	        }),
 	        ButtonInput({
-	          type: 'submit',
-	          value: 'Enviar'
-	        }),
-	        ButtonInput({
 	          type: 'button',
 	          value: 'Voltar',
+	          labelClassName: 'col-xs-1',
+	          wrapperClassName: 'col-xs-11',
 	          onClick: this.transitionTo.bind(null, 'login')
+	        }),
+	        ButtonInput({
+	          type: 'submit',
+	          labelClassName: 'col-xs-1',
+	          wrapperClassName: 'col-xs-11',
+	          value: 'Enviar'
 	        })
 	      )
 	    )
@@ -1731,13 +1795,13 @@
 	    OrdemServicoActions.readOrdemServico()
 	  },
 	  _toggleCreate: function(){
-	    this.transitionTo('criarOs')
+	    this.transitionTo('criarOsAdmin')
 	  },
 	  _closeUpdateModal: function(){
 	    this.setState({showUpdateModal: false})
 	  },
 	  _editClick: function(index){
-	    this.transitionTo('editarOs', {id: index})
+	    this.transitionTo('editarOsAdmin', {id: index})
 	  },
 	  _removeClick: function(index){
 	    //OrdemServicoActions.deletePeca(index)
@@ -1802,8 +1866,7 @@
 	        return td({key: 'column-'+column.value+'-'+index}, row[column.value])
 	      })
 	      rowContent.push(td({key: "actions-"+index},
-	        p({onClick: this.props.onEditClick.bind(null, row.id)}, 'Editar, '),
-	        p({onClick: this.props.onRemoveClick.bind(null, row.id)}, "Remover")))
+	        p({onClick: this.props.onEditClick.bind(null, row.id)}, 'Editar')))
 	      var singleRow = tr({key: 'content-'+index}, rowContent)
 	      return singleRow
 	    }.bind(this))
@@ -1902,17 +1965,16 @@
 	      newState.horaExecucao = OrdemServicoStore.getListaEquipes()[0].horarios[0]
 	      newState.idequipe =  OrdemServicoStore.getListaEquipes()[0].idequipe
 	    }
-	    if(!u.isEqual(this.state.listaPecas, OrdemServicoStore.getListaPecas())){
-	      newState.pecasOs = this.state.pecasOs
-	      OrdemServicoStore.getListaPecas().forEach(function(peca){
-	        if(!newState.pecasOs[peca.label]){
-	          newState.pecasOs[peca.label] = {}
-	          newState.pecasOs[peca.label].quantidade = 0
-	          newState.pecasOs[peca.label].idpeca = peca.value
-	          newState.pecasOs[peca.label].preco = parseFloat(peca.preco.replace("$", ''))
-	        }
-	      })
-	    }
+	    newState.pecasOs = this.state.pecasOs
+	    OrdemServicoStore.getListaPecas().forEach(function(peca){
+	      if(!newState.pecasOs[peca.label]){
+	        newState.pecasOs[peca.label] = {}
+	        newState.pecasOs[peca.label].quantidade = 0
+	        newState.pecasOs[peca.label].idpeca = peca.value
+	        newState.pecasOs[peca.label].preco = parseFloat(peca.preco.replace("$", ''))
+	      }
+	    })
+
 	    this.setState(newState)
 	  },
 
@@ -1991,6 +2053,7 @@
 	    this.setState({dataExecucao: e.target.value})
 	  },
 	  _sendToApi: function(e){
+	    console.log(this.state)
 	    this.interceptEvent(e)
 	    var objToSend = jquery.extend(true, {}, this.state)
 	    objToSend.pecas = u.keys(objToSend.pecasOs).map(function(peca){
@@ -2006,8 +2069,8 @@
 	      'pecasOs', 'pecasSelecionadas', 'cliente']
 	    if(objToSend.dataConclusao == '') keysToRemove.push('dataConclusao')
 	    objToSend = u.omit(objToSend, keysToRemove)
-	    console.log(objToSend)
 	    OrdemServicoActions.createOrdemServico(objToSend)
+	    this.goBack()
 	  },
 
 	  render: function(){
@@ -2028,7 +2091,7 @@
 	          value: this.state.pecasOs[peca.label].quantidade,
 	          onChange: this._handlePeca.bind(null, peca.label)
 	        },
-	        u.range(0, peca.quantidade).map(function(quantidade, index){
+	        u.range(0, peca.quantidade+1).map(function(quantidade, index){
 	          return option({key: 'peca-quantidade-'+index, value: quantidade}, quantidade)
 	        })
 	      )
@@ -2251,20 +2314,38 @@
 	      pecasOs: {}
 	    })
 	  },
-	  componentWillMount: function(){
-
-	  },
 	  componentDidMount: function(){
 	    OrdemServicoStore.addChangeListener("rerender", this._dataChange)
+	    OrdemServicoStore.addChangeListener("fullread", this._newState)
 	    OrdemServicoActions.getTipoServico()
 	    OrdemServicoActions.getClientes()
 	    OrdemServicoActions.getPecas()
 	    OrdemServicoActions.getEquipes(moment().format("YYYY-MM-DD"))
+	    OrdemServicoActions.fullReadOrdemServico(this.props.params.id)
 	  },
 	  componentWillUnmount: function(){
 	    OrdemServicoStore.removeChangeListener("rerender", this._dataChange)
+	    OrdemServicoStore.removeChangeListener("fullread", this._newState)
 	  },
-
+	  _newState: function(){
+	    var objToSend = jquery.extend(true, {}, OrdemServicoStore.getEditState())
+	    objToSend.pecas = u.keys(objToSend.pecasOs).map(function(peca){
+	      return {
+	        idpeca: objToSend.pecasOs[peca].idpeca,
+	        quantidade: objToSend.pecasOs[peca].quantidade
+	      }
+	    })
+	    objToSend.pecas = u.filter(objToSend.pecas, function(obj){
+	      return obj.quantidade > 0
+	    })
+	    var keysToRemove = ['listaClientes', 'listaEquipes', 'listaPecas', 'listaServicos', 'listaVeiculos',
+	      'pecasOs', 'pecasSelecionadas', 'cliente']
+	    if(objToSend.dataConclusao == '') keysToRemove.push('dataConclusao')
+	    objToSend = u.omit(objToSend, keysToRemove)
+	    var newState = OrdemServicoStore.getEditState()
+	    newState.previouObjToSend = objToSend
+	    this.setState(newState)
+	  },
 	  _dataChange: function(){
 	    var newState = {
 	      listaServicos: OrdemServicoStore.getTipoServico(),
@@ -2284,17 +2365,16 @@
 	      newState.horaExecucao = OrdemServicoStore.getListaEquipes()[0].horarios[0]
 	      newState.idequipe =  OrdemServicoStore.getListaEquipes()[0].idequipe
 	    }
-	    if(!u.isEqual(this.state.listaPecas, OrdemServicoStore.getListaPecas())){
-	      newState.pecasOs = this.state.pecasOs
-	      OrdemServicoStore.getListaPecas().forEach(function(peca){
-	        if(!newState.pecasOs[peca.label]){
-	          newState.pecasOs[peca.label] = {}
-	          newState.pecasOs[peca.label].quantidade = 0
-	          newState.pecasOs[peca.label].idpeca = peca.value
-	          newState.pecasOs[peca.label].preco = parseFloat(peca.preco.replace("$", ''))
-	        }
-	      })
-	    }
+	    newState.pecasOs = this.state.pecasOs
+	    OrdemServicoStore.getListaPecas().forEach(function(peca){
+	      if(!newState.pecasOs[peca.label]){
+	        newState.pecasOs[peca.label] = {}
+	        newState.pecasOs[peca.label].quantidade = 0
+	        newState.pecasOs[peca.label].idpeca = peca.value
+	        newState.pecasOs[peca.label].preco = parseFloat(peca.preco.replace("$", ''))
+	        newState.pecasOs[peca.label].total = peca.quantidade
+	      }
+	    })
 	    this.setState(newState)
 	  },
 
@@ -2385,15 +2465,14 @@
 	      return obj.quantidade > 0
 	    })
 	    var keysToRemove = ['listaClientes', 'listaEquipes', 'listaPecas', 'listaServicos', 'listaVeiculos',
-	      'pecasOs', 'pecasSelecionadas', 'cliente']
+	      'pecasOs', 'pecasSelecionadas', 'cliente', 'previouObjToSend']
 	    if(objToSend.dataConclusao == '') keysToRemove.push('dataConclusao')
 	    objToSend = u.omit(objToSend, keysToRemove)
-	    console.log(objToSend)
-	    OrdemServicoActions.createOrdemServico(objToSend)
+	    OrdemServicoActions.updateOrdemServico(this.state.previouObjToSend, objToSend, this.props.params.id)
+	    this.goBack()
 	  },
 
 	  render: function(){
-	    console.log(this.props.params)
 	    var listaClientes = this.state.listaClientes.map(function(cliente, index){
 	      var label = cliente.codigocadastro+"- "+cliente.nome+" "+cliente.sobrenome
 	      return option({key: "dono-"+cliente.codigocadastro, value: cliente.codigocadastro}, label)
@@ -2402,6 +2481,7 @@
 	      return option({key: 'veiculos-'+index, value: veiculo.placa}, veiculo.placa)
 	    })
 	    var selectPecas = this.state.pecasSelecionadas.map(function(peca, index){
+	      var pecaInfo = u.findWhere(this.state.listaPecas, {value: peca.value})
 	      return Input({
 	          key: "select-peca-"+index,
 	          type: 'select',
@@ -2411,7 +2491,7 @@
 	          value: this.state.pecasOs[peca.label].quantidade,
 	          onChange: this._handlePeca.bind(null, peca.label)
 	        },
-	        u.range(0, peca.quantidade).map(function(quantidade, index){
+	        u.range(0, pecaInfo.quantidade+1).map(function(quantidade, index){
 	          return option({key: 'peca-quantidade-'+index, value: quantidade}, quantidade)
 	        })
 	      )
@@ -2524,7 +2604,9 @@
 	                options: this.state.listaServicos,
 	                value: this.state.servicosSelecionados,
 	                multi: true,
-	                onChange: this._handleServicos
+	                onChange: this._handleServicos,
+	                disabled: true
+
 	              })
 	            )
 	          ),
@@ -2557,7 +2639,7 @@
 	        b({}, 'Valor Total da OS: '+"R$ "+this.state.valor),
 	        ButtonInput({
 	          type: 'submit',
-	          value: 'Criar OS',
+	          value: 'Alterar OS',
 	          labelClassName: 'col-xs-1',
 	          wrapperClassName: 'col-xs-11',
 	          onClick: this._sendToApi
@@ -2656,6 +2738,9 @@
 	  getInitialState: function(){
 	    return {
 	      links: [
+	        {path: '#/tecnico/ordemServico', label: "Ver Ordens"},
+	        {path: '#/tecnico/agenda', label: "Ver Agenda"},
+	        {path: '#/tecnico/editar', label: "Editar Dados"}
 	      ]
 	    }
 	  },
@@ -2989,6 +3074,11 @@
 	  getInitialState: function(){
 	    return {
 	      links: [
+	        {path: '#/gerente/ordemServico', label: "Ver OS"},
+	        {path: '#/gerente/criarOs', label: "Adicionar OS"},
+	        {path: '#/gerente/equipes', label: "Gerenciar Equipes"},
+	        {path: '#/gerente/pecas', label: "Estoque Peças"},
+	        {path: '#/gerente/editar', label: "Editar Dados"}
 	      ]
 	    }
 	  },
@@ -12344,7 +12434,6 @@
 	      contentType: 'application/json'
 	    })
 	    .done(function(res){
-	      console.log(res)
 	      if(res.err){
 	        AppDispatcher.dispatch({
 	        action: LoginConstants.LOGIN_FAILURE,
@@ -12586,7 +12675,6 @@
 	      data: JSON.stringify(requestBody),
 	      async: true
 	    }).done(function(res){
-	      console.log('done')
 	      AppDispatcher.dispatch({
 	        actionType: "changeAgendarHorario"
 	      })
@@ -12812,7 +12900,6 @@
 	    this.props.onHide()
 	  },
 	  render: function(){
-	    console.log(this.state)
 	    var listaTecnicos = AgendarHorarioStore.getListaGerentes()
 	    var horariosArr = this.props.horarios.map(function(horario, index){
 	      return option({key: 'horario-'+index}, horario.hora)
@@ -12949,7 +13036,6 @@
 	      for(var key in this.state){
 	        if(nextProps.data[key]) newState[key] = nextProps.data[key]
 	      }
-	      console.log(newState)
 	      this.setState(newState)
 	    }
 	  },
@@ -12989,8 +13075,6 @@
 	    var oldValues = jquery.extend(true, {}, this.state)
 	    newValues = u.omit(newValues, 'cliente', 'tecnico')
 	    oldValues = u.omit(oldValues, 'tecnicos')
-	    console.log(oldValues)
-	    console.log(newValues)
 	    AgendarHorarioActions.updateAgendarHorario(newValues, oldValues)
 	    this.props.onHide()
 	  },
@@ -13071,6 +13155,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(26)
+	var moment = __webpack_require__(53)
 	var EventEmitter = __webpack_require__(50).EventEmitter
 	var FluxDispatcher = __webpack_require__(29)
 	var assign = __webpack_require__(51)
@@ -13088,6 +13173,15 @@
 	]
 	var tableData = []
 
+	var tecnicoColumns = [
+	  {label: "Data", value: 'data'},
+	  {label: "Hora", value: 'hora'},
+	  {label: "Código Equipe", value: 'codequipe'},
+	  {label: "Número OS", value: 'idos'}
+	]
+	var agendaTecnicoData = []
+	var editarOsState = {}
+
 	var tipoServico = []
 	var clientes = []
 	var listaVeiculos = []
@@ -13103,6 +13197,15 @@
 	  },
 	  getTipoServico: function(){
 	    return tipoServico
+	  },
+	  getAgendaTecnicoColumns: function(){
+	    return tecnicoColumns
+	  },
+	  getAgendaTecnicoData: function(){
+	    return agendaTecnicoData
+	  },
+	  getEditState: function(){
+	    return editarOsState
 	  },
 	  getClientes: function(){
 	    return clientes
@@ -13134,8 +13237,57 @@
 	        OrdemServicoStore.emitChange("refetch")
 	        break;
 	      case "readOrdemServico":
+	        dispatchedObj.rows.forEach(function(row){
+	          if(row.dataconclusao) row.dataconclusao = moment(row.dataconclusao).format("YYYY-MM-DD")
+	          row.dataprevisao = moment(row.dataprevisao).format("YYYY-MM-DD")
+	          row.dataemissao = moment(row.dataemissao).format("YYYY-MM-DD")
+	        })
 	        tableData = dispatchedObj.rows
 	        OrdemServicoStore.emitChange("rerender")
+	        break
+	      case "deepReadOrdemServico":
+	        var ordemServicoInfo = dispatchedObj.info[0][0]
+	        var horarioOs = dispatchedObj.info[1][0]
+	        var pecasOs = dispatchedObj.info[2]
+	        var servicosOs = dispatchedObj.info[3]
+	        var newEditarState = {
+	          placaveiculo: ordemServicoInfo.placaveiculo,
+	          idequipe: ordemServicoInfo.idequipe,
+	          status: ordemServicoInfo.status,
+	          dataPrevisao: moment(ordemServicoInfo.dataprevisao).format("YYYY-MM-DD"),
+	          dataEmissao: moment(ordemServicoInfo.dataemissao).format("YYYY-MM-DD"),
+	          dataExecucao: horarioOs.data ? moment(ordemServicoInfo.dataemissao).format("YYYY-MM-DD") : '',
+	          dataConclusao: ordemServicoInfo.dataconclusao ? moment(ordemServicoInfo.dataconclusao).format("YYYY-MM-DD"):'',
+	          horaExecucao: parseInt(horarioOs.hora.substring(0, 2)),
+	          valor: parseFloat(ordemServicoInfo.valor.replace(/[^0-9\.]+/g,"")),
+	          descricao: ordemServicoInfo.descricao,
+	          servicosSelecionados: [],
+	          pecasSelecionadas: [],
+	          pecasOs: {}
+	        }
+	        newEditarState.pecasSelecionadas = pecasOs.map(function(peca){
+	          newEditarState.pecasOs[peca.nome] = {
+	            idpeca: peca.idpeca,
+	            preco: parseFloat(peca.preco.replace(/[^0-9\.]+/g,"")),
+	            quantidade: peca.quantidade
+	          }
+	          return {
+	            label: peca.nome,
+	            preco: peca.preco,
+	            value: peca.idpeca,
+	            quantidade: peca.quantidade,
+	            total: peca.quantidadetotal
+	          }
+	        })
+	        newEditarState.servicosSelecionados = servicosOs.map(function(servico){
+	          return {
+	            label: servico.nome,
+	            value: servico.idservico,
+	            preco: parseFloat(servico.preco.replace(/[^0-9\.]+/g,""))
+	          }
+	        })
+	        editarOsState = newEditarState
+	        OrdemServicoStore.emitChange("fullread")
 	        break
 
 	      case "GET_TIPO_SERVICO":
@@ -13173,6 +13325,14 @@
 	        listaEquipes = dispatchedObj.equipes
 	        OrdemServicoStore.emitChange("rerender")
 	        break
+
+	      case "GET_HORARIO":
+	        dispatchedObj.horario.forEach(function(row){
+	          row.data = moment(row.data).format("YYYY-MM-DD")
+	        })
+	        agendaTecnicoData = dispatchedObj.horario
+	        OrdemServicoStore.emitChange("rerender")
+	        break;
 
 	      default:
 	    }
@@ -13236,15 +13396,15 @@
 	      })
 	    })
 	  },
-	  updateOrdemServico: function(values, id){
-	    values.idpeca = id
+	  updateOrdemServico: function(previousState, newState, id){
 	    var requestBody = {
-	      table: "peca",
-	      values: values
+	      previousState: previousState,
+	      newState: newState,
+	      id: id
 	    }
 	    var key = "updatePeca"
 	    _pendingRequests[key] = jajax({
-	      url: 'apiv1/update',
+	      url: 'apiv1/updateOs',
 	      type: 'POST',
 	      contentType: 'application/json',
 	      data: JSON.stringify(requestBody),
@@ -13350,8 +13510,35 @@
 	        equipes: res
 	      })
 	    })
+	  },
+	  getHorarios: function(id){
+	    var key = "getHorarios"
+	    _pendingRequests[key] = jajax({
+	      url: 'apiv1/horarioTecnico/'+id,
+	      type: 'GET',
+	      contentType: 'application/json',
+	      async: true
+	    }).done(function(res){
+	      AppDispatcher.dispatch({
+	        actionType: "GET_HORARIO",
+	        horario: res
+	      })
+	    })
+	  },
+	  fullReadOrdemServico: function(id){
+	    var key = "fullReadOrdemServico"
+	    _pendingRequests[key] = jajax({
+	      url: 'apiv1/readFullOs/'+id,
+	      type: 'GET',
+	      contentType: 'application/json',
+	      async: true
+	    }).done(function(res){
+	      AppDispatcher.dispatch({
+	        actionType: "deepReadOrdemServico",
+	        info: res
+	      })
+	    })
 	  }
-
 	}
 
 
@@ -63140,6 +63327,2940 @@
 	})
 
 	module.exports = DeleteModalHorario
+
+/***/ },
+/* 440 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(26);
+	var u = __webpack_require__(54)
+
+	var Navigation = __webpack_require__(28).Navigation
+	var OrdemServicoStore = __webpack_require__(36)
+
+	var OrdemServicoActions = __webpack_require__(37)
+
+	var Table = React.createFactory(__webpack_require__(52).Table)
+	var Button = React.createFactory(__webpack_require__(52).Button)
+	var ButtonInput = React.createFactory(__webpack_require__(52).ButtonInput)
+	var Input = React.createFactory(__webpack_require__(52).Input)
+	//var CreateModal = React.createFactory(require('./createModalPeca'))
+	//var UpdateModal = React.createFactory(require('./updateModalPeca'))
+	var div = React.createFactory('div')
+	var p = React.createFactory('p')
+	var h4 = React.createFactory('h4')
+	var form = React.createFactory('form')
+	var thead = React.createFactory('thead')
+	var table = React.createFactory('table')
+	var tbody = React.createFactory('tbody')
+	var th = React.createFactory('th')
+	var td = React.createFactory('td')
+	var tr = React.createFactory('tr')
+	var span = React.createFactory('span')
+
+	var CrudOrdemServico = React.createClass({displayName: "CrudOrdemServico",
+	  mixins: [Navigation],
+
+	  getInitialState: function(){
+	    return {
+	      tableColumns: OrdemServicoStore.getTableColumns(),
+	      tableData: OrdemServicoStore.getTableData(),
+	      selectedUpdateData: {},
+	      updateModalIndex: 0
+	    }
+	  },
+	  componentDidMount: function(){
+	    OrdemServicoStore.addChangeListener("refetch", this._read)
+	    OrdemServicoStore.addChangeListener("rerender", this._dataChange)
+	    OrdemServicoActions.readOrdemServico()
+	  },
+
+	  componentWillUnmount: function(){
+	    OrdemServicoStore.removeChangeListener("refetch", this._read)
+	    OrdemServicoStore.removeChangeListener("rerender", this._dataChange)
+	  },
+
+	  _dataChange: function(){
+	    this.setState({tableData: OrdemServicoStore.getTableData()})
+	  },
+	  _read: function(){
+	    OrdemServicoActions.readOrdemServico()
+	  },
+	  _toggleCreate: function(){
+	    this.transitionTo('criarOsGerente')
+	  },
+	  _closeUpdateModal: function(){
+	    this.setState({showUpdateModal: false})
+	  },
+	  _editClick: function(index){
+	    this.transitionTo('editarOsGerente', {id: index})
+	  },
+	  _removeClick: function(index){
+	    //OrdemServicoActions.deletePeca(index)
+
+	  },
+	  render: function(){
+	    var tableProps = {
+	      striped: true,
+	      bordered: true,
+	      condensed: true,
+	      hover: true,
+	      responsive: true
+	    }
+	    var Header = React.createFactory(TableHeader)
+	    var Body = React.createFactory(TableBody)
+	    return (
+	      div({},
+	        Table(tableProps,
+	          Header({tableColumns: this.state.tableColumns}),
+	          Body({tableColumns: this.state.tableColumns,
+	            data: this.state.tableData,
+	            onEditClick: this._editClick,
+	            onRemoveClick: this._removeClick})
+	        ),
+	        Button({onClick: this._toggleCreate},
+	          "Adicionar nova OS")
+	      )
+
+	    )
+	  }
+	})
+
+	var TableHeader = React.createClass({displayName: "TableHeader",
+	  getDefaultProps: function(){
+	    return {tableColumns: []}
+	  },
+	  render: function(){
+	    var content = this.props.tableColumns.map(function(column){
+	      return th({key: column.value}, column.label)
+	    })
+	    content.push(th({key: 'actions'}, 'Ações'))
+	    return(
+	      thead({},
+	        content
+	      )
+	    )
+	  }
+	})
+
+	var TableBody = React.createClass({displayName: "TableBody",
+	  getDefaultProps: function(){
+	    return {
+	      tableColumns: [],
+	      data: [],
+	      onEditClick: function(){},
+	      onRemoveClick: function(){},
+	    }
+	  },
+	  render: function(){
+	    var content = this.props.data.map(function(row, index){
+	      var rowContent = this.props.tableColumns.map(function(column){
+	        return td({key: 'column-'+column.value+'-'+index}, row[column.value])
+	      })
+	      rowContent.push(td({key: "actions-"+index},
+	        p({onClick: this.props.onEditClick.bind(null, row.id)}, 'Editar')
+	      ))
+	      var singleRow = tr({key: 'content-'+index}, rowContent)
+	      return singleRow
+	    }.bind(this))
+	    return(
+	      tbody({}, content)
+	    )
+	  }
+	})
+
+	module.exports = CrudOrdemServico
+
+/***/ },
+/* 441 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React               = __webpack_require__(26)
+	var u                   = __webpack_require__(54)
+	var jquery 						  = __webpack_require__(27)
+	var jajax 						  = __webpack_require__(27).ajax
+	var moment              = __webpack_require__(53).utc
+	var Navigation          = __webpack_require__(28).Navigation;
+
+	var OrdemServicoStore = __webpack_require__(36)
+
+	var OrdemServicoActions = __webpack_require__(37)
+
+	// Components
+	var Input = React.createFactory(__webpack_require__(52).Input)
+	var ButtonInput = React.createFactory(__webpack_require__(52).ButtonInput)
+	var FormControls = React.createFactory(__webpack_require__(52).FormControls.Static)
+	var Grid = React.createFactory(__webpack_require__(52).Grid)
+	var Row = React.createFactory(__webpack_require__(52).Row)
+	var Col = React.createFactory(__webpack_require__(52).Col)
+	var Select = React.createFactory(__webpack_require__(55))
+	var div = React.createFactory('div')
+	var p = React.createFactory('p')
+	var b = React.createFactory('b')
+	var form = React.createFactory('form')
+	var input = React.createFactory('input')
+	var span = React.createFactory('span')
+	var option = React.createFactory('option')
+
+	__webpack_require__(77)
+
+	var CriarOrdemServico = React.createClass({displayName: "CriarOrdemServico",
+	  mixins: [Navigation],
+	  getInitialState: function(){
+	    return({
+	      placaveiculo: '',
+	      idequipe: '',
+	      status: 'pendente',
+	      dataPrevisao: '',
+	      dataEmissao: moment().format("YYYY-MM-DD"),
+	      dataExecucao: moment().format("YYYY-MM-DD"),
+	      dataConclusao: '',
+	      valor: 0,
+	      descricao: '',
+	      cliente: null,
+	      listaServicos: OrdemServicoStore.getTipoServico(),
+	      listaClientes: OrdemServicoStore.getClientes(),
+	      listaVeiculos: OrdemServicoStore.getListaVeiculos(),
+	      listaPecas: OrdemServicoStore.getListaPecas(),
+	      listaEquipes: OrdemServicoStore.getListaEquipes(),
+	      servicosSelecionados: [],
+	      pecasSelecionadas: [],
+	      pecasOs: {}
+	    })
+	  },
+	  componentDidMount: function(){
+	    OrdemServicoStore.addChangeListener("rerender", this._dataChange)
+	    OrdemServicoActions.getTipoServico()
+	    OrdemServicoActions.getClientes()
+	    OrdemServicoActions.getPecas()
+	    OrdemServicoActions.getEquipes(moment().format("YYYY-MM-DD"))
+	  },
+	  componentWillUnmount: function(){
+	    OrdemServicoStore.removeChangeListener("rerender", this._dataChange)
+	  },
+
+	  _dataChange: function(){
+	    console.log("_dataChange")
+	    var newState = {
+	      listaServicos: OrdemServicoStore.getTipoServico(),
+	      listaVeiculos: OrdemServicoStore.getListaVeiculos(),
+	      listaPecas: OrdemServicoStore.getListaPecas(),
+	      listaEquipes: OrdemServicoStore.getListaEquipes(),
+	      listaClientes: OrdemServicoStore.getClientes()
+	    }
+	    if(!u.isEqual(this.state.listaClientes, OrdemServicoStore.getClientes())){
+	      newState.cliente = OrdemServicoStore.getClientes()[0].codigocadastro
+	      OrdemServicoActions.getVeiculos(OrdemServicoStore.getClientes()[0].codigocadastro)
+	    }
+	    if(!u.isEqual(this.state.listaVeiculos, OrdemServicoStore.getListaVeiculos())){
+	      newState.placaveiculo = OrdemServicoStore.getListaVeiculos()[0].placa
+	    }
+	    if(!u.isEqual(this.state.listaEquipes, OrdemServicoStore.getListaEquipes())){
+	      newState.horaExecucao = OrdemServicoStore.getListaEquipes()[0].horarios[0]
+	      newState.idequipe =  OrdemServicoStore.getListaEquipes()[0].idequipe
+	    }
+	    newState.pecasOs = this.state.pecasOs
+	    OrdemServicoStore.getListaPecas().forEach(function(peca){
+	      if(!newState.pecasOs[peca.label]){
+	        newState.pecasOs[peca.label] = {}
+	        newState.pecasOs[peca.label].quantidade = 0
+	        newState.pecasOs[peca.label].idpeca = peca.value
+	        newState.pecasOs[peca.label].preco = parseFloat(peca.preco.replace("$", ''))
+	      }
+	    })
+
+	    this.setState(newState)
+	  },
+
+	  interceptEvent: function(event){
+	    if(event){
+	      if(event.preventDefault) event.preventDefault()
+	      if(event.stopPropagation) event.stopPropagation()
+	    }
+	  },
+
+	  _handleInputChange: function(stateKey, e){
+	    var newState = {}
+	    newState[stateKey] = e.target.value
+	    this.setState(newState)
+	  },
+
+	  _handleServicos: function(values, selectedOptions){
+	    var valor = 0
+	    selectedOptions.forEach(function(servico){
+	      valor += servico.preco
+	    })
+	    u.keys(this.state.pecasOs).forEach(function(key){
+	      valor += this.state.pecasOs[key].quantidade * this.state.pecasOs[key].preco
+	    }.bind(this))
+	    this.setState({
+	      servicosSelecionados: selectedOptions,
+	      valor: valor
+	    })
+	  },
+	  _handleClienteChange: function(e){
+	    OrdemServicoActions.getVeiculos(e.target.value)
+	    this.setState({cliente: e.target.value})
+	  },
+
+	  _handlePecas: function(values, selectedOptions){
+	    var selectedPecas = selectedOptions.map(function(peca){
+	      return peca.label
+	    })
+	    var newPecasOs = this.state.pecasOs
+	    var valor = 0
+	    u.keys(this.state.pecasOs).forEach(function(peca){
+	      if(!u.contains(selectedPecas, peca)){
+	        newPecasOs[peca].quantidade = 0
+	      }
+	    })
+	    this.state.servicosSelecionados.forEach(function(servico){
+	      valor += servico.preco
+	    })
+	    u.keys(newPecasOs).forEach(function(key){
+	      valor += newPecasOs[key].quantidade * newPecasOs[key].preco
+	    }.bind(this))
+	    this.setState({
+	      pecasSelecionadas: selectedOptions,
+	      pecasOs: newPecasOs,
+	      valor: valor
+	    })
+	  },
+	  _handlePeca: function(peca, e){
+	    var newPecaState = this.state.pecasOs
+	    var valor = 0
+	    newPecaState[peca].quantidade = parseInt(e.target.value)
+	    this.state.servicosSelecionados.forEach(function(servico){
+	      valor += servico.preco
+	    })
+	    u.keys(newPecaState).forEach(function(key){
+	      valor += newPecaState[key].quantidade * newPecaState[key].preco
+	    }.bind(this))
+	    this.setState({
+	      pecasOs: newPecaState,
+	      valor: valor
+	    })
+	  },
+
+	  _handleDataExecucao: function(e){
+	    OrdemServicoActions.getEquipes(e.target.value)
+	    this.setState({dataExecucao: e.target.value})
+	  },
+	  _sendToApi: function(e){
+	    console.log(this.state)
+	    this.interceptEvent(e)
+	    var objToSend = jquery.extend(true, {}, this.state)
+	    objToSend.pecas = u.keys(objToSend.pecasOs).map(function(peca){
+	      return {
+	        idpeca: objToSend.pecasOs[peca].idpeca,
+	        quantidade: objToSend.pecasOs[peca].quantidade
+	      }
+	    })
+	    objToSend.pecas = u.filter(objToSend.pecas, function(obj){
+	      return obj.quantidade > 0
+	    })
+	    var keysToRemove = ['listaClientes', 'listaEquipes', 'listaPecas', 'listaServicos', 'listaVeiculos',
+	      'pecasOs', 'pecasSelecionadas', 'cliente']
+	    if(objToSend.dataConclusao == '') keysToRemove.push('dataConclusao')
+	    objToSend = u.omit(objToSend, keysToRemove)
+	    OrdemServicoActions.createOrdemServico(objToSend)
+	    this.goBack()
+	  },
+
+	  render: function(){
+	    var listaClientes = this.state.listaClientes.map(function(cliente, index){
+	      var label = cliente.codigocadastro+"- "+cliente.nome+" "+cliente.sobrenome
+	      return option({key: "dono-"+cliente.codigocadastro, value: cliente.codigocadastro}, label)
+	    })
+	    var veiculosArr = this.state.listaVeiculos.map(function(veiculo, index){
+	      return option({key: 'veiculos-'+index, value: veiculo.placa}, veiculo.placa)
+	    })
+	    var selectPecas = this.state.pecasSelecionadas.map(function(peca, index){
+	      return Input({
+	          key: "select-peca-"+index,
+	          type: 'select',
+	          label: peca.label,
+	          labelClassName: 'col-xs-1',
+	          wrapperClassName: 'col-xs-11',
+	          value: this.state.pecasOs[peca.label].quantidade,
+	          onChange: this._handlePeca.bind(null, peca.label)
+	        },
+	        u.range(0, peca.quantidade+1).map(function(quantidade, index){
+	          return option({key: 'peca-quantidade-'+index, value: quantidade}, quantidade)
+	        })
+	      )
+	    }.bind(this))
+	    var listaEquipes = this.state.listaEquipes.map(function(equipe, index){
+	      var label = (index===0) ? equipe.idequipe + " (Equipe sugerida)" : equipe.idequipe
+	      return option({key: 'equipe-'+index, value: equipe.idequipe}, label)
+	    }.bind(this))
+
+	    if(u.findWhere(this.state.listaEquipes, {idequipe: this.state.idequipe})){
+	      var horarios = u.findWhere(this.state.listaEquipes, {idequipe: this.state.idequipe}).horarios.map(
+	        function(horario, index){
+	          return option({key: 'horario-'+index, value: horario}, ""+horario+":00")
+	        })
+	    }
+	    return(
+	      form({onSubmit: this._sendToApi, className: 'form-horizontal'},
+	        Input({
+	            type: 'select',
+	            label: 'Cliente',
+	            labelClassName: 'col-xs-1',
+	            wrapperClassName: 'col-xs-11',
+	            value: this.state.cliente,
+	            onChange: this._handleClienteChange
+	          },
+	          listaClientes
+	        ),
+	        Input({
+	            type: 'select',
+	            label: 'Veículo',
+	            labelClassName: 'col-xs-1',
+	            wrapperClassName: 'col-xs-11',
+	            value: this.state.placaveiculo,
+	            onChange: this._handleInputChange.bind(null, 'placaveiculo')
+	          },
+	          veiculosArr
+	        ),
+	        Input({
+	            type: 'select',
+	            label: 'Status OS',
+	            labelClassName: 'col-xs-1',
+	            wrapperClassName: 'col-xs-11',
+	            value: this.state.status,
+	            onChange: this._handleInputChange.bind(null, 'status')
+	          },
+	          option({value: 'pendente'}, 'Pendente'),
+	          option({value: 'aprovada'}, 'Aprovada'),
+	          option({value: 'suspensa'}, 'Suspensa'),
+	          option({value: 'finalizada'}, 'Finalizada')
+	        ),
+	        Input({
+	          type: 'date',
+	          label: 'Data Execução',
+	          labelClassName: 'col-xs-1',
+	          wrapperClassName: 'col-xs-11',
+	          value: this.state.dataExecucao,
+	          onChange: this._handleDataExecucao
+	        }),
+	        Input({
+	            type: 'select',
+	            label: 'Equipe',
+	            labelClassName: 'col-xs-1',
+	            wrapperClassName: 'col-xs-11',
+	            value: this.state.idequipe,
+	            onChange: this._handleInputChange.bind(null, 'idequipe')
+	          },
+	          listaEquipes
+	        ),
+	        Input({
+	            type: 'select',
+	            label: 'Hora Execução',
+	            labelClassName: 'col-xs-1',
+	            wrapperClassName: 'col-xs-11',
+	            value: this.state.horaExecucao,
+	            onChange: this._handleInputChange.bind(null, 'horaExecucao')
+	          },
+	          horarios
+	        ),
+	        Input({
+	          type: 'date',
+	          label: 'Data Previsão',
+	          labelClassName: 'col-xs-1',
+	          wrapperClassName: 'col-xs-11',
+	          value: this.state.dataPrevisao,
+	          onChange: this._handleInputChange.bind(null, 'dataPrevisao')
+	        }),
+	        Input({
+	          type: 'date',
+	          label: 'Data Emissão',
+	          labelClassName: 'col-xs-1',
+	          wrapperClassName: 'col-xs-11',
+	          value: this.state.dataEmissao,
+	          onChange: this._handleInputChange.bind(null, 'dataEmissao')
+	        }),
+	        Input({
+	          type: 'date',
+	          label: 'Data Conclusão',
+	          labelClassName: 'col-xs-1',
+	          wrapperClassName: 'col-xs-11',
+	          value: this.state.dataConclusao,
+	          onChange: this._handleInputChange.bind(null, 'dataConclusao')
+	        }),
+	        Grid({fluid: true},
+	          Row({className: 'show-grid'},
+	            Col({xs: 4, md: 1}, b({}, 'Tipos de Serviço: ')),
+	            Col({xs: 16, md: 11},
+	              Select({
+	                name: 'form-field-name',
+	                placeholder: 'Tipos de Serviço',
+	                options: this.state.listaServicos,
+	                value: this.state.servicosSelecionados,
+	                multi: true,
+	                onChange: this._handleServicos
+	              })
+	            )
+	          ),
+	          React.createElement("br", null),
+	          Row({className: 'show-grid'},
+	            Col({xs: 4, md: 1}, b({}, 'Peças: ')),
+	            Col({xs: 16, md: 11},
+	              Select({
+	                name: 'form-field-name',
+	                placeholder: 'Peças',
+	                options: this.state.listaPecas,
+	                value: this.state.pecasSelecionadas,
+	                multi: true,
+	                onChange: this._handlePecas
+	              })
+	            )
+	          ),
+	          React.createElement("br", null)
+	        ),
+	        selectPecas,
+	        Input({
+	          type: 'textarea',
+	          label: 'Descrição',
+	          labelClassName: 'col-xs-1',
+	          wrapperClassName: 'col-xs-11',
+	          placeholder: 'Digite a descrição da OS',
+	          value: this.state.descricao,
+	          onChange: this._handleInputChange.bind(null, 'descricao')
+	        }),
+	        b({}, 'Valor Total da OS: '+"R$ "+this.state.valor),
+	        ButtonInput({
+	          type: 'submit',
+	          value: 'Criar OS',
+	          labelClassName: 'col-xs-1',
+	          wrapperClassName: 'col-xs-11',
+	          onClick: this._sendToApi
+	        }),
+	        ButtonInput({
+	          type: 'button',
+	          value: 'Voltar',
+	          labelClassName: 'col-xs-1',
+	          wrapperClassName: 'col-xs-11',
+	          onClick: this.goBack
+	        })
+
+	      )
+	    )
+	  }
+	})
+
+	module.exports = CriarOrdemServico
+
+/***/ },
+/* 442 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React               = __webpack_require__(26)
+	var u                   = __webpack_require__(54)
+	var jquery 						  = __webpack_require__(27)
+	var jajax 						  = __webpack_require__(27).ajax
+	var moment              = __webpack_require__(53).utc
+	var Navigation          = __webpack_require__(28).Navigation;
+
+	var OrdemServicoStore = __webpack_require__(36)
+
+	var OrdemServicoActions = __webpack_require__(37)
+
+	// Components
+	var Input = React.createFactory(__webpack_require__(52).Input)
+	var ButtonInput = React.createFactory(__webpack_require__(52).ButtonInput)
+	var FormControls = React.createFactory(__webpack_require__(52).FormControls.Static)
+	var Grid = React.createFactory(__webpack_require__(52).Grid)
+	var Row = React.createFactory(__webpack_require__(52).Row)
+	var Col = React.createFactory(__webpack_require__(52).Col)
+	var Select = React.createFactory(__webpack_require__(55))
+	var div = React.createFactory('div')
+	var p = React.createFactory('p')
+	var b = React.createFactory('b')
+	var form = React.createFactory('form')
+	var input = React.createFactory('input')
+	var span = React.createFactory('span')
+	var option = React.createFactory('option')
+
+	__webpack_require__(77)
+
+	var EditarOrdemServico = React.createClass({displayName: "EditarOrdemServico",
+	  mixins: [Navigation],
+	  getInitialState: function(){
+	    return({
+	      placaveiculo: '',
+	      idequipe: '',
+	      status: 'pendente',
+	      dataPrevisao: '',
+	      dataEmissao: moment().format("YYYY-MM-DD"),
+	      dataExecucao: moment().format("YYYY-MM-DD"),
+	      dataConclusao: '',
+	      valor: 0,
+	      descricao: '',
+	      cliente: null,
+	      listaServicos: OrdemServicoStore.getTipoServico(),
+	      listaClientes: OrdemServicoStore.getClientes(),
+	      listaVeiculos: OrdemServicoStore.getListaVeiculos(),
+	      listaPecas: OrdemServicoStore.getListaPecas(),
+	      listaEquipes: OrdemServicoStore.getListaEquipes(),
+	      servicosSelecionados: [],
+	      pecasSelecionadas: [],
+	      pecasOs: {}
+	    })
+	  },
+	  componentDidMount: function(){
+	    OrdemServicoStore.addChangeListener("rerender", this._dataChange)
+	    OrdemServicoStore.addChangeListener("fullread", this._newState)
+	    OrdemServicoActions.getTipoServico()
+	    OrdemServicoActions.getClientes()
+	    OrdemServicoActions.getPecas()
+	    OrdemServicoActions.getEquipes(moment().format("YYYY-MM-DD"))
+	    OrdemServicoActions.fullReadOrdemServico(this.props.params.id)
+	  },
+	  componentWillUnmount: function(){
+	    OrdemServicoStore.removeChangeListener("rerender", this._dataChange)
+	    OrdemServicoStore.removeChangeListener("fullread", this._newState)
+	  },
+	  _newState: function(){
+	    var objToSend = jquery.extend(true, {}, OrdemServicoStore.getEditState())
+	    objToSend.pecas = u.keys(objToSend.pecasOs).map(function(peca){
+	      return {
+	        idpeca: objToSend.pecasOs[peca].idpeca,
+	        quantidade: objToSend.pecasOs[peca].quantidade
+	      }
+	    })
+	    objToSend.pecas = u.filter(objToSend.pecas, function(obj){
+	      return obj.quantidade > 0
+	    })
+	    var keysToRemove = ['listaClientes', 'listaEquipes', 'listaPecas', 'listaServicos', 'listaVeiculos',
+	      'pecasOs', 'pecasSelecionadas', 'cliente']
+	    if(objToSend.dataConclusao == '') keysToRemove.push('dataConclusao')
+	    objToSend = u.omit(objToSend, keysToRemove)
+	    var newState = OrdemServicoStore.getEditState()
+	    newState.previouObjToSend = objToSend
+	    this.setState(newState)
+	  },
+	  _dataChange: function(){
+	    var newState = {
+	      listaServicos: OrdemServicoStore.getTipoServico(),
+	      listaVeiculos: OrdemServicoStore.getListaVeiculos(),
+	      listaPecas: OrdemServicoStore.getListaPecas(),
+	      listaEquipes: OrdemServicoStore.getListaEquipes(),
+	      listaClientes: OrdemServicoStore.getClientes()
+	    }
+	    if(!u.isEqual(this.state.listaClientes, OrdemServicoStore.getClientes())){
+	      newState.cliente = OrdemServicoStore.getClientes()[0].codigocadastro
+	      OrdemServicoActions.getVeiculos(OrdemServicoStore.getClientes()[0].codigocadastro)
+	    }
+	    if(!u.isEqual(this.state.listaVeiculos, OrdemServicoStore.getListaVeiculos())){
+	      newState.placaveiculo = OrdemServicoStore.getListaVeiculos()[0].placa
+	    }
+	    if(!u.isEqual(this.state.listaEquipes, OrdemServicoStore.getListaEquipes())){
+	      newState.horaExecucao = OrdemServicoStore.getListaEquipes()[0].horarios[0]
+	      newState.idequipe =  OrdemServicoStore.getListaEquipes()[0].idequipe
+	    }
+	    newState.pecasOs = this.state.pecasOs
+	    OrdemServicoStore.getListaPecas().forEach(function(peca){
+	      if(!newState.pecasOs[peca.label]){
+	        newState.pecasOs[peca.label] = {}
+	        newState.pecasOs[peca.label].quantidade = 0
+	        newState.pecasOs[peca.label].idpeca = peca.value
+	        newState.pecasOs[peca.label].preco = parseFloat(peca.preco.replace("$", ''))
+	        newState.pecasOs[peca.label].total = peca.quantidade
+	      }
+	    })
+	    this.setState(newState)
+	  },
+
+	  interceptEvent: function(event){
+	    if(event){
+	      if(event.preventDefault) event.preventDefault()
+	      if(event.stopPropagation) event.stopPropagation()
+	    }
+	  },
+
+	  _handleInputChange: function(stateKey, e){
+	    var newState = {}
+	    newState[stateKey] = e.target.value
+	    this.setState(newState)
+	  },
+
+	  _handleServicos: function(values, selectedOptions){
+	    var valor = 0
+	    selectedOptions.forEach(function(servico){
+	      valor += servico.preco
+	    })
+	    u.keys(this.state.pecasOs).forEach(function(key){
+	      valor += this.state.pecasOs[key].quantidade * this.state.pecasOs[key].preco
+	    }.bind(this))
+	    this.setState({
+	      servicosSelecionados: selectedOptions,
+	      valor: valor
+	    })
+	  },
+	  _handleClienteChange: function(e){
+	    OrdemServicoActions.getVeiculos(e.target.value)
+	    this.setState({cliente: e.target.value})
+	  },
+
+	  _handlePecas: function(values, selectedOptions){
+	    var selectedPecas = selectedOptions.map(function(peca){
+	      return peca.label
+	    })
+	    var newPecasOs = this.state.pecasOs
+	    var valor = 0
+	    u.keys(this.state.pecasOs).forEach(function(peca){
+	      if(!u.contains(selectedPecas, peca)){
+	        newPecasOs[peca].quantidade = 0
+	      }
+	    })
+	    this.state.servicosSelecionados.forEach(function(servico){
+	      valor += servico.preco
+	    })
+	    u.keys(newPecasOs).forEach(function(key){
+	      valor += newPecasOs[key].quantidade * newPecasOs[key].preco
+	    }.bind(this))
+	    this.setState({
+	      pecasSelecionadas: selectedOptions,
+	      pecasOs: newPecasOs,
+	      valor: valor
+	    })
+	  },
+	  _handlePeca: function(peca, e){
+	    var newPecaState = this.state.pecasOs
+	    var valor = 0
+	    newPecaState[peca].quantidade = parseInt(e.target.value)
+	    this.state.servicosSelecionados.forEach(function(servico){
+	      valor += servico.preco
+	    })
+	    u.keys(newPecaState).forEach(function(key){
+	      valor += newPecaState[key].quantidade * newPecaState[key].preco
+	    }.bind(this))
+	    this.setState({
+	      pecasOs: newPecaState,
+	      valor: valor
+	    })
+	  },
+
+	  _handleDataExecucao: function(e){
+	    OrdemServicoActions.getEquipes(e.target.value)
+	    this.setState({dataExecucao: e.target.value})
+	  },
+	  _sendToApi: function(e){
+	    this.interceptEvent(e)
+	    var objToSend = jquery.extend(true, {}, this.state)
+	    objToSend.pecas = u.keys(objToSend.pecasOs).map(function(peca){
+	      return {
+	        idpeca: objToSend.pecasOs[peca].idpeca,
+	        quantidade: objToSend.pecasOs[peca].quantidade
+	      }
+	    })
+	    objToSend.pecas = u.filter(objToSend.pecas, function(obj){
+	      return obj.quantidade > 0
+	    })
+	    var keysToRemove = ['listaClientes', 'listaEquipes', 'listaPecas', 'listaServicos', 'listaVeiculos',
+	      'pecasOs', 'pecasSelecionadas', 'cliente', 'previouObjToSend']
+	    if(objToSend.dataConclusao == '') keysToRemove.push('dataConclusao')
+	    objToSend = u.omit(objToSend, keysToRemove)
+	    OrdemServicoActions.updateOrdemServico(this.state.previouObjToSend, objToSend, this.props.params.id)
+	    this.goBack()
+	  },
+
+	  render: function(){
+	    var listaClientes = this.state.listaClientes.map(function(cliente, index){
+	      var label = cliente.codigocadastro+"- "+cliente.nome+" "+cliente.sobrenome
+	      return option({key: "dono-"+cliente.codigocadastro, value: cliente.codigocadastro}, label)
+	    })
+	    var veiculosArr = this.state.listaVeiculos.map(function(veiculo, index){
+	      return option({key: 'veiculos-'+index, value: veiculo.placa}, veiculo.placa)
+	    })
+	    var selectPecas = this.state.pecasSelecionadas.map(function(peca, index){
+	      var pecaInfo = u.findWhere(this.state.listaPecas, {value: peca.value})
+	      return Input({
+	          key: "select-peca-"+index,
+	          type: 'select',
+	          label: peca.label,
+	          labelClassName: 'col-xs-1',
+	          wrapperClassName: 'col-xs-11',
+	          value: this.state.pecasOs[peca.label].quantidade,
+	          onChange: this._handlePeca.bind(null, peca.label)
+	        },
+	        u.range(0, pecaInfo.quantidade+1).map(function(quantidade, index){
+	          return option({key: 'peca-quantidade-'+index, value: quantidade}, quantidade)
+	        })
+	      )
+	    }.bind(this))
+	    var listaEquipes = this.state.listaEquipes.map(function(equipe, index){
+	      var label = (index===0) ? equipe.idequipe + " (Equipe sugerida)" : equipe.idequipe
+	      return option({key: 'equipe-'+index, value: equipe.idequipe}, label)
+	    }.bind(this))
+
+	    if(u.findWhere(this.state.listaEquipes, {idequipe: this.state.idequipe})){
+	      var horarios = u.findWhere(this.state.listaEquipes, {idequipe: this.state.idequipe}).horarios.map(
+	        function(horario, index){
+	          return option({key: 'horario-'+index, value: horario}, ""+horario+":00")
+	        })
+	    }
+	    return(
+	      form({onSubmit: this._sendToApi, className: 'form-horizontal'},
+	        Input({
+	            type: 'select',
+	            label: 'Cliente',
+	            labelClassName: 'col-xs-1',
+	            wrapperClassName: 'col-xs-11',
+	            value: this.state.cliente,
+	            onChange: this._handleClienteChange
+	          },
+	          listaClientes
+	        ),
+	        Input({
+	            type: 'select',
+	            label: 'Veículo',
+	            labelClassName: 'col-xs-1',
+	            wrapperClassName: 'col-xs-11',
+	            value: this.state.placaveiculo,
+	            onChange: this._handleInputChange.bind(null, 'placaveiculo')
+	          },
+	          veiculosArr
+	        ),
+	        Input({
+	            type: 'select',
+	            label: 'Status OS',
+	            labelClassName: 'col-xs-1',
+	            wrapperClassName: 'col-xs-11',
+	            value: this.state.status,
+	            onChange: this._handleInputChange.bind(null, 'status')
+	          },
+	          option({value: 'pendente'}, 'Pendente'),
+	          option({value: 'aprovada'}, 'Aprovada'),
+	          option({value: 'suspensa'}, 'Suspensa'),
+	          option({value: 'finalizada'}, 'Finalizada')
+	        ),
+	        Input({
+	          type: 'date',
+	          label: 'Data Execução',
+	          labelClassName: 'col-xs-1',
+	          wrapperClassName: 'col-xs-11',
+	          value: this.state.dataExecucao,
+	          onChange: this._handleDataExecucao
+	        }),
+	        Input({
+	            type: 'select',
+	            label: 'Equipe',
+	            labelClassName: 'col-xs-1',
+	            wrapperClassName: 'col-xs-11',
+	            value: this.state.idequipe,
+	            onChange: this._handleInputChange.bind(null, 'idequipe')
+	          },
+	          listaEquipes
+	        ),
+	        Input({
+	            type: 'select',
+	            label: 'Hora Execução',
+	            labelClassName: 'col-xs-1',
+	            wrapperClassName: 'col-xs-11',
+	            value: this.state.horaExecucao,
+	            onChange: this._handleInputChange.bind(null, 'horaExecucao')
+	          },
+	          horarios
+	        ),
+	        Input({
+	          type: 'date',
+	          label: 'Data Previsão',
+	          labelClassName: 'col-xs-1',
+	          wrapperClassName: 'col-xs-11',
+	          value: this.state.dataPrevisao,
+	          onChange: this._handleInputChange.bind(null, 'dataPrevisao')
+	        }),
+	        Input({
+	          type: 'date',
+	          label: 'Data Emissão',
+	          labelClassName: 'col-xs-1',
+	          wrapperClassName: 'col-xs-11',
+	          value: this.state.dataEmissao,
+	          onChange: this._handleInputChange.bind(null, 'dataEmissao')
+	        }),
+	        Input({
+	          type: 'date',
+	          label: 'Data Conclusão',
+	          labelClassName: 'col-xs-1',
+	          wrapperClassName: 'col-xs-11',
+	          value: this.state.dataConclusao,
+	          onChange: this._handleInputChange.bind(null, 'dataConclusao')
+	        }),
+	        Grid({fluid: true},
+	          Row({className: 'show-grid'},
+	            Col({xs: 4, md: 1}, b({}, 'Tipos de Serviço: ')),
+	            Col({xs: 16, md: 11},
+	              Select({
+	                name: 'form-field-name',
+	                placeholder: 'Tipos de Serviço',
+	                options: this.state.listaServicos,
+	                value: this.state.servicosSelecionados,
+	                multi: true,
+	                onChange: this._handleServicos,
+	                disabled: true
+
+	              })
+	            )
+	          ),
+	          React.createElement("br", null),
+	          Row({className: 'show-grid'},
+	            Col({xs: 4, md: 1}, b({}, 'Peças: ')),
+	            Col({xs: 16, md: 11},
+	              Select({
+	                name: 'form-field-name',
+	                placeholder: 'Peças',
+	                options: this.state.listaPecas,
+	                value: this.state.pecasSelecionadas,
+	                multi: true,
+	                onChange: this._handlePecas
+	              })
+	            )
+	          ),
+	          React.createElement("br", null)
+	        ),
+	        selectPecas,
+	        Input({
+	          type: 'textarea',
+	          label: 'Descrição',
+	          labelClassName: 'col-xs-1',
+	          wrapperClassName: 'col-xs-11',
+	          placeholder: 'Digite a descrição da OS',
+	          value: this.state.descricao,
+	          onChange: this._handleInputChange.bind(null, 'descricao')
+	        }),
+	        b({}, 'Valor Total da OS: '+"R$ "+this.state.valor),
+	        ButtonInput({
+	          type: 'submit',
+	          value: 'Alterar OS',
+	          labelClassName: 'col-xs-1',
+	          wrapperClassName: 'col-xs-11',
+	          onClick: this._sendToApi
+	        }),
+	        ButtonInput({
+	          type: 'button',
+	          value: 'Voltar',
+	          labelClassName: 'col-xs-1',
+	          wrapperClassName: 'col-xs-11',
+	          onClick: this.goBack
+	        })
+
+	      )
+	    )
+	  }
+	})
+
+	module.exports = EditarOrdemServico
+
+/***/ },
+/* 443 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(26);
+	var u = __webpack_require__(54)
+
+	var PecaStore = __webpack_require__(444)
+
+	var PecaActions = __webpack_require__(445)
+
+	var Table = React.createFactory(__webpack_require__(52).Table)
+	var Button = React.createFactory(__webpack_require__(52).Button)
+	var ButtonInput = React.createFactory(__webpack_require__(52).ButtonInput)
+	var Input = React.createFactory(__webpack_require__(52).Input)
+	var CreateModal = React.createFactory(__webpack_require__(446))
+	var UpdateModal = React.createFactory(__webpack_require__(447))
+	var div = React.createFactory('div')
+	var p = React.createFactory('p')
+	var h4 = React.createFactory('h4')
+	var form = React.createFactory('form')
+	var thead = React.createFactory('thead')
+	var table = React.createFactory('table')
+	var tbody = React.createFactory('tbody')
+	var th = React.createFactory('th')
+	var td = React.createFactory('td')
+	var tr = React.createFactory('tr')
+	var span = React.createFactory('span')
+
+	var CrudPeca = React.createClass({displayName: "CrudPeca",
+	  getInitialState: function(){
+	    return {
+	      tableColumns: PecaStore.getTableColumns(),
+	      tableData: PecaStore.getTableData(),
+	      showCreateModal: false,
+	      showUpdateModal: false,
+	      selectedUpdateData: {},
+	      updateModalIndex: 0
+	    }
+	  },
+	  componentDidMount: function(){
+	    PecaStore.addChangeListener("refetch", this._read)
+	    PecaStore.addChangeListener("rerender", this._dataChange)
+	    PecaActions.readPeca()
+	  },
+	  componentWillUnmount: function(){
+	    PecaStore.removeChangeListener("refetch", this._read)
+	    PecaStore.removeChangeListener("rerender", this._dataChange)
+	  },
+	  _dataChange: function(){
+	    this.setState({tableData: PecaStore.getTableData()})
+	  },
+	  _read: function(){
+	    PecaActions.readPeca()
+	  },
+	  _toggleCreate: function(){
+	    this.setState({showCreateModal: !this.state.showCreateModal})
+	  },
+	  _closeUpdateModal: function(){
+	    this.setState({showUpdateModal: false})
+	  },
+	  _editClick: function(index){
+	    var updateData = u.filter(this.state.tableData, function(singleData){
+	      return singleData.idpeca == index
+	    })
+	    this.setState({showUpdateModal: true, updateModalIndex: index, selectedUpdateData: updateData[0]})
+	  },
+	  _removeClick: function(index){
+	    PecaActions.deletePeca(index)
+	  },
+	  render: function(){
+	    var tableProps = {
+	      striped: true,
+	      bordered: true,
+	      condensed: true,
+	      hover: true,
+	      responsive: true
+	    }
+	    var Header = React.createFactory(TableHeader)
+	    var Body = React.createFactory(TableBody)
+	    return (
+	      div({},
+	        UpdateModal({
+	          show: this.state.showUpdateModal,
+	          onHide: this._closeUpdateModal,
+	          data: this.state.selectedUpdateData,
+	          index: this.state.updateModalIndex
+	        }),
+	        CreateModal({
+	          show: this.state.showCreateModal,
+	          onHide: this._toggleCreate
+	        }),
+	        Table(tableProps,
+	          Header({tableColumns: this.state.tableColumns}),
+	          Body({tableColumns: this.state.tableColumns,
+	            data: this.state.tableData,
+	            onEditClick: this._editClick,
+	            onRemoveClick: this._removeClick})
+	        ),
+	        Button({onClick: this._toggleCreate},
+	          "Adicionar nova peça")
+	      )
+
+	    )
+	  }
+	})
+
+	var TableHeader = React.createClass({displayName: "TableHeader",
+	  getDefaultProps: function(){
+	    return {tableColumns: []}
+	  },
+	  render: function(){
+	    var content = this.props.tableColumns.map(function(column){
+	      return th({key: column.value}, column.label)
+	    })
+	    content.push(th({key: 'actions'}, 'Ações'))
+	    return(
+	      thead({},
+	        content
+	      )
+	    )
+	  }
+	})
+
+	var TableBody = React.createClass({displayName: "TableBody",
+	  getDefaultProps: function(){
+	    return {
+	      tableColumns: [],
+	      data: [],
+	      onEditClick: function(){},
+	      onRemoveClick: function(){},
+	    }
+	  },
+	  render: function(){
+	    var content = this.props.data.map(function(row, index){
+	      var rowContent = this.props.tableColumns.map(function(column){
+	        return td({key: 'column-'+column.value+'-'+index}, row[column.value])
+	      })
+	      rowContent.push(td({key: "actions-"+index},
+	        p({onClick: this.props.onEditClick.bind(null, row.idpeca)}, 'Editar, '),
+	        p({onClick: this.props.onRemoveClick.bind(null, row.idpeca)}, "Remover")))
+	      return tr({key: 'content-'+index}, rowContent)
+	    }.bind(this))
+	    return(
+	      tbody({}, content)
+	    )
+	  }
+	})
+
+	module.exports = CrudPeca
+
+/***/ },
+/* 444 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(26)
+	var EventEmitter = __webpack_require__(50).EventEmitter
+	var FluxDispatcher = __webpack_require__(29)
+	var assign = __webpack_require__(51)
+
+	var tableColumns = [
+	  {label: "ID", value: 'idpeca'},
+	  {label: "Nome", value: 'nome'},
+	  {label: "Preço", value: 'preco'},
+	  {label: "Marca", value: 'marca'},
+	  {label: "Qtd", value: 'quantidade'},
+	  {label: "Descrição", value: 'descricao'}
+	]
+	var tableData = []
+
+	var PecaStore = assign({}, EventEmitter.prototype, {
+	  getTableData: function(){
+	    return tableData
+	  },
+	  getTableColumns: function(){
+	    return tableColumns
+	  },
+	  emitChange: function(eventString){
+	    this.emit(eventString)
+	  },
+
+	  addChangeListener: function(eventString, callback){
+	    this.on(eventString, callback)
+	  },
+
+	  removeChangeListener: function(eventString, callback){
+	    this.removeListener(eventString, callback)
+	  },
+
+	  dispatcherIndex: FluxDispatcher.register(function(dispatchedObj){
+	    switch(dispatchedObj.actionType){
+	      case "changePeca":
+	        PecaStore.emitChange("refetch")
+	        break;
+	      case "readPeca":
+	        tableData = dispatchedObj.rows
+	        PecaStore.emitChange("rerender")
+	        break
+	    }
+	  })
+	})
+
+	module.exports = PecaStore
+
+/***/ },
+/* 445 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var jajax = __webpack_require__(27).ajax
+	var u = __webpack_require__(54)
+	var AppDispatcher = __webpack_require__(29)
+
+	var uri = '/apiv1/'
+	var _pendingRequests = {}
+
+	function abortPendingRequestsIfPending(key){
+	  if(_pendingRequests[key]){
+	    if(_pendingRequests[key].readyState != 4){
+	      _pendingRequests[key].abort()
+	    }
+	  }
+	}
+
+	var PecaStore = {
+	  createPeca: function(values) {
+	    var requestBody = {
+	      table: "peca",
+	      values: values
+	    }
+	    var key = "createPeca"
+	    _pendingRequests[key] = jajax({
+	      url: 'apiv1/create',
+	      type: 'POST',
+	      contentType: 'application/json',
+	      data: JSON.stringify(requestBody),
+	      async: true
+	    }).done(function(res){
+	      AppDispatcher.dispatch({
+	        actionType: "changePeca"
+	      })
+	    })
+	  },
+	  readPeca: function(){
+	    var requestBody = {
+	      table: "peca"
+	    }
+	    var key = "readPeca"
+	    _pendingRequests[key] = jajax({
+	      url: 'apiv1/read',
+	      type: 'POST',
+	      contentType: 'application/json',
+	      data: JSON.stringify(requestBody),
+	      async: true
+	    }).done(function(res){
+	      AppDispatcher.dispatch({
+	        actionType: "readPeca",
+	        rows: res
+	      })
+	    })
+	  },
+	  updatePeca: function(values, id){
+	    values.idpeca = id
+	    var requestBody = {
+	      table: "peca",
+	      values: values
+	    }
+	    var key = "updatePeca"
+	    _pendingRequests[key] = jajax({
+	      url: 'apiv1/update',
+	      type: 'POST',
+	      contentType: 'application/json',
+	      data: JSON.stringify(requestBody),
+	      async: true
+	    }).done(function(res){
+	      AppDispatcher.dispatch({
+	        actionType: "changePeca"
+	      })
+	    })
+
+	  },
+	  deletePeca: function(id){
+	    var values = {}
+	    values.idpeca = id
+	    var requestBody = {
+	      table: "peca",
+	      values: values
+	    }
+	    var key = "deletePeca"
+	    _pendingRequests[key] = jajax({
+	      url: 'apiv1/delete',
+	      type: 'POST',
+	      contentType: 'application/json',
+	      data: JSON.stringify(requestBody),
+	      async: true
+	    }).done(function(res){
+	      AppDispatcher.dispatch({
+	        actionType: "changePeca"
+	      })
+	    })
+	  }
+	}
+
+
+	module.exports = PecaStore
+
+
+/***/ },
+/* 446 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(26)
+
+	var PecaStore = __webpack_require__(444)
+
+	var PecaActions = __webpack_require__(445)
+
+	var Modal = React.createFactory(__webpack_require__(52).Modal)
+	var ModalHeader = React.createFactory(__webpack_require__(52).Modal.Header)
+	var ModalBody = React.createFactory(__webpack_require__(52).Modal.Body)
+	var ModalFooter = React.createFactory(__webpack_require__(52).Modal.Footer)
+	var ModalTitle = React.createFactory(__webpack_require__(52).Modal.Title)
+
+	var Button = React.createFactory(__webpack_require__(52).Button)
+	var ButtonInput = React.createFactory(__webpack_require__(52).ButtonInput)
+	var Input = React.createFactory(__webpack_require__(52).Input)
+
+	var div = React.createFactory('div')
+	var h4 = React.createFactory('h4')
+	var form = React.createFactory('form')
+	var thead = React.createFactory('thead')
+	var table = React.createFactory('table')
+	var tbody = React.createFactory('tbody')
+	var th = React.createFactory('th')
+	var td = React.createFactory('td')
+	var tr = React.createFactory('tr')
+	var span = React.createFactory('span')
+
+	var CreateModal = React.createClass({displayName: "CreateModal",
+	  getInitialState: function(){
+	    return {
+	      nome: '',
+	      marca: '',
+	      preco: 0,
+	      quantidade: 0,
+	      descricao: ''
+	    }
+	  },
+	  getDefaultProps: function(){
+	    return {
+	      show: false,
+	      onHide: function(){},
+	      values: [],
+	      onClick: function(){},
+	      title: "Adicionar Peça"
+	    }
+	  },
+	  _handleInputChange: function(stateKey, e){
+	    var newState = {}
+	    newState[stateKey] = e.target.value
+	    this.setState(newState)
+	  },
+	  _sendToApi: function(){
+	    PecaActions.createPeca(this.state)
+	    this.setState({
+	      nome: '',
+	      marca: '',
+	      preco: 0,
+	      quantidade: 0,
+	      descricao: ''
+	    })
+	    this.props.onHide()
+	  },
+	  render: function(){
+	    return(
+	      Modal({show: this.props.show, onHide: this.props.onHide},
+	        ModalHeader({}, ModalTitle(), h4({}, this.props.title)),
+	        ModalBody({},
+	          Input({
+	            type: 'text',
+	            label: 'Nome da Peça',
+	            placeholder: 'Digite aqui o nome da peça...',
+	            value: this.state.nome,
+	            onChange: this._handleInputChange.bind(null, 'nome')
+	          }),
+	          Input({
+	            type: 'number',
+	            label: 'Preço da Peça',
+	            placeholder: 'Digite aqui o preço da peça',
+	            value: this.state.preco,
+	            onChange: this._handleInputChange.bind(null, 'preco')
+	          }),
+	          Input({
+	            type: 'text',
+	            label: 'Marca da Peça',
+	            placeholder: 'Digite aqui a marca da peça',
+	            value: this.state.marca,
+	            onChange: this._handleInputChange.bind(null, 'marca')
+	          }),
+	          Input({
+	            type: 'text',
+	            label: 'Quantidade de Peça',
+	            placeholder: 'Digite aqui a quantidade de peças',
+	            value: this.state.quantidade,
+	            onChange: this._handleInputChange.bind(null, 'quantidade')
+	          }),
+	          Input({
+	            type: 'textarea',
+	            label: 'Descrição da Peça',
+	            placeholder: 'Digite aqui a descrição da peça',
+	            value: this.state.descricao,
+	            onChange: this._handleInputChange.bind(null, 'descricao')
+	          })
+	        ),
+	        ModalFooter({}, Button({onClick: this.props.onHide}, 'Fechar'), Button({onClick: this._sendToApi}, 'Adicionar'))
+	      )
+	    )
+	  }
+	})
+
+	module.exports = CreateModal
+
+
+/***/ },
+/* 447 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(26)
+	var u = __webpack_require__(54)
+
+	var PecaStore = __webpack_require__(444)
+
+	var PecaActions = __webpack_require__(445)
+
+	var Modal = React.createFactory(__webpack_require__(52).Modal)
+	var ModalHeader = React.createFactory(__webpack_require__(52).Modal.Header)
+	var ModalBody = React.createFactory(__webpack_require__(52).Modal.Body)
+	var ModalFooter = React.createFactory(__webpack_require__(52).Modal.Footer)
+	var ModalTitle = React.createFactory(__webpack_require__(52).Modal.Title)
+
+	var Button = React.createFactory(__webpack_require__(52).Button)
+	var ButtonInput = React.createFactory(__webpack_require__(52).ButtonInput)
+	var Input = React.createFactory(__webpack_require__(52).Input)
+
+	var div = React.createFactory('div')
+	var h4 = React.createFactory('h4')
+	var form = React.createFactory('form')
+	var thead = React.createFactory('thead')
+	var table = React.createFactory('table')
+	var tbody = React.createFactory('tbody')
+	var th = React.createFactory('th')
+	var td = React.createFactory('td')
+	var tr = React.createFactory('tr')
+	var span = React.createFactory('span')
+
+	var CreateModal = React.createClass({displayName: "CreateModal",
+	  getInitialState: function(){
+	    return {
+	      idpeca: 0,
+	      nome: '',
+	      marca: '',
+	      preco: 0,
+	      quantidade: 0,
+	      descricao: ''
+	    }
+	  },
+	  getDefaultProps: function(){
+	    return {
+	      show: false,
+	      onHide: function(){},
+	      values: [],
+	      onClick: function(){},
+	      title: "Alterar Peça"
+	    }
+	  },
+
+	  componentWillReceiveProps: function(nextProps){
+	    var newState = {}
+	    var preco = 0
+	    for(var key in this.state){
+	      newState[key] = nextProps.data[key]
+	    }
+	    if(nextProps.data.preco) {
+	      preco = parseFloat(nextProps.data.preco.replace('$', ''))
+	      newState.preco = preco
+	    }
+	    this.setState(newState)
+	  },
+
+	  _handleInputChange: function(stateKey, e){
+	    var newState = {}
+	    newState[stateKey] = e.target.value
+	    this.setState(newState)
+	  },
+	  _sendToApi: function(){
+	    var valuesToSend = u.omit(this.state, 'idpeca')
+	    PecaActions.updatePeca(valuesToSend, this.props.index)
+	    this.setState({
+	      nome: '',
+	      marca: '',
+	      preco: 0,
+	      quantidade: 0,
+	      descricao: ''
+	    })
+	    this.props.onHide()
+	  },
+	  render: function(){
+	    return(
+	      Modal({show: this.props.show, onHide: this.props.onHide},
+	        ModalHeader({}, ModalTitle(), h4({}, this.props.title)),
+	        ModalBody({},
+	          Input({
+	            type: 'text',
+	            label: 'Nome da Peça',
+	            placeholder: 'Digite aqui o nome da peça...',
+	            value: this.state.nome,
+	            onChange: this._handleInputChange.bind(null, 'nome')
+	          }),
+	          Input({
+	            type: 'number',
+	            label: 'Preço da Peça',
+	            placeholder: 'Digite aqui o preço da peça',
+	            value: this.state.preco,
+	            onChange: this._handleInputChange.bind(null, 'preco')
+	          }),
+	          Input({
+	            type: 'text',
+	            label: 'Marca da Peça',
+	            placeholder: 'Digite aqui a marca da peça',
+	            value: this.state.marca,
+	            onChange: this._handleInputChange.bind(null, 'marca')
+	          }),
+	          Input({
+	            type: 'text',
+	            label: 'Quantidade de Peça',
+	            placeholder: 'Digite aqui a quantidade de peças',
+	            value: this.state.quantidade,
+	            onChange: this._handleInputChange.bind(null, 'quantidade')
+	          }),
+	          Input({
+	            type: 'textarea',
+	            label: 'Descrição da Peça',
+	            placeholder: 'Digite aqui a descrição da peça',
+	            value: this.state.descricao,
+	            onChange: this._handleInputChange.bind(null, 'descricao')
+	          })
+	        ),
+	        ModalFooter({}, Button({onClick: this.props.onHide}, 'Fechar'), Button({onClick: this._sendToApi}, 'Alterar'))
+	      )
+	    )
+	  }
+	})
+
+	module.exports = CreateModal
+
+
+/***/ },
+/* 448 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(26);
+	var u = __webpack_require__(54)
+
+	var EquipeStore = __webpack_require__(449)
+
+	var EquipeActions = __webpack_require__(450)
+
+	var Table = React.createFactory(__webpack_require__(52).Table)
+	var Button = React.createFactory(__webpack_require__(52).Button)
+	var ButtonInput = React.createFactory(__webpack_require__(52).ButtonInput)
+	var Input = React.createFactory(__webpack_require__(52).Input)
+	var CreateModal = React.createFactory(__webpack_require__(451))
+	var UpdateModal = React.createFactory(__webpack_require__(452))
+	var div = React.createFactory('div')
+	var p = React.createFactory('p')
+	var h4 = React.createFactory('h4')
+	var form = React.createFactory('form')
+	var thead = React.createFactory('thead')
+	var table = React.createFactory('table')
+	var tbody = React.createFactory('tbody')
+	var th = React.createFactory('th')
+	var td = React.createFactory('td')
+	var tr = React.createFactory('tr')
+	var span = React.createFactory('span')
+
+	var CrudPeca = React.createClass({displayName: "CrudPeca",
+	  getInitialState: function(){
+	    return {
+	      tableColumns: EquipeStore.getTableColumns(),
+	      tableData: EquipeStore.getTableData(),
+	      showCreateModal: false,
+	      showUpdateModal: false,
+	      selectedUpdateData: {},
+	      updateModalIndex: 0,
+	      listaTecnicos: EquipeStore.getListaTecnicos()
+	    }
+	  },
+	  componentDidMount: function(){
+	    EquipeStore.addChangeListener("refetch", this._read)
+	    EquipeStore.addChangeListener("rerender", this._dataChange)
+	    EquipeActions.readEquipe()
+	    EquipeActions.getTecnicos()
+	  },
+
+	  componentWillUnmount: function(){
+	    EquipeStore.removeChangeListener("refetch", this._read)
+	    EquipeStore.removeChangeListener("rerender", this._dataChange)
+	  },
+
+	  _dataChange: function(){
+	    this.setState({tableData: EquipeStore.getTableData(), listaTecnicos: EquipeStore.getListaTecnicos()})
+	  },
+	  _read: function(){
+	    EquipeActions.readEquipe()
+	  },
+	  _toggleCreate: function(){
+	    this.setState({showCreateModal: !this.state.showCreateModal})
+	  },
+	  _closeUpdateModal: function(){
+	    this.setState({showUpdateModal: false})
+	  },
+	  _editClick: function(index){
+	    var updateData = u.filter(this.state.tableData, function(singleData){
+	      return singleData.idequipe == index
+	    })
+	    this.setState({showUpdateModal: true, updateModalIndex: index, selectedUpdateData: updateData[0]})
+	  },
+	  _removeClick: function(index){
+	    EquipeActions.deleteEquipe(index)
+	  },
+	  render: function(){
+	    var tableProps = {
+	      striped: true,
+	      bordered: true,
+	      condensed: true,
+	      hover: true,
+	      responsive: true
+	    }
+	    var Header = React.createFactory(TableHeader)
+	    var Body = React.createFactory(TableBody)
+	    return (
+	      div({},
+	        UpdateModal({
+	          show: this.state.showUpdateModal,
+	          onHide: this._closeUpdateModal,
+	          data: this.state.selectedUpdateData,
+	          index: this.state.updateModalIndex,
+	          tecnicos: this.state.listaTecnicos
+	        }),
+	        CreateModal({
+	          show: this.state.showCreateModal,
+	          onHide: this._toggleCreate,
+	          tecnicos: this.state.listaTecnicos
+	        }),
+	        Table(tableProps,
+	          Header({tableColumns: this.state.tableColumns}),
+	          Body({tableColumns: this.state.tableColumns,
+	            data: this.state.tableData,
+	            onEditClick: this._editClick,
+	            onRemoveClick: this._removeClick})
+	        ),
+	        Button({onClick: this._toggleCreate},
+	          "Adicionar nova equipe")
+	      )
+
+	    )
+	  }
+	})
+
+	var TableHeader = React.createClass({displayName: "TableHeader",
+	  getDefaultProps: function(){
+	    return {tableColumns: []}
+	  },
+	  render: function(){
+	    var content = []
+	    content = this.props.tableColumns.map(function(column){
+	      return th({key: column.value}, column.label)
+	    })
+	    content.push(th({key: 'actions'}, 'Ações'))
+	    return(
+	      thead({},
+	        content
+	      )
+	    )
+	  }
+	})
+
+	var TableBody = React.createClass({displayName: "TableBody",
+	  getDefaultProps: function(){
+	    return {
+	      tableColumns: [],
+	      data: [],
+	      onEditClick: function(){},
+	      onRemoveClick: function(){},
+	    }
+	  },
+	  render: function(){
+	    var content = []
+	    content = this.props.data.map(function(row, index){
+	      var rowContent = this.props.tableColumns.map(function(column){
+	        return td({key: 'column-'+column.value+'-'+index}, row[column.value])
+	      })
+	      rowContent.push(td({key: "actions-"+index},
+	        p({onClick: this.props.onEditClick.bind(null, row.idequipe)}, 'Editar, '),
+	        p({onClick: this.props.onRemoveClick.bind(null, row.idequipe)}, "Remover")))
+	      var singleRow = tr({key: 'content-'+index}, rowContent)
+	      return singleRow
+	    }.bind(this))
+	    return(
+	      tbody({}, content)
+	    )
+	  }
+	})
+
+	module.exports = CrudPeca
+
+/***/ },
+/* 449 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(26)
+	var u = __webpack_require__(54)
+	var EventEmitter = __webpack_require__(50).EventEmitter
+	var FluxDispatcher = __webpack_require__(29)
+	var assign = __webpack_require__(51)
+
+	var tableColumns = [
+	  {label: "ID", value: 'idequipe'},
+	  {label: "Tecnico 1", value: 'tecnico1'},
+	  {label: "Especialidade", value: 'especialidade1'},
+	  {label: "Tecnico 2", value: 'tecnico2'},
+	  {label: "Especialidade", value: 'especialidade2'},
+	  {label: "Especialidade Equipe", value: 'especialidade'}
+	]
+	var tableData = []
+	var listaTecnicos = []
+
+	var EquipeStore = assign({}, EventEmitter.prototype, {
+	  getTableData: function(){
+	    return tableData
+	  },
+	  getListaTecnicos: function(){
+	    return listaTecnicos
+	  },
+	  getTableColumns: function(){
+	    return tableColumns
+	  },
+	  emitChange: function(eventString){
+	    this.emit(eventString)
+	  },
+
+	  addChangeListener: function(eventString, callback){
+	    this.on(eventString, callback)
+	  },
+
+	  removeChangeListener: function(eventString, callback){
+	    this.removeListener(eventString, callback)
+	  },
+
+	  dispatcherIndex: FluxDispatcher.register(function(dispatchedObj){
+	    switch(dispatchedObj.actionType){
+	      case "changeEquipe":
+	        EquipeStore.emitChange("refetch")
+	        break;
+	      case "readEquipe":
+	        dispatchedObj.rows.forEach(function(row){
+	          if(listaTecnicos.length > 0){
+	            var primeiroTecnico = u.findWhere(listaTecnicos, {codigocadastro: row.codtecnico1})
+	            var segundoTecnico = u.findWhere(listaTecnicos, {codigocadastro: row.codtecnico2})
+	            row.tecnico1 = row.codtecnico1+" - "+primeiroTecnico.nome
+	            if(primeiroTecnico.sobrenome) row.tecnico1 += " "+primeiroTecnico.sobrenome
+	            row.tecnico2 = row.codtecnico2+" - "+segundoTecnico.nome
+	            if(segundoTecnico.sobrenome) row.tecnico2 += " "+segundoTecnico.sobrenome
+	            row.especialidade1 = primeiroTecnico.especialidade
+	            row.especialidade2 = segundoTecnico.especialidade
+	          }
+	        })
+	        tableData = dispatchedObj.rows
+	        EquipeStore.emitChange("rerender")
+	        break
+
+	      case "GET_TECNICOS":
+	        listaTecnicos = dispatchedObj.tecnicos
+	        tableData.forEach(function(row){
+	          var primeiroTecnico = u.findWhere(listaTecnicos, {codigocadastro: row.codtecnico1})
+	          var segundoTecnico = u.findWhere(listaTecnicos, {codigocadastro: row.codtecnico2})
+	          row.tecnico1 = row.codtecnico1+" - "+primeiroTecnico.nome
+	          if(primeiroTecnico.sobrenome) row.tecnico1 += " "+primeiroTecnico.sobrenome
+	          row.tecnico2 = row.codtecnico2+" - "+segundoTecnico.nome
+	          if(segundoTecnico.sobrenome) row.tecnico2 += " "+segundoTecnico.sobrenome
+	          row.especialidade1 = primeiroTecnico.especialidade
+	          row.especialidade2 = segundoTecnico.especialidade
+	        })
+	        EquipeStore.emitChange("rerender")
+	        break
+	    }
+	  })
+	})
+
+	module.exports = EquipeStore
+
+/***/ },
+/* 450 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var jajax = __webpack_require__(27).ajax
+	var u = __webpack_require__(54)
+	var AppDispatcher = __webpack_require__(29)
+
+	var uri = '/apiv1/'
+	var _pendingRequests = {}
+
+	function abortPendingRequestsIfPending(key){
+	  if(_pendingRequests[key]){
+	    if(_pendingRequests[key].readyState != 4){
+	      _pendingRequests[key].abort()
+	    }
+	  }
+	}
+
+	var EquipeActions = {
+	  createEquipe: function(values) {
+	    var requestBody = {
+	      table: "equipeTecnico",
+	      values: values
+	    }
+	    var key = "createEquipe"
+	    _pendingRequests[key] = jajax({
+	      url: 'apiv1/create',
+	      type: 'POST',
+	      contentType: 'application/json',
+	      data: JSON.stringify(requestBody),
+	      async: true
+	    }).done(function(res){
+	      AppDispatcher.dispatch({
+	        actionType: "changeEquipe"
+	      })
+	    })
+	  },
+	  readEquipe: function(){
+	    var requestBody = {
+	      table: "equipeTecnico"
+	    }
+	    var key = "readEquipe"
+	    _pendingRequests[key] = jajax({
+	      url: 'apiv1/read',
+	      type: 'POST',
+	      contentType: 'application/json',
+	      data: JSON.stringify(requestBody),
+	      async: true
+	    }).done(function(res){
+	      AppDispatcher.dispatch({
+	        actionType: "readEquipe",
+	        rows: res
+	      })
+	    })
+	  },
+	  updateEquipe: function(values, id){
+	    values.idequipe = id
+	    var requestBody = {
+	      table: "equipeTecnico",
+	      values: values
+	    }
+	    var key = "updateEquipe"
+	    _pendingRequests[key] = jajax({
+	      url: 'apiv1/update',
+	      type: 'POST',
+	      contentType: 'application/json',
+	      data: JSON.stringify(requestBody),
+	      async: true
+	    }).done(function(res){
+	      AppDispatcher.dispatch({
+	        actionType: "changeEquipe"
+	      })
+	    })
+
+	  },
+	  deleteEquipe: function(id){
+	    var values = {}
+	    values.idequipe = id
+	    var requestBody = {
+	      table: "equipeTecnico",
+	      values: values
+	    }
+	    var key = "deleteEquipe"
+	    _pendingRequests[key] = jajax({
+	      url: 'apiv1/delete',
+	      type: 'POST',
+	      contentType: 'application/json',
+	      data: JSON.stringify(requestBody),
+	      async: true
+	    }).done(function(res){
+	      AppDispatcher.dispatch({
+	        actionType: "changeEquipe"
+	      })
+	    })
+	  },
+	  getTecnicos: function(){
+	    var key = "getTecnicos"
+	    _pendingRequests[key] = jajax({
+	      url: 'apiv1/tecnicos/',
+	      type: 'GET',
+	      contentType: 'application/json',
+	      async: true
+	    }).done(function(res){
+	      AppDispatcher.dispatch({
+	        actionType: "GET_TECNICOS",
+	        tecnicos: res
+	      })
+	    })
+	  }
+	}
+
+
+	module.exports = EquipeActions
+
+
+/***/ },
+/* 451 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(26)
+
+	var EquipeStore = __webpack_require__(449)
+
+	var EquipeActions = __webpack_require__(450)
+
+	var Modal = React.createFactory(__webpack_require__(52).Modal)
+	var ModalHeader = React.createFactory(__webpack_require__(52).Modal.Header)
+	var ModalBody = React.createFactory(__webpack_require__(52).Modal.Body)
+	var ModalFooter = React.createFactory(__webpack_require__(52).Modal.Footer)
+	var ModalTitle = React.createFactory(__webpack_require__(52).Modal.Title)
+
+	var Button = React.createFactory(__webpack_require__(52).Button)
+	var ButtonInput = React.createFactory(__webpack_require__(52).ButtonInput)
+	var Input = React.createFactory(__webpack_require__(52).Input)
+
+	var div = React.createFactory('div')
+	var h4 = React.createFactory('h4')
+	var form = React.createFactory('form')
+	var thead = React.createFactory('thead')
+	var table = React.createFactory('table')
+	var tbody = React.createFactory('tbody')
+	var th = React.createFactory('th')
+	var td = React.createFactory('td')
+	var tr = React.createFactory('tr')
+	var span = React.createFactory('span')
+	var option = React.createFactory('option')
+
+	var CreateModal = React.createClass({displayName: "CreateModal",
+	  getInitialState: function(){
+	    return {
+	      codtecnico1: '',
+	      codtecnico2: ''
+	    }
+	  },
+	  getDefaultProps: function(){
+	    return {
+	      show: false,
+	      onHide: function(){},
+	      values: [],
+	      onClick: function(){},
+	      title: "Adicionar Equipe"
+	    }
+	  },
+	  _handleInputChange: function(stateKey, e){
+	    var newState = {}
+	    newState[stateKey] = e.target.value
+	    this.setState(newState)
+	  },
+	  _sendToApi: function(){
+	    EquipeActions.createEquipe(this.state)
+	    this.setState({
+	      codtecnico1: '',
+	      codtecnico2: ''
+	    })
+	    this.props.onHide()
+	  },
+	  render: function(){
+	    var tecnicosArr = this.props.tecnicos.map(function(tecnico, index){
+	      return option({key: 'codTecnicno-'+index, value: tecnico.codigocadastro}, tecnico.nome+" "+tecnico.sobrenome)
+	    })
+	    return(
+	      Modal({show: this.props.show, onHide: this.props.onHide},
+	        ModalHeader({}, ModalTitle(), h4({}, this.props.title)),
+	        ModalBody({},
+	          Input({
+	            type: 'select',
+	            label: "Primeiro Técnico",
+	            value: this.state.codtecnico1,
+	            onChange: this._handleInputChange.bind(null, 'codtecnico1')
+	          }, tecnicosArr),
+	          Input({
+	            type: 'select',
+	            label: "Segundo Técnico",
+	            value: this.state.codtecnico2,
+	            onChange: this._handleInputChange.bind(null, 'codtecnico2')
+	          }, tecnicosArr)
+	        ),
+	        ModalFooter({}, Button({onClick: this.props.onHide}, 'Fechar'), Button({onClick: this._sendToApi}, 'Adicionar'))
+	      )
+	    )
+	  }
+	})
+
+	module.exports = CreateModal
+
+
+/***/ },
+/* 452 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(26)
+
+	var EquipeStore = __webpack_require__(449)
+
+	var EquipeActions = __webpack_require__(450)
+
+	var Modal = React.createFactory(__webpack_require__(52).Modal)
+	var ModalHeader = React.createFactory(__webpack_require__(52).Modal.Header)
+	var ModalBody = React.createFactory(__webpack_require__(52).Modal.Body)
+	var ModalFooter = React.createFactory(__webpack_require__(52).Modal.Footer)
+	var ModalTitle = React.createFactory(__webpack_require__(52).Modal.Title)
+
+	var Button = React.createFactory(__webpack_require__(52).Button)
+	var ButtonInput = React.createFactory(__webpack_require__(52).ButtonInput)
+	var Input = React.createFactory(__webpack_require__(52).Input)
+
+	var div = React.createFactory('div')
+	var h4 = React.createFactory('h4')
+	var form = React.createFactory('form')
+	var thead = React.createFactory('thead')
+	var table = React.createFactory('table')
+	var tbody = React.createFactory('tbody')
+	var th = React.createFactory('th')
+	var td = React.createFactory('td')
+	var tr = React.createFactory('tr')
+	var span = React.createFactory('span')
+	var option = React.createFactory('option')
+
+	var CreateModal = React.createClass({displayName: "CreateModal",
+	  getInitialState: function(){
+	    return {
+	      codtecnico1: '',
+	      codtecnico2: ''
+	    }
+	  },
+	  getDefaultProps: function(){
+	    return {
+	      show: false,
+	      onHide: function(){},
+	      values: [],
+	      onClick: function(){},
+	      title: "Alterar Equipe"
+	    }
+	  },
+
+	  componentWillReceiveProps: function(nextProps){
+	    var newState = {}
+	    for(var key in this.state){
+	      newState[key] = nextProps.data[key]
+	    }
+	    this.setState(newState)
+	  },
+	  _handleInputChange: function(stateKey, e){
+	    var newState = {}
+	    newState[stateKey] = e.target.value
+	    this.setState(newState)
+	  },
+	  _sendToApi: function(){
+	    EquipeActions.updateEquipe(this.state, this.props.index)
+	    this.setState({
+	      codtecnico1: '',
+	      codtecnico2: ''
+	    })
+	    this.props.onHide()
+	  },
+	  render: function(){
+	    var tecnicosArr = this.props.tecnicos.map(function(tecnico, index){
+	      return option({key: 'codTecnicno-'+index, value: tecnico.codigocadastro}, tecnico.nome+" "+tecnico.sobrenome)
+	    })
+	    return(
+	      Modal({show: this.props.show, onHide: this.props.onHide},
+	        ModalHeader({}, ModalTitle(), h4({}, this.props.title)),
+	        ModalBody({},
+	          Input({
+	            type: 'select',
+	            label: "Primeiro Técnico",
+	            value: this.state.codtecnico1,
+	            onChange: this._handleInputChange.bind(null, 'codtecnico1')
+	          }, tecnicosArr),
+	          Input({
+	            type: 'select',
+	            label: "Segundo Técnico",
+	            value: this.state.codtecnico2,
+	            onChange: this._handleInputChange.bind(null, 'codtecnico2')
+	          }, tecnicosArr)
+	        ),
+	        ModalFooter({}, Button({onClick: this.props.onHide}, 'Fechar'), Button({onClick: this._sendToApi}, 'Alterar'))
+	      )
+	    )
+	  }
+	})
+
+	module.exports = CreateModal
+
+
+/***/ },
+/* 453 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(26);
+	var u = __webpack_require__(54)
+
+	var Navigation = __webpack_require__(28).Navigation
+	var OrdemServicoStore = __webpack_require__(36)
+
+	var OrdemServicoActions = __webpack_require__(37)
+
+	var EquipeStore = __webpack_require__(449)
+
+	var EquipeActions = __webpack_require__(450)
+
+	var SessionStore = __webpack_require__(2)
+
+	var Table = React.createFactory(__webpack_require__(52).Table)
+	var Button = React.createFactory(__webpack_require__(52).Button)
+	var ButtonInput = React.createFactory(__webpack_require__(52).ButtonInput)
+	var Input = React.createFactory(__webpack_require__(52).Input)
+	//var CreateModal = React.createFactory(require('./createModalPeca'))
+	//var UpdateModal = React.createFactory(require('./updateModalPeca'))
+	var div = React.createFactory('div')
+	var p = React.createFactory('p')
+	var h4 = React.createFactory('h4')
+	var form = React.createFactory('form')
+	var thead = React.createFactory('thead')
+	var table = React.createFactory('table')
+	var tbody = React.createFactory('tbody')
+	var th = React.createFactory('th')
+	var td = React.createFactory('td')
+	var tr = React.createFactory('tr')
+	var span = React.createFactory('span')
+
+	var CrudOrdemServico = React.createClass({displayName: "CrudOrdemServico",
+	  mixins: [Navigation],
+
+	  getInitialState: function(){
+	    return {
+	      tableColumns: OrdemServicoStore.getTableColumns(),
+	      tableData: OrdemServicoStore.getTableData(),
+	      selectedUpdateData: {},
+	      updateModalIndex: 0
+	    }
+	  },
+	  componentDidMount: function(){
+	    OrdemServicoStore.addChangeListener("refetch", this._read)
+	    OrdemServicoStore.addChangeListener("rerender", this._dataChange)
+	    EquipeStore.addChangeListener("rerender", this._dataChange)
+	    EquipeActions.readEquipe()
+	    OrdemServicoActions.readOrdemServico()
+	  },
+
+	  componentWillUnmount: function(){
+	    OrdemServicoStore.removeChangeListener("refetch", this._read)
+	    OrdemServicoStore.removeChangeListener("rerender", this._dataChange)
+	    EquipeStore.removeChangeListener("rerender", this._dataChange)
+	  },
+
+	  _dataChange: function(){
+	    var idEquipe = []
+	    if(EquipeStore.getTableData()){
+	      EquipeStore.getTableData().forEach(function(equipe){
+	        if(equipe.codtecnico1 == SessionStore.getId() || equipe.codtecnico2 == SessionStore.getId()){
+	          idEquipe.push(equipe.idequipe)
+	        }
+	      })
+	    }
+	    var newTableData = u.filter(OrdemServicoStore.getTableData(), function(ordem){
+	      return u.contains(idEquipe, ordem.idequipe)
+	    })
+	    this.setState({tableData: newTableData})
+	  },
+	  _read: function(){
+	    OrdemServicoActions.readOrdemServico()
+	  },
+	  _toggleCreate: function(){
+	    this.transitionTo('criarOsTecnico')
+	  },
+	  _closeUpdateModal: function(){
+	    this.setState({showUpdateModal: false})
+	  },
+	  _editClick: function(index){
+	    this.transitionTo('editarOsTecnico', {id: index})
+	  },
+	  _removeClick: function(index){
+	    //OrdemServicoActions.deletePeca(index)
+
+	  },
+	  render: function(){
+	    var tableProps = {
+	      striped: true,
+	      bordered: true,
+	      condensed: true,
+	      hover: true,
+	      responsive: true
+	    }
+	    var Header = React.createFactory(TableHeader)
+	    var Body = React.createFactory(TableBody)
+	    return (
+	      div({},
+	        Table(tableProps,
+	          Header({tableColumns: this.state.tableColumns}),
+	          Body({tableColumns: this.state.tableColumns,
+	            data: this.state.tableData,
+	            onEditClick: this._editClick,
+	            onRemoveClick: this._removeClick})
+	        )
+	      )
+	    )
+	  }
+	})
+
+	var TableHeader = React.createClass({displayName: "TableHeader",
+	  getDefaultProps: function(){
+	    return {tableColumns: []}
+	  },
+	  render: function(){
+	    var content = this.props.tableColumns.map(function(column){
+	      return th({key: column.value}, column.label)
+	    })
+	    content.push(th({key: 'actions'}, 'Ações'))
+	    return(
+	      thead({},
+	        content
+	      )
+	    )
+	  }
+	})
+
+	var TableBody = React.createClass({displayName: "TableBody",
+	  getDefaultProps: function(){
+	    return {
+	      tableColumns: [],
+	      data: [],
+	      onEditClick: function(){},
+	      onRemoveClick: function(){},
+	    }
+	  },
+	  render: function(){
+	    var content = this.props.data.map(function(row, index){
+	      var rowContent = this.props.tableColumns.map(function(column){
+	        return td({key: 'column-'+column.value+'-'+index}, row[column.value])
+	      })
+	      rowContent.push(td({key: "actions-"+index},
+	        p({onClick: this.props.onEditClick.bind(null, row.id)}, 'Editar')
+	      ))
+	      var singleRow = tr({key: 'content-'+index}, rowContent)
+	      return singleRow
+	    }.bind(this))
+	    return(
+	      tbody({}, content)
+	    )
+	  }
+	})
+
+	module.exports = CrudOrdemServico
+
+/***/ },
+/* 454 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React               = __webpack_require__(26)
+	var u                   = __webpack_require__(54)
+	var jquery 						  = __webpack_require__(27)
+	var jajax 						  = __webpack_require__(27).ajax
+	var moment              = __webpack_require__(53).utc
+	var Navigation          = __webpack_require__(28).Navigation;
+
+	var OrdemServicoStore = __webpack_require__(36)
+
+	var OrdemServicoActions = __webpack_require__(37)
+
+	// Components
+	var Input = React.createFactory(__webpack_require__(52).Input)
+	var ButtonInput = React.createFactory(__webpack_require__(52).ButtonInput)
+	var FormControls = React.createFactory(__webpack_require__(52).FormControls.Static)
+	var Grid = React.createFactory(__webpack_require__(52).Grid)
+	var Row = React.createFactory(__webpack_require__(52).Row)
+	var Col = React.createFactory(__webpack_require__(52).Col)
+	var Select = React.createFactory(__webpack_require__(55))
+	var div = React.createFactory('div')
+	var p = React.createFactory('p')
+	var b = React.createFactory('b')
+	var form = React.createFactory('form')
+	var input = React.createFactory('input')
+	var span = React.createFactory('span')
+	var option = React.createFactory('option')
+
+	__webpack_require__(77)
+
+	var EditarOrdemServico = React.createClass({displayName: "EditarOrdemServico",
+	  mixins: [Navigation],
+	  getInitialState: function(){
+	    return({
+	      placaveiculo: '',
+	      idequipe: '',
+	      status: 'pendente',
+	      dataPrevisao: '',
+	      dataEmissao: moment().format("YYYY-MM-DD"),
+	      dataExecucao: moment().format("YYYY-MM-DD"),
+	      dataConclusao: '',
+	      valor: 0,
+	      descricao: '',
+	      cliente: null,
+	      listaServicos: OrdemServicoStore.getTipoServico(),
+	      listaClientes: OrdemServicoStore.getClientes(),
+	      listaVeiculos: OrdemServicoStore.getListaVeiculos(),
+	      listaPecas: OrdemServicoStore.getListaPecas(),
+	      listaEquipes: OrdemServicoStore.getListaEquipes(),
+	      servicosSelecionados: [],
+	      pecasSelecionadas: [],
+	      pecasOs: {}
+	    })
+	  },
+	  componentDidMount: function(){
+	    OrdemServicoStore.addChangeListener("rerender", this._dataChange)
+	    OrdemServicoStore.addChangeListener("fullread", this._newState)
+	    OrdemServicoActions.getTipoServico()
+	    OrdemServicoActions.getClientes()
+	    OrdemServicoActions.getPecas()
+	    OrdemServicoActions.getEquipes(moment().format("YYYY-MM-DD"))
+	    OrdemServicoActions.fullReadOrdemServico(this.props.params.id)
+	  },
+	  componentWillUnmount: function(){
+	    OrdemServicoStore.removeChangeListener("rerender", this._dataChange)
+	    OrdemServicoStore.removeChangeListener("fullread", this._newState)
+	  },
+	  _newState: function(){
+	    var objToSend = jquery.extend(true, {}, OrdemServicoStore.getEditState())
+	    objToSend.pecas = u.keys(objToSend.pecasOs).map(function(peca){
+	      return {
+	        idpeca: objToSend.pecasOs[peca].idpeca,
+	        quantidade: objToSend.pecasOs[peca].quantidade
+	      }
+	    })
+	    objToSend.pecas = u.filter(objToSend.pecas, function(obj){
+	      return obj.quantidade > 0
+	    })
+	    var keysToRemove = ['listaClientes', 'listaEquipes', 'listaPecas', 'listaServicos', 'listaVeiculos',
+	      'pecasOs', 'pecasSelecionadas', 'cliente']
+	    if(objToSend.dataConclusao == '') keysToRemove.push('dataConclusao')
+	    objToSend = u.omit(objToSend, keysToRemove)
+	    var newState = OrdemServicoStore.getEditState()
+	    newState.previouObjToSend = objToSend
+	    this.setState(newState)
+	  },
+	  _dataChange: function(){
+	    var newState = {
+	      listaServicos: OrdemServicoStore.getTipoServico(),
+	      listaVeiculos: OrdemServicoStore.getListaVeiculos(),
+	      listaPecas: OrdemServicoStore.getListaPecas(),
+	      listaEquipes: OrdemServicoStore.getListaEquipes(),
+	      listaClientes: OrdemServicoStore.getClientes()
+	    }
+	    if(!u.isEqual(this.state.listaClientes, OrdemServicoStore.getClientes())){
+	      newState.cliente = OrdemServicoStore.getClientes()[0].codigocadastro
+	      OrdemServicoActions.getVeiculos(OrdemServicoStore.getClientes()[0].codigocadastro)
+	    }
+	    if(!u.isEqual(this.state.listaVeiculos, OrdemServicoStore.getListaVeiculos())){
+	      newState.placaveiculo = OrdemServicoStore.getListaVeiculos()[0].placa
+	    }
+	    if(!u.isEqual(this.state.listaEquipes, OrdemServicoStore.getListaEquipes())){
+	      newState.horaExecucao = OrdemServicoStore.getListaEquipes()[0].horarios[0]
+	      newState.idequipe =  OrdemServicoStore.getListaEquipes()[0].idequipe
+	    }
+	    newState.pecasOs = this.state.pecasOs
+	    OrdemServicoStore.getListaPecas().forEach(function(peca){
+	      if(!newState.pecasOs[peca.label]){
+	        newState.pecasOs[peca.label] = {}
+	        newState.pecasOs[peca.label].quantidade = 0
+	        newState.pecasOs[peca.label].idpeca = peca.value
+	        newState.pecasOs[peca.label].preco = parseFloat(peca.preco.replace("$", ''))
+	        newState.pecasOs[peca.label].total = peca.quantidade
+	      }
+	    })
+	    this.setState(newState)
+	  },
+
+	  interceptEvent: function(event){
+	    if(event){
+	      if(event.preventDefault) event.preventDefault()
+	      if(event.stopPropagation) event.stopPropagation()
+	    }
+	  },
+
+	  _handleInputChange: function(stateKey, e){
+	    var newState = {}
+	    newState[stateKey] = e.target.value
+	    this.setState(newState)
+	  },
+
+	  _handleServicos: function(values, selectedOptions){
+	    var valor = 0
+	    selectedOptions.forEach(function(servico){
+	      valor += servico.preco
+	    })
+	    u.keys(this.state.pecasOs).forEach(function(key){
+	      valor += this.state.pecasOs[key].quantidade * this.state.pecasOs[key].preco
+	    }.bind(this))
+	    this.setState({
+	      servicosSelecionados: selectedOptions,
+	      valor: valor
+	    })
+	  },
+	  _handleClienteChange: function(e){
+	    OrdemServicoActions.getVeiculos(e.target.value)
+	    this.setState({cliente: e.target.value})
+	  },
+
+	  _handlePecas: function(values, selectedOptions){
+	    var selectedPecas = selectedOptions.map(function(peca){
+	      return peca.label
+	    })
+	    var newPecasOs = this.state.pecasOs
+	    var valor = 0
+	    u.keys(this.state.pecasOs).forEach(function(peca){
+	      if(!u.contains(selectedPecas, peca)){
+	        newPecasOs[peca].quantidade = 0
+	      }
+	    })
+	    this.state.servicosSelecionados.forEach(function(servico){
+	      valor += servico.preco
+	    })
+	    u.keys(newPecasOs).forEach(function(key){
+	      valor += newPecasOs[key].quantidade * newPecasOs[key].preco
+	    }.bind(this))
+	    this.setState({
+	      pecasSelecionadas: selectedOptions,
+	      pecasOs: newPecasOs,
+	      valor: valor
+	    })
+	  },
+	  _handlePeca: function(peca, e){
+	    var newPecaState = this.state.pecasOs
+	    var valor = 0
+	    newPecaState[peca].quantidade = parseInt(e.target.value)
+	    this.state.servicosSelecionados.forEach(function(servico){
+	      valor += servico.preco
+	    })
+	    u.keys(newPecaState).forEach(function(key){
+	      valor += newPecaState[key].quantidade * newPecaState[key].preco
+	    }.bind(this))
+	    this.setState({
+	      pecasOs: newPecaState,
+	      valor: valor
+	    })
+	  },
+
+	  _handleDataExecucao: function(e){
+	    OrdemServicoActions.getEquipes(e.target.value)
+	    this.setState({dataExecucao: e.target.value})
+	  },
+	  _sendToApi: function(e){
+	    this.interceptEvent(e)
+	    var objToSend = jquery.extend(true, {}, this.state)
+	    objToSend.pecas = u.keys(objToSend.pecasOs).map(function(peca){
+	      return {
+	        idpeca: objToSend.pecasOs[peca].idpeca,
+	        quantidade: objToSend.pecasOs[peca].quantidade
+	      }
+	    })
+	    objToSend.pecas = u.filter(objToSend.pecas, function(obj){
+	      return obj.quantidade > 0
+	    })
+	    var keysToRemove = ['listaClientes', 'listaEquipes', 'listaPecas', 'listaServicos', 'listaVeiculos',
+	      'pecasOs', 'pecasSelecionadas', 'cliente', 'previouObjToSend']
+	    if(objToSend.dataConclusao == '') keysToRemove.push('dataConclusao')
+	    objToSend = u.omit(objToSend, keysToRemove)
+	    OrdemServicoActions.updateOrdemServico(this.state.previouObjToSend, objToSend, this.props.params.id)
+	    this.goBack()
+	  },
+
+	  render: function(){
+	    var listaClientes = this.state.listaClientes.map(function(cliente, index){
+	      var label = cliente.codigocadastro+"- "+cliente.nome+" "+cliente.sobrenome
+	      return option({key: "dono-"+cliente.codigocadastro, value: cliente.codigocadastro}, label)
+	    })
+	    var veiculosArr = this.state.listaVeiculos.map(function(veiculo, index){
+	      return option({key: 'veiculos-'+index, value: veiculo.placa}, veiculo.placa)
+	    })
+	    var selectPecas = this.state.pecasSelecionadas.map(function(peca, index){
+	      var pecaInfo = u.findWhere(this.state.listaPecas, {value: peca.value})
+	      return Input({
+	          key: "select-peca-"+index,
+	          type: 'select',
+	          label: peca.label,
+	          labelClassName: 'col-xs-1',
+	          wrapperClassName: 'col-xs-11',
+	          value: this.state.pecasOs[peca.label].quantidade,
+	          onChange: this._handlePeca.bind(null, peca.label)
+	        },
+	        u.range(0, pecaInfo.quantidade+1).map(function(quantidade, index){
+	          return option({key: 'peca-quantidade-'+index, value: quantidade}, quantidade)
+	        })
+	      )
+	    }.bind(this))
+	    var listaEquipes = this.state.listaEquipes.map(function(equipe, index){
+	      var label = (index===0) ? equipe.idequipe + " (Equipe sugerida)" : equipe.idequipe
+	      return option({key: 'equipe-'+index, value: equipe.idequipe}, label)
+	    }.bind(this))
+
+	    if(u.findWhere(this.state.listaEquipes, {idequipe: this.state.idequipe})){
+	      var horarios = u.findWhere(this.state.listaEquipes, {idequipe: this.state.idequipe}).horarios.map(
+	        function(horario, index){
+	          return option({key: 'horario-'+index, value: horario}, ""+horario+":00")
+	        })
+	    }
+	    return(
+	      form({onSubmit: this._sendToApi, className: 'form-horizontal'},
+	        Input({
+	            type: 'select',
+	            label: 'Cliente',
+	            labelClassName: 'col-xs-1',
+	            wrapperClassName: 'col-xs-11',
+	            value: this.state.cliente,
+	            onChange: this._handleClienteChange,
+	            disabled: true
+	          },
+	          listaClientes
+	        ),
+	        Input({
+	            type: 'select',
+	            label: 'Veículo',
+	            labelClassName: 'col-xs-1',
+	            wrapperClassName: 'col-xs-11',
+	            value: this.state.placaveiculo,
+	            onChange: this._handleInputChange.bind(null, 'placaveiculo'),
+	            disabled: true
+	          },
+	          veiculosArr
+	        ),
+	        Input({
+	            type: 'select',
+	            label: 'Status OS',
+	            labelClassName: 'col-xs-1',
+	            wrapperClassName: 'col-xs-11',
+	            value: this.state.status,
+	            onChange: this._handleInputChange.bind(null, 'status')
+	          },
+	          option({value: 'pendente'}, 'Pendente'),
+	          option({value: 'aprovada'}, 'Aprovada'),
+	          option({value: 'suspensa'}, 'Suspensa'),
+	          option({value: 'finalizada'}, 'Finalizada')
+	        ),
+	        Input({
+	          type: 'date',
+	          label: 'Data Execução',
+	          labelClassName: 'col-xs-1',
+	          wrapperClassName: 'col-xs-11',
+	          value: this.state.dataExecucao,
+	          onChange: this._handleDataExecucao
+	        }),
+	        Input({
+	            type: 'select',
+	            label: 'Equipe',
+	            labelClassName: 'col-xs-1',
+	            wrapperClassName: 'col-xs-11',
+	            value: this.state.idequipe,
+	            onChange: this._handleInputChange.bind(null, 'idequipe')
+	          },
+	          listaEquipes
+	        ),
+	        Input({
+	            type: 'select',
+	            label: 'Hora Execução',
+	            labelClassName: 'col-xs-1',
+	            wrapperClassName: 'col-xs-11',
+	            value: this.state.horaExecucao,
+	            onChange: this._handleInputChange.bind(null, 'horaExecucao')
+	          },
+	          horarios
+	        ),
+	        Input({
+	          type: 'date',
+	          label: 'Data Previsão',
+	          labelClassName: 'col-xs-1',
+	          wrapperClassName: 'col-xs-11',
+	          value: this.state.dataPrevisao,
+	          onChange: this._handleInputChange.bind(null, 'dataPrevisao')
+	        }),
+	        Input({
+	          type: 'date',
+	          label: 'Data Emissão',
+	          labelClassName: 'col-xs-1',
+	          wrapperClassName: 'col-xs-11',
+	          value: this.state.dataEmissao,
+	          onChange: this._handleInputChange.bind(null, 'dataEmissao')
+	        }),
+	        Input({
+	          type: 'date',
+	          label: 'Data Conclusão',
+	          labelClassName: 'col-xs-1',
+	          wrapperClassName: 'col-xs-11',
+	          value: this.state.dataConclusao,
+	          onChange: this._handleInputChange.bind(null, 'dataConclusao')
+	        }),
+	        Grid({fluid: true},
+	          Row({className: 'show-grid'},
+	            Col({xs: 4, md: 1}, b({}, 'Tipos de Serviço: ')),
+	            Col({xs: 16, md: 11},
+	              Select({
+	                name: 'form-field-name',
+	                placeholder: 'Tipos de Serviço',
+	                options: this.state.listaServicos,
+	                value: this.state.servicosSelecionados,
+	                multi: true,
+	                onChange: this._handleServicos,
+	                disabled: true
+
+	              })
+	            )
+	          ),
+	          React.createElement("br", null),
+	          Row({className: 'show-grid'},
+	            Col({xs: 4, md: 1}, b({}, 'Peças: ')),
+	            Col({xs: 16, md: 11},
+	              Select({
+	                name: 'form-field-name',
+	                placeholder: 'Peças',
+	                options: this.state.listaPecas,
+	                value: this.state.pecasSelecionadas,
+	                multi: true,
+	                onChange: this._handlePecas
+	              })
+	            )
+	          ),
+	          React.createElement("br", null)
+	        ),
+	        selectPecas,
+	        Input({
+	          type: 'textarea',
+	          label: 'Descrição',
+	          labelClassName: 'col-xs-1',
+	          wrapperClassName: 'col-xs-11',
+	          placeholder: 'Digite a descrição da OS',
+	          value: this.state.descricao,
+	          onChange: this._handleInputChange.bind(null, 'descricao')
+	        }),
+	        b({}, 'Valor Total da OS: '+"R$ "+this.state.valor),
+	        ButtonInput({
+	          type: 'submit',
+	          value: 'Alterar OS',
+	          labelClassName: 'col-xs-1',
+	          wrapperClassName: 'col-xs-11',
+	          onClick: this._sendToApi
+	        }),
+	        ButtonInput({
+	          type: 'button',
+	          value: 'Voltar',
+	          labelClassName: 'col-xs-1',
+	          wrapperClassName: 'col-xs-11',
+	          onClick: this.goBack
+	        })
+
+	      )
+	    )
+	  }
+	})
+
+	module.exports = EditarOrdemServico
+
+/***/ },
+/* 455 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(26);
+	var u = __webpack_require__(54)
+
+	var Navigation = __webpack_require__(28).Navigation
+	var OrdemServicoStore = __webpack_require__(36)
+
+	var OrdemServicoActions = __webpack_require__(37)
+
+	var EquipeStore = __webpack_require__(449)
+
+	var EquipeActions = __webpack_require__(450)
+
+	var SessionStore = __webpack_require__(2)
+
+	var Table = React.createFactory(__webpack_require__(52).Table)
+	var Button = React.createFactory(__webpack_require__(52).Button)
+	var ButtonInput = React.createFactory(__webpack_require__(52).ButtonInput)
+	var Input = React.createFactory(__webpack_require__(52).Input)
+	//var CreateModal = React.createFactory(require('./createModalPeca'))
+	//var UpdateModal = React.createFactory(require('./updateModalPeca'))
+	var div = React.createFactory('div')
+	var p = React.createFactory('p')
+	var h4 = React.createFactory('h4')
+	var form = React.createFactory('form')
+	var thead = React.createFactory('thead')
+	var table = React.createFactory('table')
+	var tbody = React.createFactory('tbody')
+	var th = React.createFactory('th')
+	var td = React.createFactory('td')
+	var tr = React.createFactory('tr')
+	var span = React.createFactory('span')
+
+	var CrudOrdemServico = React.createClass({displayName: "CrudOrdemServico",
+	  mixins: [Navigation],
+
+	  getInitialState: function(){
+	    return {
+	      tableColumns: OrdemServicoStore.getAgendaTecnicoColumns(),
+	      tableData: OrdemServicoStore.getAgendaTecnicoData(),
+	      selectedUpdateData: {},
+	      updateModalIndex: 0
+	    }
+	  },
+	  componentDidMount: function(){
+	    OrdemServicoStore.addChangeListener("refetch", this._read)
+	    OrdemServicoStore.addChangeListener("rerender", this._dataChange)
+	    EquipeStore.addChangeListener("rerender", this._dataChange)
+	    OrdemServicoActions.getHorarios(SessionStore.getId())
+	  },
+
+	  componentWillUnmount: function(){
+	    OrdemServicoStore.removeChangeListener("refetch", this._read)
+	    OrdemServicoStore.removeChangeListener("rerender", this._dataChange)
+	    EquipeStore.removeChangeListener("rerender", this._dataChange)
+	  },
+
+	  _dataChange: function(){
+	    this.setState({tableData: OrdemServicoStore.getAgendaTecnicoData()})
+	  },
+	  _read: function(){
+	    OrdemServicoActions.readOrdemServico()
+	  },
+	  _closeUpdateModal: function(){
+	    this.setState({showUpdateModal: false})
+	  },
+	  _editClick: function(index){
+	    this.transitionTo('editarOsTecnico', {id: index})
+	  },
+	  _removeClick: function(index){
+	    //OrdemServicoActions.deletePeca(index)
+
+	  },
+	  render: function(){
+	    var tableProps = {
+	      striped: true,
+	      bordered: true,
+	      condensed: true,
+	      hover: true,
+	      responsive: true
+	    }
+	    var Header = React.createFactory(TableHeader)
+	    var Body = React.createFactory(TableBody)
+	    return (
+	      div({},
+	        Table(tableProps,
+	          Header({tableColumns: this.state.tableColumns}),
+	          Body({tableColumns: this.state.tableColumns,
+	            data: this.state.tableData,
+	            onEditClick: this._editClick,
+	            onRemoveClick: this._removeClick})
+	        )
+	      )
+	    )
+	  }
+	})
+
+	var TableHeader = React.createClass({displayName: "TableHeader",
+	  getDefaultProps: function(){
+	    return {tableColumns: []}
+	  },
+	  render: function(){
+	    var content = this.props.tableColumns.map(function(column){
+	      return th({key: column.value}, column.label)
+	    })
+	    content.push(th({key: 'actions'}, 'Ações'))
+	    return(
+	      thead({},
+	        content
+	      )
+	    )
+	  }
+	})
+
+	var TableBody = React.createClass({displayName: "TableBody",
+	  getDefaultProps: function(){
+	    return {
+	      tableColumns: [],
+	      data: [],
+	      onEditClick: function(){},
+	      onRemoveClick: function(){},
+	    }
+	  },
+	  render: function(){
+	    var content = this.props.data.map(function(row, index){
+	      var rowContent = this.props.tableColumns.map(function(column){
+	        return td({key: 'column-'+column.value+'-'+index}, row[column.value])
+	      })
+	      rowContent.push(td({key: "actions-"+index},
+	        p({onClick: this.props.onEditClick.bind(null, row.idos)}, 'Editar')
+	      ))
+	      var singleRow = tr({key: 'content-'+index}, rowContent)
+	      return singleRow
+	    }.bind(this))
+	    return(
+	      tbody({}, content)
+	    )
+	  }
+	})
+
+	module.exports = CrudOrdemServico
+
+/***/ },
+/* 456 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(26);
+	var u = __webpack_require__(54)
+
+	var Navigation = __webpack_require__(28).Navigation
+	var OrdemServicoStore = __webpack_require__(36)
+
+	var OrdemServicoActions = __webpack_require__(37)
+
+	var Table = React.createFactory(__webpack_require__(52).Table)
+	var Button = React.createFactory(__webpack_require__(52).Button)
+	var ButtonInput = React.createFactory(__webpack_require__(52).ButtonInput)
+	var Input = React.createFactory(__webpack_require__(52).Input)
+	//var CreateModal = React.createFactory(require('./createModalPeca'))
+	//var UpdateModal = React.createFactory(require('./updateModalPeca'))
+	var div = React.createFactory('div')
+	var p = React.createFactory('p')
+	var h4 = React.createFactory('h4')
+	var form = React.createFactory('form')
+	var thead = React.createFactory('thead')
+	var table = React.createFactory('table')
+	var tbody = React.createFactory('tbody')
+	var th = React.createFactory('th')
+	var td = React.createFactory('td')
+	var tr = React.createFactory('tr')
+	var span = React.createFactory('span')
+
+	var CrudOrdemServico = React.createClass({displayName: "CrudOrdemServico",
+	  mixins: [Navigation],
+
+	  getInitialState: function(){
+	    return {
+	      tableColumns: OrdemServicoStore.getTableColumns(),
+	      tableData: OrdemServicoStore.getTableData(),
+	      selectedUpdateData: {},
+	      updateModalIndex: 0
+	    }
+	  },
+	  componentDidMount: function(){
+	    OrdemServicoStore.addChangeListener("refetch", this._read)
+	    OrdemServicoStore.addChangeListener("rerender", this._dataChange)
+	    OrdemServicoActions.readOrdemServico()
+	  },
+
+	  componentWillUnmount: function(){
+	    OrdemServicoStore.removeChangeListener("refetch", this._read)
+	    OrdemServicoStore.removeChangeListener("rerender", this._dataChange)
+	  },
+
+	  _dataChange: function(){
+	    this.setState({tableData: OrdemServicoStore.getTableData()})
+	  },
+	  _read: function(){
+	    OrdemServicoActions.readOrdemServico()
+	  },
+	  _toggleCreate: function(){
+	    this.transitionTo('criarOsGerente')
+	  },
+	  _closeUpdateModal: function(){
+	    this.setState({showUpdateModal: false})
+	  },
+	  _removeClick: function(index){
+	    //OrdemServicoActions.deletePeca(index)
+
+	  },
+	  render: function(){
+	    var tableProps = {
+	      striped: true,
+	      bordered: true,
+	      condensed: true,
+	      hover: true,
+	      responsive: true
+	    }
+	    var Header = React.createFactory(TableHeader)
+	    var Body = React.createFactory(TableBody)
+	    return (
+	      div({},
+	        Table(tableProps,
+	          Header({tableColumns: this.state.tableColumns}),
+	          Body({tableColumns: this.state.tableColumns,
+	            data: this.state.tableData,
+	            onEditClick: this._editClick,
+	            onRemoveClick: this._removeClick})
+	        ),
+	        Button({onClick: this._toggleCreate},
+	          "Adicionar nova OS")
+	      )
+
+	    )
+	  }
+	})
+
+	var TableHeader = React.createClass({displayName: "TableHeader",
+	  getDefaultProps: function(){
+	    return {tableColumns: []}
+	  },
+	  render: function(){
+	    var content = this.props.tableColumns.map(function(column){
+	      return th({key: column.value}, column.label)
+	    })
+	    content.push(th({key: 'actions'}, 'Ações'))
+	    return(
+	      thead({},
+	        content
+	      )
+	    )
+	  }
+	})
+
+	var TableBody = React.createClass({displayName: "TableBody",
+	  getDefaultProps: function(){
+	    return {
+	      tableColumns: [],
+	      data: [],
+	      onEditClick: function(){},
+	      onRemoveClick: function(){},
+	    }
+	  },
+	  render: function(){
+	    var content = this.props.data.map(function(row, index){
+	      var rowContent = this.props.tableColumns.map(function(column){
+	        return td({key: 'column-'+column.value+'-'+index}, row[column.value])
+	      })
+	      var singleRow = tr({key: 'content-'+index}, rowContent)
+	      return singleRow
+	    }.bind(this))
+	    return(
+	      tbody({}, content)
+	    )
+	  }
+	})
+
+	module.exports = CrudOrdemServico
+
+/***/ },
+/* 457 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(26)
+
+	var SessionStore = __webpack_require__(2)
+
+	var div = React.createFactory('div')
+	var Header = React.createFactory(__webpack_require__(7))
+	var SideMenu = React.createFactory(__webpack_require__(8))
+	var Footer = React.createFactory(__webpack_require__(9))
+
+	var br = React.createFactory('br')
+
+	var Router = __webpack_require__(28)
+	var RouteHandler  = Router.RouteHandler
+
+	var TecnicoPage = React.createClass({displayName: "TecnicoPage",
+	  getInitialState: function(){
+	    return {
+	      links: [
+	        {path: '#/diretor/ordemServico', label: "Ver OS"},
+	        {path: '#/diretor/criarOs', label: "Adicionar OS"},
+	        {path: '#/diretor/pecas', label: "Estoque Peças"},
+	        {path: '#/diretor/editar', label: "Editar Dados"}
+	      ]
+	    }
+	  },
+	  statics: {
+	    willTransitionTo: function (transition) {
+	      if (SessionStore.getState().tipo !== "diretor") {
+	        transition.redirect('/'+SessionStore.getState().tipo, {}, {});
+	      }
+	    }
+	  },
+
+	  render: function(){
+	    var contentStyle = {
+	      float: 'center'//,
+	      //background: '#777777'
+	    }
+	    return div({className: 'fullContainerBody'},
+	      Header({title: 'Técnico'}),
+	      SideMenu({links: this.state.links}),
+	      div({style: contentStyle},
+	        React.createElement(RouteHandler, null)
+	      ),
+	      br(),
+	      Footer()
+	    )
+	  }
+	})
+
+	module.exports = TecnicoPage
+
 
 /***/ }
 /******/ ]);

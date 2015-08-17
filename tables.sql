@@ -24,7 +24,7 @@ CREATE TABLE tipoServico(
 );
 
 CREATE TABLE peca(
-	idPeca 				SERIAL 		PRIMARY KEY,
+	idPeca 			SERIAL 		PRIMARY KEY,
 	nome 			VARCHAR(40)		NOT NULL,
 	marca 			VARCHAR(40) 	NOT NULL,
 	preco 			MONEY 			NOT NULL,
@@ -52,7 +52,7 @@ CREATE TABLE horarioCliente(
 	hora 			TIME,
 	codGerente 		INTEGER REFERENCES usuario(codigoCadastro),
 	idCliente 		INTEGER REFERENCES usuario(codigoCadastro),
-	placaVeiculo 	VARCHAR(10) REFERENCES veiculo(placa),
+	placaVeiculo 	VARCHAR(10) REFERENCES veiculo(placa) ON DELETE CASCADE,
 	PRIMARY KEY (data, hora, idCliente, codGerente, placaVeiculo)
 );
 
@@ -78,9 +78,9 @@ CREATE TABLE ordemServico(
 CREATE TABLE horarioOS(
 	data 		 DATE,
 	hora 		 TIME,
-	codEquipe 	 INTEGER REFERENCES equipeTecnico(idEquipe) NOT NULL,
-	idOS 		 INTEGER REFERENCES ordemServico(id),
-	PRIMARY KEY (data, hora, codEquipe, idOs)
+	codEquipe 	 INTEGER REFERENCES equipeTecnico(idEquipe),
+	idOS 		 INTEGER REFERENCES ordemServico(id) NOT NULL,
+	PRIMARY KEY (data, hora, codEquipe)
 );
 
 

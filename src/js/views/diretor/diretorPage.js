@@ -12,21 +12,20 @@ var br = React.createFactory('br')
 var Router = require('react-router')
 var RouteHandler  = Router.RouteHandler
 
-var AdminPage = React.createClass({
+var TecnicoPage = React.createClass({
   getInitialState: function(){
     return {
       links: [
-        {path: '#/gerente/ordemServico', label: "Ver OS"},
-        {path: '#/gerente/criarOs', label: "Adicionar OS"},
-        {path: '#/gerente/equipes', label: "Gerenciar Equipes"},
-        {path: '#/gerente/pecas', label: "Estoque Peças"},
-        {path: '#/gerente/editar', label: "Editar Dados"}
+        {path: '#/diretor/ordemServico', label: "Ver OS"},
+        {path: '#/diretor/criarOs', label: "Adicionar OS"},
+        {path: '#/diretor/pecas', label: "Estoque Peças"},
+        {path: '#/diretor/editar', label: "Editar Dados"}
       ]
     }
   },
   statics: {
     willTransitionTo: function (transition) {
-      if (SessionStore.getState().tipo !== "gerente") {
+      if (SessionStore.getState().tipo !== "diretor") {
         transition.redirect('/'+SessionStore.getState().tipo, {}, {});
       }
     }
@@ -38,7 +37,7 @@ var AdminPage = React.createClass({
       //background: '#777777'
     }
     return div({className: 'fullContainerBody'},
-      Header({title: 'Gerente'}),
+      Header({title: 'Técnico'}),
       SideMenu({links: this.state.links}),
       div({style: contentStyle},
         <RouteHandler />
@@ -49,4 +48,4 @@ var AdminPage = React.createClass({
   }
 })
 
-module.exports = AdminPage
+module.exports = TecnicoPage

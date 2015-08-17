@@ -4,7 +4,6 @@ var pg = require('pg')
 var login = function(connectionString, loginObj, callback){
 	var stringQuery = "SELECT codigocadastro, email, senha, tipo, nome, sobrenome FROM usuario WHERE email='"+loginObj.email+"' AND "
 	stringQuery += "senha='"+loginObj.senha+"'"
-	console.log(stringQuery)
 	pg.connect(connectionString, function(err, client, done){
 			client.query(stringQuery, function(err, results){
 				if(results.rows.length <= 0){
