@@ -32,7 +32,7 @@
     "react-zeroclipboard": "~1.1.0",
     "request": "^2.57.0",
     "require-dir": "~0.3.0",
-    "schema-inspector": "~1.5.1",
+    "schema-inspector": "~1.7.0",
     "underscore": "^1.8.3"
   },
   "devDependencies": {
