@@ -20,7 +20,7 @@
     "flux": "~2.0.1",
     "forever": "^0.14.2",
     "fs": "0.0.2",
-    "jquery": "~2.1.4",
+    "jquery": "~3.5.1",
     "key-mirror": "^1.0.0",
     "moment": "^2.10.3",
     "object-assign": "^3.0.0",
